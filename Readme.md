@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов» [![Build status][travis-image]][travis-url]
 
 * Студент: [Egor P](https://up.htmlacademy.ru/react/4/user/782001).
-* Наставник: `Неизвестно`.
+* Наставник:  [Максим Чеченёв](https://htmlacademy.ru/profile/id1507573).
 
 ---
 
