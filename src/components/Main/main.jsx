@@ -1,8 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 
 const creatRentalTypeTemplate = (typeRental) => {
-  console.log(typeRental);
-
   return typeRental.map((it, index) => {
 
     return (
@@ -50,11 +50,9 @@ const creatRentalTypeTemplate = (typeRental) => {
   });
 };
 
-
 const Main = (props) => {
-  // eslint-disable-next-line react/prop-types
   const {placesCount, town, typePlaces} = props;
-  console.log(typePlaces);
+  // console.log(typePlaces);
   const listTypePlaces = creatRentalTypeTemplate(typePlaces);
   return (
     <div className="page page--gray page--main">
@@ -161,6 +159,14 @@ const Main = (props) => {
       </main>
     </div>
   );
+};
+
+
+Main.propTypes = {
+  placesCount: PropTypes.number.isRequired,
+  town: PropTypes.string.isRequired,
+  // в массиве дополнительно надо указывть PropTypes элемента(чему равен каждый элемент массива- строка или число и т.п.)
+  typePlaces: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default Main;
