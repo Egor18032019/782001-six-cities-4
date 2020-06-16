@@ -4,11 +4,13 @@ import Main from "../Main/main.jsx";
 
 const App = (props) => {
   // eslint-disable-next-line react/prop-types
-  const {placesCount, town} = props;
+  const {placesCount, town, typePlaces} = props;
   return (
     <Main
       placesCount ={placesCount}
-      town ={town}/>
+      town ={town}
+      typePlaces={typePlaces}
+    />
   );
 };
 
