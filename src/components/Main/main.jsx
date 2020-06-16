@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 
 const creatRentalTypeTemplate = (typeRental) => {
   return typeRental.map((it, index) => {
-
     return (
       <article
       // не забывать добавлять key(требование Reacta)
@@ -161,7 +160,7 @@ const Main = (props) => {
   );
 };
 
-
+// посмотреть еще раз лекцию по PropTypes
 Main.propTypes = {
   placesCount: PropTypes.number.isRequired,
   town: PropTypes.string.isRequired,
