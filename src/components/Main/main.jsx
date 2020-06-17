@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 
-const creatRentalTypeTemplate = (typeRental) => {
+const creatRentalTypeTemplate = (typeRental, onMainTitleClick) => {
   return typeRental.map((it, index) => {
     return (
       <article
@@ -38,7 +38,7 @@ const creatRentalTypeTemplate = (typeRental) => {
               <span className="visually-hidden">Rating</span>
             </div>
           </div>
-          <h2 className="place-card__name">
+          <h2 onClick={onMainTitleClick} className="place-card__name">
             <a href="#">{it}</a>
           </h2>
           <p className="place-card__type">Apartment</p>
@@ -50,9 +50,9 @@ const creatRentalTypeTemplate = (typeRental) => {
 };
 
 const Main = (props) => {
-  const {placesCount, town, typePlaces} = props;
+  const {placesCount, town, typePlaces, onMainTitleClick} = props;
   // console.log(typePlaces);
-  const listTypePlaces = creatRentalTypeTemplate(typePlaces);
+  const listTypePlaces = creatRentalTypeTemplate(typePlaces, onMainTitleClick);
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -165,6 +165,7 @@ Main.propTypes = {
   town: PropTypes.string.isRequired,
   // в массиве дополнительно надо указывть PropTypes элемента(чему равен каждый элемент массива- строка или число и т.п.)
   typePlaces: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onMainTitleClick: PropTypes.func.isRequired
 };
 
 export default Main;
