@@ -160,7 +160,6 @@ const Main = (props) => {
   );
 };
 
-// посмотреть еще раз лекцию по PropTypes
 Main.propTypes = {
   placesCount: PropTypes.number.isRequired,
   town: PropTypes.string.isRequired,
