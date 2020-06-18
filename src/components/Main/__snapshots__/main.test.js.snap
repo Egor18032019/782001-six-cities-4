@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Should Main render correctly 1`] = `
+exports[`test Main Should Main render correctly 1`] = `
 <div
   className="page page--gray page--main"
 >
