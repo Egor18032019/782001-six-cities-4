@@ -6,8 +6,8 @@ const creatRentalTypeTemplate = (typeRental, onMainTitleClick) => {
   return typeRental.map((it, index) => {
     return (
       <article
-      // не забывать добавлять key(требование Reacta)
-        key = {it + index}
+        // не забывать добавлять key(требование Reacta)
+        key={it + index}
         className="cities__place-card place-card">
         <div className="place-card__mark">
           <span>Premium</span>
@@ -50,7 +50,9 @@ const creatRentalTypeTemplate = (typeRental, onMainTitleClick) => {
 };
 
 const Main = (props) => {
-  const {placesCount, town, typePlaces, onMainTitleClick} = props;
+  const {placesCount, town, mockSettings, onMainTitleClick} = props;
+  const place = mockSettings[0].place;
+  const typePlaces = [place.description];
   // console.log(typePlaces);
   const listTypePlaces = creatRentalTypeTemplate(typePlaces, onMainTitleClick);
   return (
@@ -164,8 +166,8 @@ Main.propTypes = {
   placesCount: PropTypes.number.isRequired,
   town: PropTypes.string.isRequired,
   // в массиве дополнительно надо указывть PropTypes элемента(чему равен каждый элемент массива- строка или число и т.п.)
-  typePlaces: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onMainTitleClick: PropTypes.func.isRequired
+  mockSettings: PropTypes.array.isRequired,
+  onMainTitleClick: PropTypes.func.isRequired,
 };
 
 export default Main;
