@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Main from "../Main/main.jsx";
 
-const onMainTitleHandler = () => {
+const handlerClickOnTitle = () => {
   // console.count();
   // console.log(`я нажал на заголовок`);
 };
@@ -14,7 +14,7 @@ const App = (props) => {
       placesCount={placesCount}
       town={town}
       typePlaces={typePlaces}
-      onMainTitleClick={onMainTitleHandler}
+      onMainTitleClick={handlerClickOnTitle}
     />
   );
 };
