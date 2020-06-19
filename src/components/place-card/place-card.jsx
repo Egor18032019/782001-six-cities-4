@@ -1,19 +1,17 @@
+// компонент "Карточка предложения"
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-// import {GameType} from "../../const.js";
 
 class PlaceCard extends PureComponent {
   constructor(props) {
     super(props);
-
-    // this.state = {
-    //   answers: [false, false, false, false],
-    // };
   }
 
   render() {
-    const {place, onMainTitleClick} = this.props;
-    // const {answers: userAnswers} = this.state;
+    const {place, forKey,
+      onMainTitleClick,
+      onHoverCard,
+      onLeaveCard} = this.props;
     const {
       description, type
     } = place;
@@ -21,7 +19,11 @@ class PlaceCard extends PureComponent {
     return (
       <article
         // не забывать добавлять key(требование Reacta)
-        // key={it + index}
+        key={forKey}
+        onMouseEnter={() => {
+          onHoverCard(place);
+        }}
+        onMouseLeave={onLeaveCard}
         className="cities__place-card place-card">
         <div className="place-card__mark">
           <span>Premium</span>
@@ -64,6 +66,9 @@ class PlaceCard extends PureComponent {
 
 PlaceCard.propTypes = {
   onMainTitleClick: PropTypes.func.isRequired,
+  onHoverCard: PropTypes.func.isRequired,
+  onLeaveCard: PropTypes.func.isRequired,
+  forKey: PropTypes.string.isRequired,
   place: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,

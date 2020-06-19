@@ -5,17 +5,21 @@ import {
   mockSettings
 } from "./mocks/offers.js";
 
-console.log(mockSettings);
 const Settings = {
   PLACES: 312,
   CITIES: `Amsterdam !`,
 };
 
-ReactDOM.render(
-    <App
-      placesCount = {Settings.PLACES}
-      town = {Settings.CITIES}
-      mockSettings = {mockSettings}
-    />,
-    document.querySelector(`#root`)
+ReactDOM.render(<
+  App placesCount = {
+    Settings.PLACES
+  }
+  town = {
+    Settings.CITIES
+  }
+  mockSettings = {
+    mockSettings
+  }
+/>,
+document.querySelector(`#root`)
 );
