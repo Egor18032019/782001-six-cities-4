@@ -80,9 +80,37 @@ describe(`test PlaceCard e2e`, () => {
       }
     />
     );
-    // --?? почему то не ищет этот элемент. В снепшоте посмотрел он отрисовывается
     const titleOnMain = mainScreen.find(`.place-card__name`);
     titleOnMain.props().onClick();
+    // titleOnMain.simulate(`click`);
+    expect(onMainTitleClick.mock.calls.length).toBe(1);
+  });
+
+  it(`Should  first title h2 be pressed`, () => {
+    const onMainTitleClick = jest.fn();
+    const onHoverCard = jest.fn();
+    const onLeaveCard = jest.fn();
+
+    const mainScreen = shallow(<
+      PlaceCard place = {
+        place
+      }
+      onMainTitleClick = {
+        onMainTitleClick
+      }
+      forKey = {
+        forKey
+      }
+      onHoverCard = {
+        onHoverCard
+      }
+      onLeaveCard = {
+        onLeaveCard
+      }
+    />
+    );
+    const titleOnMain = mainScreen.find(`.place-card__name`);
+    titleOnMain[0].props().onClick();
     // titleOnMain.simulate(`click`);
     expect(onMainTitleClick.mock.calls.length).toBe(1);
   });
