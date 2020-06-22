@@ -82,8 +82,8 @@ describe(`test PlaceCard e2e`, () => {
     );
     // --?? почему то не ищет этот элемент. В снепшоте посмотрел он отрисовывается
     const titleOnMain = mainScreen.find(`.place-card__name`);
-    // titleOnMain.props().onClick();
-    titleOnMain.simulate(`click`);
+    titleOnMain.props().onClick();
+    // titleOnMain.simulate(`click`);
     expect(onMainTitleClick.mock.calls.length).toBe(1);
   });
 

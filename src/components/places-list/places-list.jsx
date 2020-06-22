@@ -33,8 +33,7 @@ class PlacesList extends PureComponent {
                   forKey={place.id + place.city + index}
                   onHoverCard={this.handleOnCardEnterMouse}
                   onLeaveCard={this.handleOnCardLeaveMouse}
-                  // не понял зачем тут  key и куда он идёт.React просил я и добавил
-                  key = {Date.now()}
+                  key = {Date.now() + index}
                 />;
               }
           )
@@ -45,7 +44,7 @@ class PlacesList extends PureComponent {
 
   _handleOnCardEnterMouse(place) {
     this.setState({
-      activeCard: place.id, // id или key ???
+      activeCard: place.id,
     });
   }
 

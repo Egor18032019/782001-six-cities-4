@@ -99,7 +99,7 @@ const Main = (props) => {
                  */}
               </form>
               {
-                < PlacesList
+                <PlacesList
                   places = {mockSettings}
                   onMainTitleClick = {onMainTitleClick}
                 />

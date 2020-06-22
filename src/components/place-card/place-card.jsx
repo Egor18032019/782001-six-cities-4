@@ -8,7 +8,7 @@ class PlaceCard extends PureComponent {
   }
 
   render() {
-    const {place, forKey,
+    const {place,
       onMainTitleClick,
       onHoverCard,
       onLeaveCard} = this.props;
@@ -19,7 +19,7 @@ class PlaceCard extends PureComponent {
     return (
       <article
         // не забывать добавлять key(требование Reacta)
-        key={forKey}
+        // key={key}
         onMouseEnter={() => {
           onHoverCard(place);
         }}
@@ -68,7 +68,6 @@ PlaceCard.propTypes = {
   onMainTitleClick: PropTypes.func.isRequired,
   onHoverCard: PropTypes.func.isRequired,
   onLeaveCard: PropTypes.func.isRequired,
-  forKey: PropTypes.string.isRequired,
   place: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
@@ -80,7 +79,6 @@ PlaceCard.propTypes = {
     coordinateX: PropTypes.number.isRequired,
     coordinateY: PropTypes.number.isRequired,
   }).isRequired,
-
 };
 
 
