@@ -1,10 +1,3 @@
-import React from "react";
-import renderer from "react-test-renderer";
-import Main from "./main.jsx";
-const Settings = {
-  PLACES: 312,
-  CITIES: `Amsterdam !`,
-};
 const mockSettings = [
   {
     id: 1,
@@ -46,24 +39,7 @@ const mockSettings = [
   }
 ];
 
-describe(`test Main`, () => {
-  it(`Should Main render correctly`, () => {
-    const tree = renderer
-            .create(< Main placesCount = {
-              Settings.PLACES
-            }
-            town = {
-              Settings.CITIES
-            }
-            mockSettings = {
-              mockSettings
-            }
-            onMainTitleClick = {
-              () => {}
-            }
-            />)
-              .toJSON();
 
-    expect(tree).toMatchSnapshot();
-  });
-});
+export {
+  mockSettings,
+};
