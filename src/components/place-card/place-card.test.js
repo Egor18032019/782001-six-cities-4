@@ -14,21 +14,17 @@ const PLACE = {
   coordinateX: 111,
   coordinateY: 111,
 };
-const FORKEY = `19.06.20`;
 
 
 describe(`PlaceCard snepshot test`, () => {
   it(`Should PlaceCard render correctly`, () => {
     const tree = renderer
-            .create(< PlaceCard
+            .create(<PlaceCard
               place = {
                 PLACE
               }
               onMainTitleClick = {
                 () => {}
-              }
-              forKey = {
-                FORKEY
               }
               onHoverCard = {
                 () => {}
