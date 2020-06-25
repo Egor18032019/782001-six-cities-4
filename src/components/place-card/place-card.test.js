@@ -11,8 +11,7 @@ const PLACE = {
   isBookmark: false,
   isPremium: false,
   rating: 11,
-  coordinateX: 111,
-  coordinateY: 111,
+  coordinate: [52.369553943508, 4.85309666406198]
 };
 const FORKEY = `19.06.20`;
 
@@ -20,7 +19,7 @@ const FORKEY = `19.06.20`;
 describe(`PlaceCard snepshot test`, () => {
   it(`Should PlaceCard render correctly`, () => {
     const tree = renderer
-            .create(< PlaceCard
+            .create(<PlaceCard
               place = {
                 PLACE
               }

@@ -47,7 +47,7 @@ class Map extends PureComponent {
     this.props.places.forEach((place) => {
       // отрисовка точек
       leaflet
-      .marker(place.coordinate, {icon})
+      .marker(place.coordinate, icon) // убрал скобки у icon-работает без них
       .addTo(this.map);
     });
   }
