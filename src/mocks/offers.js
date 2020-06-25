@@ -8,9 +8,7 @@ const mockSettings = [
     isBookmark: false,
     isPremium: false,
     rating: 11,
-    coordinateX: 111,
-    coordinateY: 111,
-
+    coordinate: [52.3909553943508, 4.85309666406198]
   },
   {
     id: 2,
@@ -21,9 +19,7 @@ const mockSettings = [
     isBookmark: false,
     isPremium: false,
     rating: 22,
-    coordinateX: 222,
-    coordinateY: 222
-
+    coordinate: [52.369553943508, 4.85309666406198]
   },
   {
     id: 3,
@@ -34,8 +30,7 @@ const mockSettings = [
     isBookmark: false,
     isPremium: false,
     rating: 33,
-    coordinateX: 333,
-    coordinateY: 333
+    coordinate: [52.3909553943508, 4.929309666406198]
   }
 ];
 

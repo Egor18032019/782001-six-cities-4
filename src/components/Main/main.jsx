@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import PlacesList from "../places-list/places-list.jsx";
+import Map from "../map/map.jsx";
 
 const Main = (props) => {
   const {placesCount, town, mockSettings, onMainTitleClick} = props;
@@ -100,13 +101,17 @@ const Main = (props) => {
               </form>
               {
                 <PlacesList
-                  places = {mockSettings}
-                  onMainTitleClick = {onMainTitleClick}
+                  places={mockSettings}
+                  onMainTitleClick={onMainTitleClick}
                 />
               }
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              {/* <section className="cities__map map"></section> */}
+              {/* компонент для отрисовки карты */}
+              <Map
+                places={mockSettings}
+              />
             </div>
           </div>
         </div>
