@@ -41,6 +41,10 @@ class Map extends PureComponent {
     this._addPoints();
   }
 
+  componentWillUnmount() {
+    this.map = null;
+  }
+
   // отрисовка точек
   _addPoints() {
     // форычом проходим по пропсам и о leaferom отрисовываем place.coordinate
