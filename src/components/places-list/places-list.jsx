@@ -23,7 +23,7 @@ class PlacesList extends PureComponent {
     const {places, onMainTitleClick} = this.props;
 
     return (
-      <div className="cities__places-list places__list tabs__content" key={Date.now() + `div`}>
+      <div className="cities__places-list places__list tabs__content">
         {
           places.map(
               (place, index) => {

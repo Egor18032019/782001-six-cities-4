@@ -14,6 +14,7 @@ module.exports = {
     contentBase: path.join(__dirname, `public`), // - пишем откуда серверу забирать файлы
     open: false, // чтобы при запуске не открывался браузер
     port: 1337, // - порт в котором открывается
+    historyApiFallback: true // для react-router-dom
   },
   module: {// как преобразуються файлы для webpacka
     rules: [

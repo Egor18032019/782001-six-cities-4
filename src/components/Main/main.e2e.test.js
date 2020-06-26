@@ -107,11 +107,12 @@ describe(`test Main e2e`, () => {
       }
     />
     );
-      // ищем все видимые заголовки
+    // ищем все видимые заголовки
     const allTitleOnMain = mainScreen.find(`.place-card__name`);
-    const ff = allTitleOnMain[0];
+    // так как это отрисовывает Ензим и метод find находит нам ензимовскую коллекцию
+    // то для определение элемента надо использовать .at(номер элемента)
     // тыкаем в первый и проверяем нажался ли он
-    ff.simulate(`click`);
+    allTitleOnMain.at(0).simulate(`click`);
     // ожидаем что один раз вызовется
     expect(onMainTitleClick.mock.calls.length).toBe(1);
   });

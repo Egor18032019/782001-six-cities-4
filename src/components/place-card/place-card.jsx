@@ -18,8 +18,6 @@ class PlaceCard extends PureComponent {
 
     return (
       <article
-        // не забывать добавлять key(требование Reacta)
-        // key={key}
         onMouseEnter={() => {
           onHoverCard(place);
         }}
@@ -54,7 +52,9 @@ class PlaceCard extends PureComponent {
               <span className="visually-hidden">Rating</span>
             </div>
           </div>
-          <h2 onClick={onMainTitleClick} className="place-card__name">
+          <h2 onClick={()=>{
+            onMainTitleClick(place);
+          }} className="place-card__name">
             <a href="#">{description}</a>
           </h2>
           <p className="place-card__type">{type}</p>
