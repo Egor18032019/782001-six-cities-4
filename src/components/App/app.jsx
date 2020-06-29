@@ -14,7 +14,7 @@ const App = (props) => {
     <Main
       placesCount={placesCount}
       town={town}
-      mockSettings={mockSettings}
+      places={mockSettings}
       onMainTitleClick={handlerClickOnTitle}
     />
   );

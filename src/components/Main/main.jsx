@@ -5,7 +5,7 @@ import PlacesList from "../places-list/places-list.jsx";
 import Map from "../map/map.jsx";
 
 const Main = (props) => {
-  const {placesCount, town, mockSettings, onMainTitleClick} = props;
+  const {placesCount, town, places, onMainTitleClick} = props;
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -101,7 +101,7 @@ const Main = (props) => {
               </form>
               {
                 <PlacesList
-                  places={mockSettings}
+                  places={places}
                   onMainTitleClick={onMainTitleClick}
                 />
               }
@@ -110,7 +110,7 @@ const Main = (props) => {
               {/* <section className="cities__map map"></section> */}
               {/* компонент для отрисовки карты */}
               <Map
-                places={mockSettings}
+                places={places}
               />
             </div>
           </div>
@@ -124,7 +124,7 @@ Main.propTypes = {
   placesCount: PropTypes.number.isRequired,
   town: PropTypes.string.isRequired,
   // в массиве дополнительно надо указывть PropTypes элемента(чему равен каждый элемент массива- строка или число и т.п.)
-  mockSettings: PropTypes.array.isRequired,
+  places: PropTypes.array.isRequired,
   onMainTitleClick: PropTypes.func.isRequired,
 };
 
