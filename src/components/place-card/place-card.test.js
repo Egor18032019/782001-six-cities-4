@@ -18,21 +18,24 @@ const PLACE = {
 describe(`PlaceCard snepshot test`, () => {
   it(`Should PlaceCard render correctly`, () => {
     const tree = renderer
-            .create(<PlaceCard
-              place = {
-                PLACE
-              }
-              onMainTitleClick = {
-                () => {}
-              }
-              onHoverCard = {
-                () => {}
-              }
-              onLeaveCard = {
-                () => {}
-              }
-            />)
-              .toJSON();
+      .create(< PlaceCard place = {
+        PLACE
+      }
+      onMainTitleClick = {
+        () => {}
+      }
+      onHoverCard = {
+        () => {}
+      }
+      onLeaveCard = {
+        () => {}
+      }
+      />,
+      // так как нет контейнера куда отрисовываться = делаем мокковый
+      {
+        createNodeMock: () => document.createElement(`div`)
+      })
+      .toJSON();
 
     expect(tree).toMatchSnapshot();
   });
