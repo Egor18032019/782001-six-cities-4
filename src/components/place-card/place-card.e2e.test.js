@@ -21,8 +21,6 @@ const place = {
   coordinate: [52.369553943508, 4.85309666406198]
 };
 
-const forKey = `19.06.20`;
-
 describe(`test PlaceCard e2e`, () => {
   it(`hover or no hover`, () => {
     const onMainTitleClick = jest.fn();
@@ -36,9 +34,6 @@ describe(`test PlaceCard e2e`, () => {
       onMainTitleClick = {
         onMainTitleClick
       }
-      forKey = {
-        forKey
-      }
       onHoverCard = {
         onHoverCard
       }
@@ -50,8 +45,8 @@ describe(`test PlaceCard e2e`, () => {
     // симулируем наведение и убирание мышки onMouseLeave
     mainScreen.simulate(`mouseEnter`);
     mainScreen.simulate(`mouseLeave`);
-    // mainScreen.props().onMouseEnter();
-    // mainScreen.props().onMouseLeave();
+    // mainScreen.props().onHoverCard();
+    // mainScreen.props().onLeaveCard();
     // ожидаем что onMainTitleClick вызовется в количстве раз равным количеству найденых загловков
     expect(onHoverCard.mock.calls.length).toBe(1);
     expect(onLeaveCard.mock.calls.length).toBe(1);
@@ -68,9 +63,6 @@ describe(`test PlaceCard e2e`, () => {
       }
       onMainTitleClick = {
         onMainTitleClick
-      }
-      forKey = {
-        forKey
       }
       onHoverCard = {
         onHoverCard
@@ -97,9 +89,6 @@ describe(`test PlaceCard e2e`, () => {
       }
       onMainTitleClick = {
         onMainTitleClick
-      }
-      forKey = {
-        forKey
       }
       onHoverCard = {
         onHoverCard

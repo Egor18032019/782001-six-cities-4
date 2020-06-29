@@ -13,7 +13,6 @@ const PLACE = {
   rating: 11,
   coordinate: [52.369553943508, 4.85309666406198]
 };
-const FORKEY = `19.06.20`;
 
 
 describe(`PlaceCard snepshot test`, () => {
@@ -25,9 +24,6 @@ describe(`PlaceCard snepshot test`, () => {
               }
               onMainTitleClick = {
                 () => {}
-              }
-              forKey = {
-                FORKEY
               }
               onHoverCard = {
                 () => {}
