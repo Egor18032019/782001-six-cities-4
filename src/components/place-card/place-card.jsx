@@ -76,8 +76,7 @@ PlaceCard.propTypes = {
     isBookmark: PropTypes.bool.isRequired,
     isPremium: PropTypes.bool.isRequired,
     rating: PropTypes.number.isRequired,
-    coordinateX: PropTypes.number.isRequired,
-    coordinateY: PropTypes.number.isRequired,
+    coordinate: PropTypes.array.isRequired,
   }).isRequired,
 };
 

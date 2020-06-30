@@ -15,9 +15,7 @@ const mockSettings = [
     isBookmark: false,
     isPremium: false,
     rating: 11,
-    coordinateX: 111,
-    coordinateY: 111,
-
+    coordinate: [52.369553943508, 4.85309666406198]
   },
   {
     id: 2,
@@ -28,9 +26,7 @@ const mockSettings = [
     isBookmark: false,
     isPremium: false,
     rating: 22,
-    coordinateX: 222,
-    coordinateY: 222
-
+    coordinate: [52.369553943508, 4.85309666406198]
   },
   {
     id: 3,
@@ -41,27 +37,31 @@ const mockSettings = [
     isBookmark: false,
     isPremium: false,
     rating: 33,
-    coordinateX: 333,
-    coordinateY: 333
+    coordinate: [52.369553943508, 4.85309666406198]
   }
 ];
 
 describe(`test Main`, () => {
   it(`Should Main render correctly`, () => {
     const tree = renderer
-            .create(< Main placesCount = {
+            .create(<Main placesCount = {
               Settings.PLACES
             }
             town = {
               Settings.CITIES
             }
-            mockSettings = {
+            places = {
               mockSettings
             }
             onMainTitleClick = {
               () => {}
             }
-            />)
+            />,
+            // так как нет контейнера делаем моковый
+            {
+              createNodeMock: () => document.createElement(`div`)
+            }
+            )
               .toJSON();
 
     expect(tree).toMatchSnapshot();

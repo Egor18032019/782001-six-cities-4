@@ -10,16 +10,15 @@ Enzyme.configure({
 });
 
 const place = {
-  id: 1,
+  id: 2,
   city: `Amsterdam`,
-  type: `Apartament`,
-  description: `Beautiful & luxurious apartment at great location`,
+  type: `Private room`,
+  description: `Wood and Stone`,
   prise: 120,
   isBookmark: false,
   isPremium: false,
-  rating: 11,
-  coordinateX: 111,
-  coordinateY: 111,
+  rating: 22,
+  coordinate: [52.369553943508, 4.85309666406198]
 };
 
 describe(`test PlaceCard e2e`, () => {

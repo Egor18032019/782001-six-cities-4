@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Map snepshot test Should map and point render correctly 1`] = `
+<section
+  className="cities__map map"
+>
+  <div
+    id="map"
+    style={
+      Object {
+        "height": "100%",
+        "width": "100%",
+      }
+    }
+  />
+</section>
+`;

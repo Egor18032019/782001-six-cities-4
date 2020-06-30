@@ -2,9 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import PlacesList from "../places-list/places-list.jsx";
+import Map from "../map/map.jsx";
 
 const Main = (props) => {
-  const {placesCount, town, mockSettings, onMainTitleClick} = props;
+  const {placesCount, town, places, onMainTitleClick} = props;
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -100,13 +101,17 @@ const Main = (props) => {
               </form>
               {
                 <PlacesList
-                  places = {mockSettings}
-                  onMainTitleClick = {onMainTitleClick}
+                  places={places}
+                  onMainTitleClick={onMainTitleClick}
                 />
               }
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              {/* <section className="cities__map map"></section> */}
+              {/* компонент для отрисовки карты */}
+              <Map
+                places={places}
+              />
             </div>
           </div>
         </div>
@@ -119,7 +124,7 @@ Main.propTypes = {
   placesCount: PropTypes.number.isRequired,
   town: PropTypes.string.isRequired,
   // в массиве дополнительно надо указывть PropTypes элемента(чему равен каждый элемент массива- строка или число и т.п.)
-  mockSettings: PropTypes.array.isRequired,
+  places: PropTypes.array.isRequired,
   onMainTitleClick: PropTypes.func.isRequired,
 };
 

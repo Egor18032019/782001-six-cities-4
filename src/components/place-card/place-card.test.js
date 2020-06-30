@@ -11,29 +11,31 @@ const PLACE = {
   isBookmark: false,
   isPremium: false,
   rating: 11,
-  coordinateX: 111,
-  coordinateY: 111,
+  coordinate: [52.369553943508, 4.85309666406198]
 };
 
 
 describe(`PlaceCard snepshot test`, () => {
   it(`Should PlaceCard render correctly`, () => {
     const tree = renderer
-            .create(<PlaceCard
-              place = {
-                PLACE
-              }
-              onMainTitleClick = {
-                () => {}
-              }
-              onHoverCard = {
-                () => {}
-              }
-              onLeaveCard = {
-                () => {}
-              }
-            />)
-              .toJSON();
+      .create(< PlaceCard place = {
+        PLACE
+      }
+      onMainTitleClick = {
+        () => {}
+      }
+      onHoverCard = {
+        () => {}
+      }
+      onLeaveCard = {
+        () => {}
+      }
+      />,
+      // так как нет контейнера куда отрисовываться = делаем мокковый
+      {
+        createNodeMock: () => document.createElement(`div`)
+      })
+      .toJSON();
 
     expect(tree).toMatchSnapshot();
   });

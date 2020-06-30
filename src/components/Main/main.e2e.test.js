@@ -16,19 +16,6 @@ const Settings = {
 };
 
 const mockSettings = [{
-  id: 1,
-  city: `Amsterdam`,
-  type: `Apartament`,
-  description: `Beautiful & luxurious apartment at great location`,
-  prise: 120,
-  isBookmark: false,
-  isPremium: false,
-  rating: 11,
-  coordinateX: 111,
-  coordinateY: 111,
-
-},
-{
   id: 2,
   city: `Amsterdam`,
   type: `Private room`,
@@ -37,21 +24,29 @@ const mockSettings = [{
   isBookmark: false,
   isPremium: false,
   rating: 22,
-  coordinateX: 222,
-  coordinateY: 222
-
+  coordinate: [52.369553943508, 4.85309666406198]
 },
 {
   id: 3,
   city: `Amsterdam`,
-  type: `house`,
-  description: `big + warm + good`,
+  type: `Private room`,
+  description: `Wood and Stone`,
   prise: 120,
   isBookmark: false,
   isPremium: false,
-  rating: 33,
-  coordinateX: 333,
-  coordinateY: 333
+  rating: 22,
+  coordinate: [52.369553943508, 4.85309666406198]
+},
+{
+  id: 4,
+  city: `Amsterdam`,
+  type: `Private room`,
+  description: `Wood and Stone`,
+  prise: 120,
+  isBookmark: false,
+  isPremium: false,
+  rating: 22,
+  coordinate: [52.369553943508, 4.85309666406198]
 }
 ];
 
@@ -67,7 +62,7 @@ describe(`test Main e2e`, () => {
       town = {
         Settings.CITIES
       }
-      mockSettings = {
+      places = {
         mockSettings
       }
 
@@ -98,7 +93,7 @@ describe(`test Main e2e`, () => {
       town = {
         Settings.CITIES
       }
-      mockSettings = {
+      places = {
         mockSettings
       }
 
@@ -109,9 +104,6 @@ describe(`test Main e2e`, () => {
     );
     // ищем все видимые заголовки
     const allTitleOnMain = mainScreen.find(`.place-card__name`);
-    // так как это отрисовывает Ензим и метод find находит нам ензимовскую коллекцию
-    // то для определение элемента надо использовать .at(номер элемента)
-    // тыкаем в первый и проверяем нажался ли он
     allTitleOnMain.at(0).simulate(`click`);
     // ожидаем что один раз вызовется
     expect(onMainTitleClick.mock.calls.length).toBe(1);

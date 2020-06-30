@@ -1,7 +1,6 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
-// import { BrowserRouter, Route, Link } from "react-router-dom";
 
 import Main from "../Main/main.jsx";
 import Property from "../property/property.jsx";
@@ -26,7 +25,7 @@ class App extends PureComponent {
         <Main
           placesCount={placesCount}
           town={town}
-          mockSettings={mockSettings}
+          places={mockSettings}
           onMainTitleClick={this.handlerClickOnTitle}
         />
       );

@@ -12,8 +12,7 @@ const CARD = {
   isBookmark: false,
   isPremium: true,
   rating: 4.8,
-  coordinateX: 111,
-  coordinateY: 111,
+  coordinate: [52.369553943508, 4.85309666406198],
   mainPhoto: `img/apartment-02.jpg`,
   bedrooms: 3,
   maxAdults: 4,
@@ -32,7 +31,9 @@ describe(`Property snepshot test`, () => {
     const tree = renderer
             .create(<Property
               place={CARD}
-            />)
+            />, {
+              createNodeMock: () => document.createElement(`div`)
+            })
               .toJSON();
 
     expect(tree).toMatchSnapshot();
