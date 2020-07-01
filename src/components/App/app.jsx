@@ -64,7 +64,7 @@ class App extends PureComponent {
 }
 const mapDispatchToTitle = (dispatch) => ({
   handlerClickOnTitle(place) {
-    console.log(place.id); // / или неннужно его так выносить ? отсавить тут внутрений state ?
+    console.log(place.id); // / или неннужно его так выносить ? отставить тут внутрений state ?
     dispatch(ActionActive.activeState(place));
   }
 });
@@ -73,7 +73,6 @@ const mapDispatchToTowns = (dispatch) => ({
   onCityNameClick(city) {
     console.log(city);
     dispatch(ActionTown.changeCity(city));
-    dispatch(ActionTown.getOffers(city));
   }
 });
 

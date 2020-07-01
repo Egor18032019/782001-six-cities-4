@@ -1,4 +1,4 @@
-export const CityList = [
+export const CITYLIST = [
   `Paris`,
   `Cologne`,
   `Brussels`,

@@ -2,11 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import PlacesList from "../places-list/places-list.jsx";
+import CityList from "../city-list/city-list.jsx";
 import Map from "../map/map.jsx";
-import {
-  CityList
-} from "../../const.js";
-
 
 const Main = (props) => {
   const {placesCount, town, places, onMainTitleClick, onCityNameClick} = props;
@@ -39,22 +36,10 @@ const Main = (props) => {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              {/* напиасать фунцию чтобы она по списку городов проходили - рисовала их
-               и вешала обработчик */}
-              {CityList.map((city, index) => {
-                return (
-                  <li
-                    onClick={() => {
-                      onCityNameClick(city);
-                    }}
-                    className="locations__item" key={index + city}>
-                    <a className="locations__item-link tabs__item" href="#">
-                      <span>{city}</span>
-                    </a>
-                  </li>);
-              })}
-            </ul>
+            <CityList
+              town={town}
+              onCityNameClick={onCityNameClick}
+            />
           </section>
         </div>
         <div className="cities">
