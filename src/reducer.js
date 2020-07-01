@@ -38,8 +38,9 @@ const reducer = (state = initialState, action) => {
 };
 
 const ActionActive = {
-  activeState: () => ({
+  activeState: (place) => ({
     active: ActionType.GET_OFFERS,
+    cardId: place.id
   })
 };
 

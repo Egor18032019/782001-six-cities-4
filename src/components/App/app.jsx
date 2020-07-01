@@ -17,13 +17,14 @@ class App extends PureComponent {
       cardId: null
     };
 
-    this.handlerClickOnTitle = this.handlerClickOnTitle.bind(this);
+    // this.handlerClickOnTitle = this.handlerClickOnTitle.bind(this);
   }
 
   _renderApp() {
-    const {store} = this.props;
+    const {store, handlerClickOnTitle, city, offersList} = this.props;
     let storeState = store.getState();
-    console.log(store);
+    console.log(city);
+    console.log(storeState.cardId);
 
     if (storeState.active === `mainPages` || storeState.active === false) {
       return (
@@ -31,23 +32,18 @@ class App extends PureComponent {
           placesCount={storeState.placesCount}
           town={storeState.town}
           places={storeState.offers}
-          onMainTitleClick={this.handlerClickOnTitle}
+          onMainTitleClick={handlerClickOnTitle}
         />
       );
     } else {
       return (
         <Property
           // написать фунцию которая будет перебирать массив mockSettings и искать там нужный id
-          place={storeState.offers[this.state.cardId]}
+          place={storeState.offers[storeState.cardId]}
         />
       );
     }
   }
-
-  handlerClickOnTitle(dispatch) {
-    dispatch(ActionActive.activeState());
-  }
-
 
   render() {
     const {store} = this.props;
@@ -69,18 +65,24 @@ class App extends PureComponent {
 
   }
 }
-const mapStateToTitle = (dispatch) => ({
-  handlerClickOnTitle() {
-    dispatch(ActionActive.activeState());
+const mapDispatchToTitle = (dispatch) => ({
+  handlerClickOnTitle(place) {
+    console.log(place.id);
+    dispatch(ActionActive.activeState(place));
   },
 });
 
+const mapStateToProps = (state) => ({
+  city: state.town,
+  offersList: state.offers,
+});
 
 App.propTypes = {
+  handlerClickOnTitle: PropTypes.func.isRequired,
   store: PropTypes.shape({
     getState: PropTypes.func.isRequired,
   }).isRequired
 };
 
 export {App};
-export default connect(mapStateToTitle)(App);
+export default connect(mapDispatchToTitle, mapStateToProps)(App);

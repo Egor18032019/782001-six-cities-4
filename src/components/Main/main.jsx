@@ -36,6 +36,8 @@ const Main = (props) => {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
+              {/* напиасать фунцию чтобы она по списку городов проходили - рисовала их
+               и вешала обработчик */}
               <li className="locations__item">
                 <a className="locations__item-link tabs__item" href="#">
                   <span>Paris</span>

@@ -4,17 +4,8 @@ import {createStore} from "redux";
 import {Provider} from "react-redux";
 import App from "./components/App/app.jsx";
 import {
-  mockSettings
-} from "./mocks/offers.js";
-import {
   reducer
 } from "./reducer.js";
-
-const Settings = {
-  PLACES: 312,
-  CITIES: `Amsterdam !`,
-};
-
 
 const store = createStore(
     reducer,
@@ -23,16 +14,7 @@ const store = createStore(
 
 ReactDOM.render(
     <Provider store={store}>
-      <App placesCount = {
-        Settings.PLACES
-      }
-      store ={store}
-      town = {
-        Settings.CITIES
-      }
-      mockSettings = {
-        mockSettings
-      }
+      <App store ={store}
       />
     </Provider>,
     document.querySelector(`#root`)
