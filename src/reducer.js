@@ -31,7 +31,7 @@ const reducer = (state = initialState, action) => {
       });
     case ActionType.GET_OFFERS:
       return Object.assign({}, state, {
-        offers: `я хз что сюда передавать и когда`,
+        cardId: action.cardId
       });
   }
   return state;
@@ -44,8 +44,17 @@ const ActionActive = {
   })
 };
 
+const ActionTown = {
+  changeCity: (city) => ({
+    type: ActionType.CHANGE_TOWN,
+    payload: city,
+  }),
+};
+
+
 export {
   reducer,
   ActionType,
   ActionActive,
+  ActionTown,
 };

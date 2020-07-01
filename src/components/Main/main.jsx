@@ -3,9 +3,13 @@ import PropTypes from "prop-types";
 
 import PlacesList from "../places-list/places-list.jsx";
 import Map from "../map/map.jsx";
+import {
+  CityList
+} from "../../const.js";
+
 
 const Main = (props) => {
-  const {placesCount, town, places, onMainTitleClick} = props;
+  const {placesCount, town, places, onMainTitleClick, onCityNameClick} = props;
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -38,36 +42,18 @@ const Main = (props) => {
             <ul className="locations__list tabs__list">
               {/* напиасать фунцию чтобы она по списку городов проходили - рисовала их
                и вешала обработчик */}
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
+              {CityList.map((city, index) => {
+                return (
+                  <li
+                    onClick={() => {
+                      onCityNameClick(city);
+                    }}
+                    className="locations__item" key={index + city}>
+                    <a className="locations__item-link tabs__item" href="#">
+                      <span>{city}</span>
+                    </a>
+                  </li>);
+              })}
             </ul>
           </section>
         </div>
@@ -124,6 +110,7 @@ const Main = (props) => {
 
 Main.propTypes = {
   placesCount: PropTypes.number.isRequired,
+  onCityNameClick: PropTypes.func.isRequired,
   town: PropTypes.string.isRequired,
   // в массиве дополнительно надо указывть PropTypes элемента(чему равен каждый элемент массива- строка или число и т.п.)
   places: PropTypes.array.isRequired,

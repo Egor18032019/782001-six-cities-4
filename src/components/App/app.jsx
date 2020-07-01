@@ -5,26 +5,21 @@ import {connect} from "react-redux";
 import Main from "../Main/main.jsx";
 import Property from "../property/property.jsx";
 import {
-  ActionActive
+  ActionActive, ActionTown
 } from "../../reducer.js";
 
 class App extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      active: `mainPages`,
-      cardId: null
-    };
-
     // this.handlerClickOnTitle = this.handlerClickOnTitle.bind(this);
   }
 
   _renderApp() {
-    const {store, handlerClickOnTitle, city, offersList} = this.props;
+    console.log(this.props);
+    const {store, handlerClickOnTitle, onCityNameClick} = this.props;
     let storeState = store.getState();
-    console.log(city);
-    console.log(storeState.cardId);
+    // console.log(storeState.cardId);
 
     if (storeState.active === `mainPages` || storeState.active === false) {
       return (
@@ -33,12 +28,14 @@ class App extends PureComponent {
           town={storeState.town}
           places={storeState.offers}
           onMainTitleClick={handlerClickOnTitle}
+          onCityNameClick={onCityNameClick}
         />
       );
     } else {
       return (
         <Property
           // написать фунцию которая будет перебирать массив mockSettings и искать там нужный id
+          // storeState.offers.find((offer) => offer.id === storeState.cardId),
           place={storeState.offers[storeState.cardId]}
         />
       );
@@ -67,22 +64,30 @@ class App extends PureComponent {
 }
 const mapDispatchToTitle = (dispatch) => ({
   handlerClickOnTitle(place) {
-    console.log(place.id);
+    console.log(place.id); // / или неннужно его так выносить ? отсавить тут внутрений state ?
     dispatch(ActionActive.activeState(place));
-  },
+  }
 });
 
-const mapStateToProps = (state) => ({
-  city: state.town,
-  offersList: state.offers,
+const mapDispatchToTowns = (dispatch) => ({
+  onCityNameClick(city) {
+    console.log(city);
+    dispatch(ActionTown.changeCity(city));
+    dispatch(ActionTown.getOffers(city));
+  }
 });
+
+
+// const mapStateToProps = (state) => ({
+// });
 
 App.propTypes = {
-  handlerClickOnTitle: PropTypes.func.isRequired,
+  handlerClickOnTitle: PropTypes.func,
+  onCityNameClick: PropTypes.func.isRequired,
   store: PropTypes.shape({
     getState: PropTypes.func.isRequired,
   }).isRequired
 };
 
 export {App};
-export default connect(mapDispatchToTitle, mapStateToProps)(App);
+export default connect(mapDispatchToTitle, mapDispatchToTowns)(App);
