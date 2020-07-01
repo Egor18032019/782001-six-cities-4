@@ -1,9 +1,12 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
-
+import {connect} from "react-redux";
 import Main from "../Main/main.jsx";
 import Property from "../property/property.jsx";
+import {
+  ActionActive
+} from "../../reducer.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -18,39 +21,37 @@ class App extends PureComponent {
   }
 
   _renderApp() {
-    const {placesCount, town, mockSettings} = this.props;
-    const {active} = this.state;
-    if (active === `mainPages` || active === false) {
+    const {store} = this.props;
+    let storeState = store.getState();
+    console.log(store);
+
+    if (storeState.active === `mainPages` || storeState.active === false) {
       return (
         <Main
-          placesCount={placesCount}
-          town={town}
-          places={mockSettings}
+          placesCount={storeState.placesCount}
+          town={storeState.town}
+          places={storeState.offers}
           onMainTitleClick={this.handlerClickOnTitle}
         />
       );
     } else {
       return (
         <Property
-        // написать фунцию которая будет перебирать массив mockSettings и искать там нужный id
-          place={mockSettings[this.state.cardId]}
+          // написать фунцию которая будет перебирать массив mockSettings и искать там нужный id
+          place={storeState.offers[this.state.cardId]}
         />
       );
     }
   }
 
-  handlerClickOnTitle(place) {
-    // console.log(place.id);
-    // console.log(`я нажал на заголовок`);
-    this.setState({
-      active: `property`,
-      cardId: place.id
-    });
+  handlerClickOnTitle(dispatch) {
+    dispatch(ActionActive.activeState());
   }
 
 
   render() {
-    const {mockSettings} = this.props;
+    const {store} = this.props;
+    let storeState = store.getState();
     return (
       <BrowserRouter>
         <Switch>
@@ -59,7 +60,7 @@ class App extends PureComponent {
           </Route>
           <Route exact path="/property">
             <Property
-              place={mockSettings[0]}
+              place={storeState.offers[0]}
             />
           </Route>
         </Switch>
@@ -68,13 +69,18 @@ class App extends PureComponent {
 
   }
 }
+const mapStateToTitle = (dispatch) => ({
+  handlerClickOnTitle() {
+    dispatch(ActionActive.activeState());
+  },
+});
+
 
 App.propTypes = {
-  placesCount: PropTypes.number.isRequired,
-  town: PropTypes.string.isRequired,
-  // в массиве дополнительно надо указывть PropTypes элемента(чему равен каждый элемент массива- строка или число и т.п.)
-  // typePlaces: PropTypes.arrayOf(PropTypes.string).isRequired,
-  mockSettings: PropTypes.array.isRequired,
+  store: PropTypes.shape({
+    getState: PropTypes.func.isRequired,
+  }).isRequired
 };
 
-export default App;
+export {App};
+export default connect(mapStateToTitle)(App);
