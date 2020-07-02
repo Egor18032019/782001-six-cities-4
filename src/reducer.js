@@ -2,10 +2,6 @@ import {
   mockSettings
 } from "./mocks/offers.js";
 
-//  На данном этапе нам потребуется несколько действий:
-//  изменение города
-//  и получение списка предложений.
-
 // Определяем действия(actions)
 const ActionType = {
   CHANGE_TOWN: `CHANGE_TOWN`,
@@ -15,36 +11,29 @@ const ActionType = {
 let filterOnCity = (town) => {
   return mockSettings.filter((element) => element.city === town);
 };
-
 // Объект начального состояния(state):
 const initialState = {
   active: `mainPages`,
   cardId: null,
   town: `Amsterdam`,
+  // TODO: сделать что бы автоматом считала кол-во элементов и записывала его в PlaceCount
   placesCount: 121,
-  // offers: mockSettings.filter((element) => element.city === this.initialState.town)  ----
-  // ,,,,????  почему так не работает ?
-  offers: mockSettings,
-  // offers: filterOnCity(initialState.town) -- и так не работает
+  offers: filterOnCity(`Amsterdam`),
 };
 
-
-console.log(filterOnCity(`Amsterdam`));
-
-// TODO: написать функцию сортировки -> сортируте массив offers по town и записывает
-
-
-//     Редьюсер. Функция-редьюсер принимает в качестве параметров текущий state и действие (action).
-//     Результатом выполнение редьюсера станет новое состояние.
+// Редьюсер. Функция-редьюсер принимает в качестве параметров текущий state и действие (action).
+// Результатом выполнение редьюсера станет новое состояние.
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.CHANGE_TOWN:
       return Object.assign({}, state, {
         town: action.payload,
+        offers: filterOnCity(action.payload)
       });
     case ActionType.GET_OFFERS:
       return Object.assign({}, state, {
-        cardId: action.cardId
+        cardId: action.cardId,
+        active: `property`
       });
   }
   return state;
@@ -52,8 +41,8 @@ const reducer = (state = initialState, action) => {
 
 const ActionActive = {
   activeState: (place) => ({
-    active: ActionType.GET_OFFERS,
-    cardId: place.id
+    type: ActionType.GET_OFFERS, // обязательно поле type
+    cardId: place.id,
   })
 };
 

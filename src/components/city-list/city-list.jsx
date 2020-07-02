@@ -1,6 +1,6 @@
 // компонент "Карточка предложения"
 import React, {PureComponent} from "react";
-import PropTypes, {array} from "prop-types";
+import PropTypes from "prop-types";
 
 import {
   CITYLIST
@@ -12,8 +12,10 @@ class CityList extends PureComponent {
   }
 
   render() {
-    const {townList, onCityNameClick, town} = this.props;
-
+    const {onCityNameClick, town} = this.props;
+    // TODO: подумать о другой структуре мокков(например: city: `` и ofers: [])
+    // то есть тыкаем на город и подгружается не весь лям карточек а только те карточки которые нужны для этого города
+    // - спросить у Максима
     return (
       <ul className="locations__list tabs__list">
         {CITYLIST.map((city, index) => {

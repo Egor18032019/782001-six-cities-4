@@ -16,17 +16,14 @@ class App extends PureComponent {
   }
 
   _renderApp() {
-    console.log(this.props);
-    const {store, handlerClickOnTitle, onCityNameClick} = this.props;
-    let storeState = store.getState();
-    // console.log(storeState.cardId);
+    const {state, handlerClickOnTitle, onCityNameClick} = this.props;
 
-    if (storeState.active === `mainPages` || storeState.active === false) {
+    if (state.active === `mainPages` || state.active === false) {
       return (
         <Main
-          placesCount={storeState.placesCount}
-          town={storeState.town}
-          places={storeState.offers}
+          placesCount={state.placesCount}
+          town={state.town}
+          places={state.offers}
           onMainTitleClick={handlerClickOnTitle}
           onCityNameClick={onCityNameClick}
         />
@@ -34,17 +31,16 @@ class App extends PureComponent {
     } else {
       return (
         <Property
-          // написать фунцию которая будет перебирать массив mockSettings и искать там нужный id
-          // storeState.offers.find((offer) => offer.id === storeState.cardId),
-          place={storeState.offers[storeState.cardId]}
+          place={state.offers.find((offer) => {
+            return offer.id === state.cardId;
+          })}
         />
       );
     }
   }
 
   render() {
-    const {store} = this.props;
-    let storeState = store.getState();
+    const {state} = this.props;
     return (
       <BrowserRouter>
         <Switch>
@@ -53,40 +49,43 @@ class App extends PureComponent {
           </Route>
           <Route exact path="/property">
             <Property
-              place={storeState.offers[0]}
+              place={state.offers[0]}
             />
           </Route>
         </Switch>
       </BrowserRouter >
     );
-
   }
 }
+
 const mapDispatchToTitle = (dispatch) => ({
   handlerClickOnTitle(place) {
-    console.log(place.id); // / или неннужно его так выносить ? отставить тут внутрений state ?
+    // console.log(place.id); // / или неннужно его так выносить ? отставить тут внутрений state ?
     dispatch(ActionActive.activeState(place));
-  }
-});
-
-const mapDispatchToTowns = (dispatch) => ({
+  },
   onCityNameClick(city) {
-    console.log(city);
     dispatch(ActionTown.changeCity(city));
   }
 });
 
-
-// const mapStateToProps = (state) => ({
-// });
+const mapStateToProps = (state) => {
+  // console.log(`state:`, state);
+  return {
+    state
+  };
+};
 
 App.propTypes = {
-  handlerClickOnTitle: PropTypes.func,
   onCityNameClick: PropTypes.func.isRequired,
-  store: PropTypes.shape({
-    getState: PropTypes.func.isRequired,
-  }).isRequired
+  handlerClickOnTitle: PropTypes.func.isRequired,
+  state: PropTypes.shape({
+    active: PropTypes.string.isRequired,
+    cardId: PropTypes.number,
+    town: PropTypes.string.isRequired,
+    placesCount: PropTypes.number.isRequired,
+    offers: PropTypes.array.isRequired,
+  }).isRequired,
 };
 
 export {App};
-export default connect(mapDispatchToTitle, mapDispatchToTowns)(App);
+export default connect(mapStateToProps, mapDispatchToTitle)(App); // первым стате а вторым фдиспатчеры
