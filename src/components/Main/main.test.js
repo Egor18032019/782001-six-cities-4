@@ -56,6 +56,9 @@ describe(`test Main`, () => {
             onMainTitleClick = {
               () => {}
             }
+            onCityNameClick = {
+              () => {}
+            }
             />,
             // так как нет контейнера делаем моковый
             {

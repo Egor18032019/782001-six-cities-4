@@ -1,6 +1,6 @@
 import React from "react";
 import Enzyme, {
-  shallow
+  mount
 } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import CityList from "./city-list.jsx";
@@ -42,7 +42,7 @@ describe(`test CityList e2e`, () => {
   it(`click title or no click`, () => {
     const onCityNameClick = jest.fn();
 
-    const cityTitleList = shallow(<CityList
+    const cityTitleList = mount(<CityList
       town = {
         PLACE.city
       }
@@ -59,10 +59,10 @@ describe(`test CityList e2e`, () => {
     expect(onCityNameClick.mock.calls.length).toBe(CITYLIST.length);
   });
 
-  it(`Should  first title h2 be pressed`, () => {
+  it(`Should  first city title be pressed`, () => {
     const onCityNameClick = jest.fn();
 
-    const cityTitleList = shallow(<CityList
+    const cityTitleList = mount(<CityList
       town = {
         PLACE.city
       }

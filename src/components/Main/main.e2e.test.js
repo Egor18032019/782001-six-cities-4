@@ -54,6 +54,7 @@ const mockSettings = [{
 describe(`test Main e2e`, () => {
   test(`Should  title h2 be pressed`, () => {
     const onMainTitleClick = jest.fn();
+    const onCityNameClick = jest.fn();
 
     const mainScreen = mount(<
       Main placesCount = {
@@ -65,7 +66,9 @@ describe(`test Main e2e`, () => {
       places = {
         mockSettings
       }
-
+      onCityNameClick = {
+        onCityNameClick
+      }
       onMainTitleClick = {
         onMainTitleClick
       }
@@ -85,6 +88,7 @@ describe(`test Main e2e`, () => {
   });
   test(`Should  first title h2 be pressed`, () => {
     const onMainTitleClick = jest.fn();
+    const onCityNameClick = jest.fn();
 
     const mainScreen = mount(<
       Main placesCount = {
@@ -96,7 +100,9 @@ describe(`test Main e2e`, () => {
       places = {
         mockSettings
       }
-
+      onCityNameClick = {
+        onCityNameClick
+      }
       onMainTitleClick = {
         onMainTitleClick
       }
