@@ -23,7 +23,7 @@ class Map extends PureComponent {
   }
 
   componentDidMount() { // --??? почему если тут использовать функцию initMap() а потом передать в render() она не срабатывает?
-    // отриосвка карты
+    // отриcoвка карты
     // инциализируем карту и установим фокус на определённую область(город)
     // this.mapCity(в документации `mapid` , в задание `map`) место куда отрисовываем карту
     this.map = leaflet.map(this.mapCity.current, {
@@ -45,8 +45,15 @@ class Map extends PureComponent {
     this.map = null;
   }
 
+  componentDidUpdate() {
+    // ????    как почистить карту ?
+    // если     this.map = null; он всё равно пишет что контейнер занят
+    this._addPoints();
+  }
+
   // отрисовка точек
   _addPoints() {
+    // console.log(this.props.places);
     // форычом проходим по пропсам и о leaferom отрисовываем place.coordinate
     this.props.places.forEach((place) => {
       // отрисовка точек

@@ -75,9 +75,10 @@ exports[`test Main Should Main render correctly 1`] = `
         >
           <li
             className="locations__item"
+            onClick={[Function]}
           >
             <a
-              className="locations__item-link tabs__item"
+              className="locations__item-link tabs__item "
               href="#"
             >
               <span>
@@ -87,9 +88,10 @@ exports[`test Main Should Main render correctly 1`] = `
           </li>
           <li
             className="locations__item"
+            onClick={[Function]}
           >
             <a
-              className="locations__item-link tabs__item"
+              className="locations__item-link tabs__item "
               href="#"
             >
               <span>
@@ -99,9 +101,10 @@ exports[`test Main Should Main render correctly 1`] = `
           </li>
           <li
             className="locations__item"
+            onClick={[Function]}
           >
             <a
-              className="locations__item-link tabs__item"
+              className="locations__item-link tabs__item "
               href="#"
             >
               <span>
@@ -111,9 +114,11 @@ exports[`test Main Should Main render correctly 1`] = `
           </li>
           <li
             className="locations__item"
+            onClick={[Function]}
           >
             <a
-              className="locations__item-link tabs__item tabs__item--active"
+              className="locations__item-link tabs__item "
+              href="#"
             >
               <span>
                 Amsterdam
@@ -122,9 +127,10 @@ exports[`test Main Should Main render correctly 1`] = `
           </li>
           <li
             className="locations__item"
+            onClick={[Function]}
           >
             <a
-              className="locations__item-link tabs__item"
+              className="locations__item-link tabs__item "
               href="#"
             >
               <span>
@@ -134,9 +140,10 @@ exports[`test Main Should Main render correctly 1`] = `
           </li>
           <li
             className="locations__item"
+            onClick={[Function]}
           >
             <a
-              className="locations__item-link tabs__item"
+              className="locations__item-link tabs__item "
               href="#"
             >
               <span>

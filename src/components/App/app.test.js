@@ -1,11 +1,8 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import App from "./app.jsx";
-
-const Settings = {
-  PLACES: 312,
-  CITIES: `Amsterdam !`,
-};
+import configureStore from "redux-mock-store";
+import {Provider} from "react-redux";
 
 const mockSettings = [{
   id: 0,
@@ -100,26 +97,36 @@ const mockSettings = [{
 }
 ];
 
+const mockStore = configureStore([]);
+
 describe(`test App`, () => {
   it(`Render App`, () => {
+    const store = mockStore({
+      active: `mainPages`,
+      cardId: null,
+      town: `Amsterdam`,
+      // TODO: сделать что бы автоматом считала кол-во элементов и записывала его в PlaceCount
+      placesCount: 121,
+      offers: mockSettings
+    });
+
     const tree = renderer
-      .create(<App placesCount = {
-        Settings.PLACES
-      }
-      town = {
-        Settings.CITIES
-      }
-      mockSettings = {
-        mockSettings
-      }
-      onMainTitleClick = {
-        () => {}
-      }
-      />,
-      // так как нет контейнера делаем моковый
-      {
-        createNodeMock: () => document.createElement(`div`)
-      })
+      .create(
+          <Provider store={store}>
+            < App
+              onMainTitleClick = {
+                () => {}
+              }
+              onCityNameClick = {
+                () => {}
+              }
+
+            />
+          </Provider>,
+          // так как нет контейнера делаем моковый
+          {
+            createNodeMock: () => document.createElement(`div`)
+          })
       .toJSON();
     expect(tree).toMatchSnapshot();
   });

@@ -78,6 +78,8 @@ PlaceCard.propTypes = {
     rating: PropTypes.number.isRequired,
     coordinate: PropTypes.array.isRequired,
   }).isRequired,
+  // в массиве дополнительно надо указывть PropTypes элемента(чему равен каждый элемент массива- строка или число и т.п.)
+  // typePlaces: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 

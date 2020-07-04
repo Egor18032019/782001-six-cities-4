@@ -75,9 +75,10 @@ exports[`test App Render App 1`] = `
         >
           <li
             className="locations__item"
+            onClick={[Function]}
           >
             <a
-              className="locations__item-link tabs__item"
+              className="locations__item-link tabs__item "
               href="#"
             >
               <span>
@@ -87,9 +88,10 @@ exports[`test App Render App 1`] = `
           </li>
           <li
             className="locations__item"
+            onClick={[Function]}
           >
             <a
-              className="locations__item-link tabs__item"
+              className="locations__item-link tabs__item "
               href="#"
             >
               <span>
@@ -99,9 +101,10 @@ exports[`test App Render App 1`] = `
           </li>
           <li
             className="locations__item"
+            onClick={[Function]}
           >
             <a
-              className="locations__item-link tabs__item"
+              className="locations__item-link tabs__item "
               href="#"
             >
               <span>
@@ -111,9 +114,11 @@ exports[`test App Render App 1`] = `
           </li>
           <li
             className="locations__item"
+            onClick={[Function]}
           >
             <a
               className="locations__item-link tabs__item tabs__item--active"
+              href="#"
             >
               <span>
                 Amsterdam
@@ -122,9 +127,10 @@ exports[`test App Render App 1`] = `
           </li>
           <li
             className="locations__item"
+            onClick={[Function]}
           >
             <a
-              className="locations__item-link tabs__item"
+              className="locations__item-link tabs__item "
               href="#"
             >
               <span>
@@ -134,9 +140,10 @@ exports[`test App Render App 1`] = `
           </li>
           <li
             className="locations__item"
+            onClick={[Function]}
           >
             <a
-              className="locations__item-link tabs__item"
+              className="locations__item-link tabs__item "
               href="#"
             >
               <span>
@@ -164,9 +171,9 @@ exports[`test App Render App 1`] = `
           <b
             className="places__found"
           >
-            312
+            121
              places to stay in 
-            Amsterdam !
+            Amsterdam
              
           </b>
           <form

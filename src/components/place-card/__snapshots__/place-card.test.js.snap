@@ -95,13 +95,13 @@ exports[`PlaceCard snepshot test Should PlaceCard render correctly 1`] = `
       <a
         href="#"
       >
-        Beautiful & luxurious apartment at great location
+        Wood and Stone
       </a>
     </h2>
     <p
       className="place-card__type"
     >
-      Apartament
+      Private room
     </p>
   </div>
 </article>

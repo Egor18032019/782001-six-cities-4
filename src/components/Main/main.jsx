@@ -2,10 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import PlacesList from "../places-list/places-list.jsx";
+import CityList from "../city-list/city-list.jsx";
 import Map from "../map/map.jsx";
 
 const Main = (props) => {
-  const {placesCount, town, places, onMainTitleClick} = props;
+  const {placesCount, town, places, onMainTitleClick, onCityNameClick} = props;
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -35,38 +36,10 @@ const Main = (props) => {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
+            <CityList
+              town={town}
+              onCityNameClick={onCityNameClick}
+            />
           </section>
         </div>
         <div className="cities">
@@ -122,6 +95,7 @@ const Main = (props) => {
 
 Main.propTypes = {
   placesCount: PropTypes.number.isRequired,
+  onCityNameClick: PropTypes.func.isRequired,
   town: PropTypes.string.isRequired,
   // в массиве дополнительно надо указывть PropTypes элемента(чему равен каждый элемент массива- строка или число и т.п.)
   places: PropTypes.array.isRequired,
