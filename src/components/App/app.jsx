@@ -11,19 +11,17 @@ import {
 class App extends PureComponent {
   constructor(props) {
     super(props);
-
-    // this.handlerClickOnTitle = this.handlerClickOnTitle.bind(this);
   }
 
   _renderApp() {
-    const {state, handlerClickOnTitle, onCityNameClick} = this.props;
+    const {store, handlerClickOnTitle, onCityNameClick} = this.props;
 
-    if (state.active === `mainPages` || state.active === false) {
+    if (store.active === `mainPages` || store.active === false) {
       return (
         <Main
-          placesCount={state.placesCount}
-          town={state.town}
-          places={state.offers}
+          placesCount={store.placesCount}
+          town={store.town}
+          places={store.offers}
           onMainTitleClick={handlerClickOnTitle}
           onCityNameClick={onCityNameClick}
         />
@@ -31,8 +29,8 @@ class App extends PureComponent {
     } else {
       return (
         <Property
-          place={state.offers.find((offer) => {
-            return offer.id === state.cardId;
+          place={store.offers.find((offer) => {
+            return offer.id === store.cardId;
           })}
         />
       );
@@ -40,7 +38,7 @@ class App extends PureComponent {
   }
 
   render() {
-    const {state} = this.props;
+    const {store} = this.props;
     return (
       <BrowserRouter>
         <Switch>
@@ -49,7 +47,7 @@ class App extends PureComponent {
           </Route>
           <Route exact path="/property">
             <Property
-              place={state.offers[0]}
+              place={store.offers[0]}
             />
           </Route>
         </Switch>
@@ -58,7 +56,7 @@ class App extends PureComponent {
   }
 }
 
-const mapDispatchToTitle = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   handlerClickOnTitle(place) {
     // console.log(place.id); // / или неннужно его так выносить ? отставить тут внутрений state ?
     dispatch(ActionActive.activeState(place));
@@ -68,17 +66,17 @@ const mapDispatchToTitle = (dispatch) => ({
   }
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (store) => {
   // console.log(`state:`, state);
   return {
-    state
+    store
   };
 };
 
 App.propTypes = {
   onCityNameClick: PropTypes.func.isRequired,
   handlerClickOnTitle: PropTypes.func.isRequired,
-  state: PropTypes.shape({
+  store: PropTypes.shape({
     active: PropTypes.string.isRequired,
     cardId: PropTypes.number,
     town: PropTypes.string.isRequired,
@@ -88,4 +86,4 @@ App.propTypes = {
 };
 
 export {App};
-export default connect(mapStateToProps, mapDispatchToTitle)(App); // первым стате а вторым фдиспатчеры
+export default connect(mapStateToProps, mapDispatchToProps)(App); // первым стате а вторым фдиспатчеры

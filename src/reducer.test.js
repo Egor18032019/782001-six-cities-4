@@ -218,7 +218,7 @@ it(`Reducer without additional parameters should return initial state`, () => {
     active: `mainPages`,
     cardId: null,
     town: `Amsterdam`,
-    placesCount: 121,
+    placesCount: 3,
     offers: filterOnCity(`Amsterdam`),
   });
 });
@@ -250,7 +250,7 @@ it(`The reducer should change the city to the value that came in`, () => {
     active: `mainPages`,
     cardId: null,
     town: `Amsterdam`,
-    placesCount: 121,
+    placesCount: 3,
     offers: filterOnCity(`Amsterdam`),
   }, {
     type: ActionType.CHANGE_TOWN,
@@ -259,7 +259,7 @@ it(`The reducer should change the city to the value that came in`, () => {
     active: `mainPages`,
     cardId: null,
     town: `Paris`,
-    placesCount: 121,
+    placesCount: 1,
     offers: filterOnCity(`Paris`),
   });
 
@@ -267,7 +267,7 @@ it(`The reducer should change the city to the value that came in`, () => {
     active: `mainPages`,
     cardId: null,
     town: `Amsterdam`,
-    placesCount: 121,
+    placesCount: 3,
     offers: filterOnCity(`Amsterdam`),
   }, {
     type: ActionType.CHANGE_TOWN,
@@ -276,7 +276,7 @@ it(`The reducer should change the city to the value that came in`, () => {
     active: `mainPages`,
     cardId: null,
     town: `Amsterdam`,
-    placesCount: 121,
+    placesCount: 3,
     offers: filterOnCity(`Amsterdam`),
   });
 });

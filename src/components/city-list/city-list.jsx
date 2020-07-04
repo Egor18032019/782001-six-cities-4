@@ -9,6 +9,8 @@ import {
 class CityList extends PureComponent {
   constructor(props) {
     super(props);
+    // this.onCityNameClick = this.onCityNameClick.bind(this);
+    // -? а разве не надо так биндить функцию
   }
 
   render() {
@@ -19,31 +21,20 @@ class CityList extends PureComponent {
     return (
       <ul className="locations__list tabs__list">
         {CITYLIST.map((city, index) => {
-          if (city === town) {
-            return (
-              <li
-                onClick={() => {
-                  onCityNameClick(city);
-                }}
-                className="locations__item" key={index + city}>
-                <a className="locations__item-link tabs__item tabs__item--active" href="#">
-                  <span>{city}</span>
-                </a>
-              </li>);
-          } else {
-            return (
-              <li
-                onClick={() => {
-                  onCityNameClick(city);
-                }}
-                className="locations__item" key={index + city}>
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>{city}</span>
-                </a>
-              </li>);
-          }
-        })}
-      </ul>
+          const activeClasss = (city === town) ? `tabs__item--active` : ``;
+          return (
+            <li
+              onClick={() => {
+                onCityNameClick(city);
+              }}
+              className="locations__item" key={index + city}>
+              <a className={`locations__item-link tabs__item ${activeClasss}`} href="#">
+                <span>{city}</span>
+              </a>
+            </li>);
+        })
+        }
+      </ul >
     );
   }
 }

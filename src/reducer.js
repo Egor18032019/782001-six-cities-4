@@ -11,37 +11,37 @@ const ActionType = {
 let filterOnCity = (town) => {
   return mockSettings.filter((element) => element.city === town);
 };
+
 // Объект начального состояния(state):
 const initialState = {
   active: `mainPages`,
   cardId: null,
   town: `Amsterdam`,
-  // TODO: сделать что бы автоматом считала кол-во элементов и записывала его в PlaceCount
-  placesCount: 121,
   offers: filterOnCity(`Amsterdam`),
+  placesCount: filterOnCity(`Amsterdam`).length,
 };
 
-// Редьюсер. Функция-редьюсер принимает в качестве параметров текущий state и действие (action).
-// Результатом выполнение редьюсера станет новое состояние.
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.CHANGE_TOWN:
       return Object.assign({}, state, {
         town: action.payload,
-        offers: filterOnCity(action.payload)
+        offers: filterOnCity(action.payload),
+        placesCount: filterOnCity(action.payload).length
       });
     case ActionType.GET_OFFERS:
       return Object.assign({}, state, {
         cardId: action.cardId,
         active: `property`
       });
+    default : return state;
   }
-  return state;
+  // return state;
 };
 
 const ActionActive = {
   activeState: (place) => ({
-    type: ActionType.GET_OFFERS, // обязательно поле type
+    type: ActionType.GET_OFFERS, // обязательно поле type так как по нему пробегамся swit-чом
     cardId: place.id,
   })
 };
