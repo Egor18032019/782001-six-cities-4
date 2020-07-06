@@ -184,10 +184,11 @@ exports[`test Main Should Main render correctly 1`] = `
             <span
               className="places__sorting-caption"
             >
-              Sort by
+              Sort by 
             </span>
             <span
               className="places__sorting-type"
+              onClick={[Function]}
               tabIndex="0"
             >
               Popular
@@ -202,28 +203,32 @@ exports[`test Main Should Main render correctly 1`] = `
               </svg>
             </span>
             <ul
-              className="places__options places__options--custom places__options--opened"
+              className="places__options places__options--custom "
             >
               <li
                 className="places__option places__option--active"
+                onClick={[Function]}
                 tabIndex="0"
               >
                 Popular
               </li>
               <li
-                className="places__option"
+                className="places__option "
+                onClick={[Function]}
                 tabIndex="0"
               >
                 Price: low to high
               </li>
               <li
-                className="places__option"
+                className="places__option "
+                onClick={[Function]}
                 tabIndex="0"
               >
                 Price: high to low
               </li>
               <li
-                className="places__option"
+                className="places__option "
+                onClick={[Function]}
                 tabIndex="0"
               >
                 Top rated first
@@ -238,13 +243,7 @@ exports[`test Main Should Main render correctly 1`] = `
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
-              <div
-                className="place-card__mark"
-              >
-                <span>
-                  Premium
-                </span>
-              </div>
+              
               <div
                 className="cities__image-wrapper place-card__image-wrapper"
               >
@@ -255,7 +254,6 @@ exports[`test Main Should Main render correctly 1`] = `
                     alt="Place image"
                     className="place-card__image"
                     height="200"
-                    src="img/apartment-01.jpg"
                     width="260"
                   />
                 </a>
@@ -272,7 +270,8 @@ exports[`test Main Should Main render correctly 1`] = `
                     <b
                       className="place-card__price-value"
                     >
-                      €120
+                      €
+                      120
                     </b>
                     <span
                       className="place-card__price-text"
@@ -281,7 +280,7 @@ exports[`test Main Should Main render correctly 1`] = `
                     </span>
                   </div>
                   <button
-                    className="place-card__bookmark-button button"
+                    className="place-card__bookmark-button button "
                     type="button"
                   >
                     <svg
@@ -309,7 +308,7 @@ exports[`test Main Should Main render correctly 1`] = `
                     <span
                       style={
                         Object {
-                          "width": "80%",
+                          "width": "220%",
                         }
                       }
                     />
@@ -342,13 +341,7 @@ exports[`test Main Should Main render correctly 1`] = `
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
-              <div
-                className="place-card__mark"
-              >
-                <span>
-                  Premium
-                </span>
-              </div>
+              
               <div
                 className="cities__image-wrapper place-card__image-wrapper"
               >
@@ -359,7 +352,6 @@ exports[`test Main Should Main render correctly 1`] = `
                     alt="Place image"
                     className="place-card__image"
                     height="200"
-                    src="img/apartment-01.jpg"
                     width="260"
                   />
                 </a>
@@ -376,7 +368,8 @@ exports[`test Main Should Main render correctly 1`] = `
                     <b
                       className="place-card__price-value"
                     >
-                      €120
+                      €
+                      120
                     </b>
                     <span
                       className="place-card__price-text"
@@ -385,7 +378,7 @@ exports[`test Main Should Main render correctly 1`] = `
                     </span>
                   </div>
                   <button
-                    className="place-card__bookmark-button button"
+                    className="place-card__bookmark-button button "
                     type="button"
                   >
                     <svg
@@ -413,7 +406,7 @@ exports[`test Main Should Main render correctly 1`] = `
                     <span
                       style={
                         Object {
-                          "width": "80%",
+                          "width": "440%",
                         }
                       }
                     />
@@ -446,13 +439,7 @@ exports[`test Main Should Main render correctly 1`] = `
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
             >
-              <div
-                className="place-card__mark"
-              >
-                <span>
-                  Premium
-                </span>
-              </div>
+              
               <div
                 className="cities__image-wrapper place-card__image-wrapper"
               >
@@ -463,7 +450,6 @@ exports[`test Main Should Main render correctly 1`] = `
                     alt="Place image"
                     className="place-card__image"
                     height="200"
-                    src="img/apartment-01.jpg"
                     width="260"
                   />
                 </a>
@@ -480,7 +466,8 @@ exports[`test Main Should Main render correctly 1`] = `
                     <b
                       className="place-card__price-value"
                     >
-                      €120
+                      €
+                      120
                     </b>
                     <span
                       className="place-card__price-text"
@@ -489,7 +476,7 @@ exports[`test Main Should Main render correctly 1`] = `
                     </span>
                   </div>
                   <button
-                    className="place-card__bookmark-button button"
+                    className="place-card__bookmark-button button "
                     type="button"
                   >
                     <svg
@@ -517,7 +504,7 @@ exports[`test Main Should Main render correctly 1`] = `
                     <span
                       style={
                         Object {
-                          "width": "80%",
+                          "width": "660%",
                         }
                       }
                     />

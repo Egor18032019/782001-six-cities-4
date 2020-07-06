@@ -7,7 +7,7 @@ const PLACE = {
   city: `Amsterdam`,
   type: `Private room`,
   description: `Wood and Stone`,
-  prise: 80,
+  price: 80,
   isBookmark: true,
   isPremium: false,
   rating: 3,
@@ -30,16 +30,16 @@ const PLACE = {
 describe(`PlaceCard snepshot test`, () => {
   it(`Should PlaceCard render correctly`, () => {
     const tree = renderer
-      .create(< PlaceCard place = {
+      .create(<PlaceCard place = {
         PLACE
       }
       onMainTitleClick = {
         () => {}
       }
-      onHoverCard = {
+      onCardMouseEnter = {
         () => {}
       }
-      onLeaveCard = {
+      onCardMouseOut = {
         () => {}
       }
       />,

@@ -6,29 +6,21 @@ import {
   SORTING
 } from "../../const.js";
 
-const defaulTypeSort = `Popular`;
-
-
-const onSortingClick = (type)=>{
-  console.log(type);
-};
-
 class SortingList extends PureComponent {
   constructor(props) {
     super(props);
-
   }
 
   render() {
-    const {sortingState} = this.props;
+    const {sortingState, typeSorting, onSortingTypeClick} = this.props;
     return (
       <ul className={`places__options places__options--custom ${sortingState ? `places__options--opened` : ``}`}>
         {SORTING.map((type, index) => {
-          const activeClasss = (type === defaulTypeSort) ? `places__option--active` : ``;
+          const activeClasss = (type === typeSorting) ? `places__option--active` : ``;
           return (
             <li className={`places__option ${activeClasss}`} tabIndex="0" key={index + type}
               onClick={() => {
-                onSortingClick(type);
+                onSortingTypeClick(type);
               }}>
               {type}
             </li>);
@@ -41,6 +33,8 @@ class SortingList extends PureComponent {
 
 SortingList.propTypes = {
   sortingState: PropTypes.bool.isRequired,
+  onSortingTypeClick: PropTypes.func.isRequired,
+  typeSorting: PropTypes.string.isRequired,
 };
 
 

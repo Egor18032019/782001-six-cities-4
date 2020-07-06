@@ -13,15 +13,20 @@ class Main extends PureComponent {
 
     this.state = {
       activeSortingList: false,
-      activeOffer: null
+      activeOffer: null,
+      typeSorting: `Popular`
     };
     this.onSortListClick = this.onSortListClick.bind(this);
     this.onCardMouseEnter = this.onCardMouseEnter.bind(this);
     this.onCardMouseOut = this.onCardMouseOut.bind(this);
+    this.onSortingTypeClick = this.onSortingTypeClick.bind(this);
   }
 
   render() {
     const {placesCount, town, places, onMainTitleClick, onCityNameClick} = this.props;
+    // сортировать places в зависимости от стате
+    const sortingPlaces = this._getSortedPlaces(this.state.typeSorting, places);
+
     return (
       <div className="page page--gray page--main">
         <header className="header">
@@ -63,12 +68,12 @@ class Main extends PureComponent {
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">{placesCount} places to stay in {town} </b>
                 <form className="places__sorting" action="#" method="get">
-                  <span className="places__sorting-caption">Sort by</span>
+                  <span className="places__sorting-caption">Sort by </span>
                   <span className="places__sorting-type" tabIndex="0"
                     onClick={() => {
                       this.onSortListClick();
                     }}>
-                  Popular
+                    {this.state.typeSorting}
                     <svg className="places__sorting-arrow" width="7" height="4">
                       <use xlinkHref="#icon-arrow-select"></use>
                     </svg>
@@ -76,6 +81,8 @@ class Main extends PureComponent {
                   {
                     <SortingList
                       sortingState={this.state.activeSortingList}
+                      typeSorting={this.state.typeSorting}
+                      onSortingTypeClick={this.onSortingTypeClick}
                     />
                   }
                   {/*
@@ -90,7 +97,7 @@ class Main extends PureComponent {
                 </form>
                 {
                   <PlacesList
-                    places={places}
+                    places={sortingPlaces}
                     onMainTitleClick={onMainTitleClick}
                     onCardMouseEnter={this.onCardMouseEnter}
                     onCardMouseOut={this.onCardMouseOut}
@@ -111,14 +118,36 @@ class Main extends PureComponent {
   }
 
   onSortListClick() {
-    this.setState({activeSortingList: !this.state.activeSortingList});
+    this.setState({activeSortingList: true});
   }
-
   onCardMouseEnter(place) {
     this.setState({activeOffer: place});
   }
   onCardMouseOut() {
     this.setState({activeOffer: null});
+  }
+  onSortingTypeClick(type) {
+    this.setState({typeSorting: type});
+  }
+  // onAnotherClick() {
+  //   console.log(`end`);
+  //   this.setState({activeSortingList: false});
+  // }
+  // ----????? Максим как сделать чтобы он закрывался ??
+  _getSortedPlaces(sortingType, places) {
+    switch (sortingType) {
+      case `Price: low to high`:
+        return places.slice().sort((a, b) => a.price - b.price);
+
+      case `Price: high to low`:
+        return places.slice().sort((a, b) => b.price - a.price);
+
+      case `Top rated first`:
+        return places.slice().sort((a, b) => b.rating - a.rating);
+
+      default:
+        return places;
+    }
   }
 }
 

@@ -9,7 +9,7 @@ const mockSettings = [{
   city: `Amsterdam`,
   type: `Apartament`,
   description: `Beautiful & luxurious apartment at great location`,
-  prise: 120,
+  price: 120,
   isBookmark: false,
   isPremium: true,
   rating: 4.8,
@@ -33,7 +33,7 @@ const mockSettings = [{
   city: `Amsterdam`,
   type: `Private room`,
   description: `Wood and Stone`,
-  prise: 80,
+  price: 80,
   isBookmark: true,
   isPremium: false,
   rating: 3,
@@ -56,7 +56,7 @@ const mockSettings = [{
   city: `Paris`,
   type: `House`,
   description: `big + warm + good`,
-  prise: 120,
+  price: 120,
   isBookmark: false,
   isPremium: true,
   rating: 4.8,
@@ -78,7 +78,7 @@ const mockSettings = [{
   city: `Amsterdam`,
   type: `House`,
   description: `big + warm + good`,
-  prise: 120,
+  price: 120,
   isBookmark: false,
   isPremium: true,
   rating: 4.8,
@@ -133,5 +133,4 @@ describe(`test App`, () => {
 });
 
 
-// --?? снапшоты только смотрять размету -> зачем нам тестить  APP и Main --- можно же только Main??
 // как настроить Ес линтер что бы он помогал называть  методы и свойтсва компонентов

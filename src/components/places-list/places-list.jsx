@@ -38,6 +38,8 @@ class PlacesList extends PureComponent {
 
 PlacesList.propTypes = {
   onMainTitleClick: PropTypes.func.isRequired,
+  onCardMouseEnter: PropTypes.func.isRequired,
+  onCardMouseOut: PropTypes.func.isRequired,
   places: PropTypes.array.isRequired,
 };
 
