@@ -10,34 +10,34 @@ class PlaceCard extends PureComponent {
   render() {
     const {place,
       onMainTitleClick,
-      onHoverCard,
-      onLeaveCard} = this.props;
+      onCardMouseEnter,
+      onCardMouseOut} = this.props;
     const {
-      description, type
+      description, type, isPremium, mainPhoto, price, isBookmark, rating
     } = place;
 
+    // console.log(place);
     return (
       <article
-        // onMouseEnter={() => {
-        //   onHoverCard(place);
-        // }}
-        // onMouseLeave={onLeaveCard}
+        onMouseEnter={() => {
+          onCardMouseEnter(place.id);
+        }}
+        onMouseLeave={onCardMouseOut}
         className="cities__place-card place-card">
-        <div className="place-card__mark">
-          <span>Premium</span>
-        </div>
+
+        {isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ``}
         <div className="cities__image-wrapper place-card__image-wrapper">
           <a href="#">
-            <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place image" />
+            <img className="place-card__image" src={mainPhoto} width="260" height="200" alt="Place image" />
           </a>
         </div>
         <div className="place-card__info">
           <div className="place-card__price-wrapper">
             <div className="place-card__price">
-              <b className="place-card__price-value">&euro;120</b>
+              <b className="place-card__price-value">&euro;{price}</b>
               <span className="place-card__price-text">&#47;&nbsp;night</span>
             </div>
-            <button className="place-card__bookmark-button button" type="button">
+            <button className={`place-card__bookmark-button button ${isBookmark ? `place-card__bookmark-button--active` : ``}`} type="button">
               <svg className="place-card__bookmark-icon" width="18" height="19">
                 <use xlinkHref="#icon-bookmark"></use>
               </svg>
@@ -48,11 +48,11 @@ class PlaceCard extends PureComponent {
             <div className="place-card__stars rating__stars">
               {/* свойства записыватьтак style={{marginRight: spacing + 'em'}}
         */}
-              <span style={{width: `80%`}}></span>
+              <span style={{width: `${rating * 20}%`}}></span>
               <span className="visually-hidden">Rating</span>
             </div>
           </div>
-          <h2 onClick={()=>{
+          <h2 onClick={() => {
             onMainTitleClick(place);
           }} className="place-card__name">
             <a href="#">{description}</a>
@@ -66,17 +66,18 @@ class PlaceCard extends PureComponent {
 
 PlaceCard.propTypes = {
   onMainTitleClick: PropTypes.func.isRequired,
-  // onHoverCard: PropTypes.func.isRequired,
-  // onLeaveCard: PropTypes.func.isRequired,
+  onCardMouseEnter: PropTypes.func.isRequired,
+  onCardMouseOut: PropTypes.func.isRequired,
   place: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    prise: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
     isBookmark: PropTypes.bool.isRequired,
     isPremium: PropTypes.bool.isRequired,
     rating: PropTypes.number.isRequired,
     coordinate: PropTypes.array.isRequired,
+    mainPhoto: PropTypes.string.isRequired,
   }).isRequired,
   // в массиве дополнительно надо указывть PropTypes элемента(чему равен каждый элемент массива- строка или число и т.п.)
   // typePlaces: PropTypes.arrayOf(PropTypes.string).isRequired,

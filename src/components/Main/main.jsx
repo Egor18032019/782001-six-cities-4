@@ -98,10 +98,9 @@ class Main extends PureComponent {
                 }
               </section>
               <div className="cities__right-section">
-                {/* <section className="cities__map map"></section> */}
-                {/* компонент для отрисовки карты */}
                 <Map
                   places={places}
+                  activeOffer={this.state.activeOffer}
                 />
               </div>
             </div>
@@ -116,11 +115,9 @@ class Main extends PureComponent {
   }
 
   onCardMouseEnter(place) {
-    console.log(`place`);
     this.setState({activeOffer: place});
   }
   onCardMouseOut() {
-    console.log(`out`);
     this.setState({activeOffer: null});
   }
 }

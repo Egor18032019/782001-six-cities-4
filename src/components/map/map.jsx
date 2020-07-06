@@ -10,14 +10,10 @@ const city = {
 };
 // конфигурируем иконку-маркер
 // - цвет иконки узнать где??
-const icon = leaflet.icon({
-  iconUrl: `img/pin.svg`,
-  iconSize: [30, 30]
-});
-
-const onSortingClick = () => {
-  console.log(`type`);
-};
+// const icon = leaflet.icon({
+//   iconUrl: `img/pin.svg`,
+//   iconSize: [30, 30]
+// });
 
 class Map extends PureComponent {
   constructor(props) {
@@ -42,7 +38,7 @@ class Map extends PureComponent {
   }
 
   componentDidMount() {
-    // инциализируем карту и установим фокус на определённую область(город)
+    // инциализируем контейнер для карты и установим фокус на определённую область(город)
     // this.mapCity(в документации `mapid` , в задание `map`) место куда отрисовываем карту
     this.map = leaflet.map(this.mapCity.current, {
       center: city.center,
@@ -64,24 +60,21 @@ class Map extends PureComponent {
     this._addPoints();
   }
 
-  // отрисовка точек
   _addPoints() {
-    // console.log(this.props.places);
-    // форычом проходим по пропсам и о leaferom отрисовываем place.coordinate
-    this.props.places.forEach((place) => {
-      // отрисовка точек
+    const {places, activeOffer} = this.props;
+    // форычом проходим по пропсам и о leaferom отрисовываем по place.coordinate-ам
+    places.forEach((place) => {
+      const activeIcon = (place.id === activeOffer) ? `img/pin-active.svg` : `img/pin.svg`;
+      const icon = leaflet.icon({
+        iconUrl: activeIcon,
+        iconSize: [30, 30]
+      });
+      // вызываем методы leaflet
       leaflet
-        .marker(place.coordinate, icon) // убрал скобки у icon-работает без них
-        // или добавить функцию что бы она меняла цвет или что бы при изменение state  в майне это все перерисовывалось
+        .marker(place.coordinate, {icon}) // без скобки не работает
         .addTo(this.map);
-      // onSortingClick();
     });
   }
-  // map.on('click', onSortingClick);
-
-  // onSortingClick() {
-  //   console.log(`this.state`);
-  // }
 
   render() {
     return (
@@ -99,4 +92,10 @@ export default Map;
 
 Map.propTypes = {
   places: PropTypes.array.isRequired,
+  activeOffer: PropTypes.number,
+  // activeOffer: PropTypes.oneOfType([
+  //   PropTypes.number.isRequired,
+  //   PropTypes.oneOf([null]).isRequired,
+  // ]).isRequired,
+  // --??? Максим как указать нулл  в проптайпсах??,,,,,,,,,,,,,,,,,,,,,,,,,,,,???????????????????????????
 };
