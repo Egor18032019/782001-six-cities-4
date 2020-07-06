@@ -15,15 +15,33 @@ const icon = leaflet.icon({
   iconSize: [30, 30]
 });
 
+const onSortingClick = () => {
+  console.log(`type`);
+};
+
 class Map extends PureComponent {
   constructor(props) {
     super(props);
+    this._map = null;
     // добавляем реф чтобы карта знала куда отрисовываться
     this.mapCity = createRef();
   }
 
-  componentDidMount() { // --??? почему если тут использовать функцию initMap() а потом передать в render() она не срабатывает?
-    // отриcoвка карты
+  // отрисовка карты
+  addMap() {
+    this.map.setView(city.center, city.zoom);
+    leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
+      attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
+    }).addTo(this.map);
+  }
+
+  removeMap() {
+    this.map.eachLayer((layer) => {
+      layer.remove();
+    });
+  }
+
+  componentDidMount() {
     // инциализируем карту и установим фокус на определённую область(город)
     // this.mapCity(в документации `mapid` , в задание `map`) место куда отрисовываем карту
     this.map = leaflet.map(this.mapCity.current, {
@@ -32,12 +50,7 @@ class Map extends PureComponent {
       zoomControl: false,
       marker: true
     });
-    this.map.setView(city.center, city.zoom);
-    // подключим слой карты.
-    leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
-      attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
-    }).addTo(this.map);
-
+    this.addMap();
     this._addPoints();
   }
 
@@ -46,8 +59,8 @@ class Map extends PureComponent {
   }
 
   componentDidUpdate() {
-    // ????    как почистить карту ?
-    // если     this.map = null; он всё равно пишет что контейнер занят
+    this.removeMap();
+    this.addMap();
     this._addPoints();
   }
 
@@ -58,10 +71,17 @@ class Map extends PureComponent {
     this.props.places.forEach((place) => {
       // отрисовка точек
       leaflet
-      .marker(place.coordinate, icon) // убрал скобки у icon-работает без них
-      .addTo(this.map);
+        .marker(place.coordinate, icon) // убрал скобки у icon-работает без них
+        // или добавить функцию что бы она меняла цвет или что бы при изменение state  в майне это все перерисовывалось
+        .addTo(this.map);
+      // onSortingClick();
     });
   }
+  // map.on('click', onSortingClick);
+
+  // onSortingClick() {
+  //   console.log(`this.state`);
+  // }
 
   render() {
     return (

@@ -13,8 +13,11 @@ class Main extends PureComponent {
 
     this.state = {
       activeSortingList: false,
+      activeOffer: null
     };
     this.onSortListClick = this.onSortListClick.bind(this);
+    this.onCardMouseEnter = this.onCardMouseEnter.bind(this);
+    this.onCardMouseOut = this.onCardMouseOut.bind(this);
   }
 
   render() {
@@ -89,6 +92,8 @@ class Main extends PureComponent {
                   <PlacesList
                     places={places}
                     onMainTitleClick={onMainTitleClick}
+                    onCardMouseEnter={this.onCardMouseEnter}
+                    onCardMouseOut={this.onCardMouseOut}
                   />
                 }
               </section>
@@ -107,10 +112,17 @@ class Main extends PureComponent {
   }
 
   onSortListClick() {
-    console.log(this.state);
     this.setState({activeSortingList: !this.state.activeSortingList});
   }
 
+  onCardMouseEnter(place) {
+    console.log(`place`);
+    this.setState({activeOffer: place});
+  }
+  onCardMouseOut() {
+    console.log(`out`);
+    this.setState({activeOffer: null});
+  }
 }
 
 Main.propTypes = {

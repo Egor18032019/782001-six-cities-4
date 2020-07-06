@@ -18,10 +18,10 @@ class PlaceCard extends PureComponent {
 
     return (
       <article
-        onMouseEnter={() => {
-          onHoverCard(place);
-        }}
-        onMouseLeave={onLeaveCard}
+        // onMouseEnter={() => {
+        //   onHoverCard(place);
+        // }}
+        // onMouseLeave={onLeaveCard}
         className="cities__place-card place-card">
         <div className="place-card__mark">
           <span>Premium</span>
@@ -66,8 +66,8 @@ class PlaceCard extends PureComponent {
 
 PlaceCard.propTypes = {
   onMainTitleClick: PropTypes.func.isRequired,
-  onHoverCard: PropTypes.func.isRequired,
-  onLeaveCard: PropTypes.func.isRequired,
+  // onHoverCard: PropTypes.func.isRequired,
+  // onLeaveCard: PropTypes.func.isRequired,
   place: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
