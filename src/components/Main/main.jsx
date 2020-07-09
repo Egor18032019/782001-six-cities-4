@@ -20,18 +20,13 @@ class Main extends PureComponent {
     this.onCardMouseEnter = this.onCardMouseEnter.bind(this);
     this.onCardMouseOut = this.onCardMouseOut.bind(this);
     this.onSortingTypeClick = this.onSortingTypeClick.bind(this);
-    this.onFlagSortList = this.onFlagSortList.bind(this);
-    this.onAnotherClick = this.onAnotherClick.bind(this);
   }
 
   render() {
     const {placesCount, town, places, onMainTitleClick, onCityNameClick} = this.props;
     const sortingPlaces = this._getSortedPlaces(this.state.typeSorting, places);
     return (
-      <div className="page page--gray page--main"
-        onClick={() => {
-          this.onAnotherClick();
-        }}>
+      <div className="page page--gray page--main">
         <header className="header">
           <div className="container">
             <div className="header__wrapper">
@@ -73,10 +68,8 @@ class Main extends PureComponent {
 
                 {
                   <SortingList
-                    sortingState={this.state.activeSortingList}
                     typeSorting={this.state.typeSorting}
                     onSortingTypeClick={this.onSortingTypeClick}
-                    onFlagSortList={this.onFlagSortList}
                   />
                 }
                 {/*
@@ -111,15 +104,6 @@ class Main extends PureComponent {
     );
   }
 
-  onFlagSortList(sortingState) {
-    this.setState({isOpen: sortingState});
-    // console.log(`2` + sortingState);
-    // console.log(this.state.isOpen);
-  }
-  onAnotherClick() {
-
-    this.setState({activeSortingList: false});
-  }
   onCardMouseEnter(place) {
     this.setState({activeOffer: place});
   }
@@ -129,8 +113,6 @@ class Main extends PureComponent {
   onSortingTypeClick(type) {
     this.setState({typeSorting: type});
   }
-
-  // ----????? Максим как сделать чтобы он закрывался ??
   _getSortedPlaces(sortingType, places) {
     switch (sortingType) {
       case `Price: low to high`:
@@ -152,7 +134,6 @@ Main.propTypes = {
   placesCount: PropTypes.number.isRequired,
   onCityNameClick: PropTypes.func.isRequired,
   town: PropTypes.string.isRequired,
-  // в массиве дополнительно надо указывть PropTypes элемента(чему равен каждый элемент массива- строка или число и т.п.)
   places: PropTypes.array.isRequired,
   onMainTitleClick: PropTypes.func.isRequired,
 };

@@ -8,7 +8,7 @@ import {
 import {
   mockSettings
 } from "./mocks/offers.js";
-
+// TODO зачем я сюда данные импортировал ? Вспомнить и записать
 let filterOnCity = (town) => {
   return mockSettings.filter((element) => element.city === town);
 };

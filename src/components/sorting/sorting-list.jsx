@@ -9,26 +9,25 @@ import {
 class SortingList extends PureComponent {
   constructor(props) {
     super(props);
+
+    this.menuRef = React.createRef();
+
     this.state = {
       isOpen: false,
     };
 
-    this.onSortListClick = this.onSortListClick.bind(this);
+    this.onSelectClick = this.onSelectClick.bind(this);
     this.onSelectItemClick = this.onSelectItemClick.bind(this);
-
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   render() {
-    const {sortingState, typeSorting, onSortingTypeClick, onFlagSortList} = this.props;
-    // console.log(sortingState);
+    const {typeSorting} = this.props;
     return (
-      <form className="places__sorting" action="#" method="get">
+      <form className="places__sorting" action="#" method="get" ref={this.menuRef}>
         <span className="places__sorting-caption">Sort by </span>
         <span className="places__sorting-type" tabIndex="0"
-          onClick={() => {
-            this.onSortListClick();
-            // onFlagSortList(this.state.isOpen);
-          }}>
+          onClick={this.onSelectClick}>
           {typeSorting}
           <svg className="places__sorting-arrow" width="7" height="4">
             <use xlinkHref="#icon-arrow-select"></use>
@@ -51,23 +50,40 @@ class SortingList extends PureComponent {
     );
   }
 
+  componentDidMount() {
+    document.addEventListener(`click`, this.handleClickOutside, true);
+  }
+  componentWillUnmount() {
+    document.removeEventListener(`click`, this.handleClickOutside, true);
+  }
+
+  handleClickOutside(event) {
+    if (this.menuRef && !this.menuRef.current.contains(event.target)) {
+      // добавил реф и вот тут делается проверкая что реф есть и реф содержит event.target
+      this.setState({
+        isOpen: false
+      });
+    }
+  }
+  onSelectClick() {
+    this.setState({
+      isOpen: true
+    });
+  }
   onSelectItemClick(type) {
     const {onSortingTypeClick} = this.props;
-    this.setState({isOpen: false});
+    this.setState({
+      isOpen: false
+    });
     if (onSortingTypeClick) {
       onSortingTypeClick(type);
     }
   }
-  onSortListClick() {
-    this.setState({isOpen: !this.state.isOpen});
-  }
 }
 
 SortingList.propTypes = {
-  sortingState: PropTypes.bool.isRequired,
   onSortingTypeClick: PropTypes.func.isRequired,
   typeSorting: PropTypes.string.isRequired,
-  onFlagSortList: PropTypes.func.isRequired,
 };
 
 
