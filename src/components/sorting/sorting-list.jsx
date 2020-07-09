@@ -14,6 +14,7 @@ class SortingList extends PureComponent {
     };
 
     this.onSortListClick = this.onSortListClick.bind(this);
+    this.onSelectItemClick = this.onSelectItemClick.bind(this);
 
   }
 
@@ -26,20 +27,20 @@ class SortingList extends PureComponent {
         <span className="places__sorting-type" tabIndex="0"
           onClick={() => {
             this.onSortListClick();
-            onFlagSortList(this.state.isOpen);
+            // onFlagSortList(this.state.isOpen);
           }}>
           {typeSorting}
           <svg className="places__sorting-arrow" width="7" height="4">
             <use xlinkHref="#icon-arrow-select"></use>
           </svg>
         </span>
-        <ul className={`places__options places__options--custom ${sortingState ? `places__options--opened` : ``}`}>
+        <ul className={`places__options places__options--custom ${this.state.isOpen ? `places__options--opened` : ``}`}>
           {SORTING.map((type, index) => {
             const activeClasss = (type === typeSorting) ? `places__option--active` : ``;
             return (
               <li className={`places__option ${activeClasss}`} tabIndex="0" key={index + type}
                 onClick={() => {
-                  onSortingTypeClick(type);
+                  this.onSelectItemClick(type);
                 }}>
                 {type}
               </li>);
@@ -48,6 +49,14 @@ class SortingList extends PureComponent {
         </ul>
       </form>
     );
+  }
+
+  onSelectItemClick(type) {
+    const {onSortingTypeClick} = this.props;
+    this.setState({isOpen: false});
+    if (onSortingTypeClick) {
+      onSortingTypeClick(type);
+    }
   }
   onSortListClick() {
     this.setState({isOpen: !this.state.isOpen});
