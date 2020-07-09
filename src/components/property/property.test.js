@@ -8,7 +8,7 @@ const CARD = {
   city: `Paris`,
   type: `House`,
   description: `big + warm + good`,
-  prise: 120,
+  price: 120,
   isBookmark: false,
   isPremium: true,
   rating: 4.8,

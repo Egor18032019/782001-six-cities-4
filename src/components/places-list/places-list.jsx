@@ -10,17 +10,10 @@ class PlacesList extends PureComponent {
     //  Под активной карточкой предложения подразумевается карточка,
     //  на которую пользователь навёл курсор.
 
-    // заводим стате
-    this.state = {
-      activeCard: null
-    };
-    // .биндим обработчики
-    this.handleOnCardEnterMouse = this._handleOnCardEnterMouse.bind(this);
-    this.handleOnCardLeaveMouse = this._handleOnCardLeaveMouse.bind(this);
   }
 
   render() {
-    const {places, onMainTitleClick} = this.props;
+    const {places, onMainTitleClick, onCardMouseEnter, onCardMouseOut} = this.props;
 
     return (
       <div className="cities__places-list places__list tabs__content">
@@ -31,8 +24,8 @@ class PlacesList extends PureComponent {
                   place={place}
                   onMainTitleClick={onMainTitleClick}
                   forKey={place.id + place.city + index}
-                  onHoverCard={this.handleOnCardEnterMouse}
-                  onLeaveCard={this.handleOnCardLeaveMouse}
+                  onCardMouseEnter={onCardMouseEnter}
+                  onCardMouseOut={onCardMouseOut}
                   key = {Date.now() + index}
                 />;
               }
@@ -41,24 +34,12 @@ class PlacesList extends PureComponent {
       </div>
     );
   }
-
-  _handleOnCardEnterMouse(place) {
-    this.setState({
-      activeCard: place.id,
-    });
-  }
-
-  _handleOnCardLeaveMouse() {
-    // тут  заводим то что при уходе мышки стате становиться равен нулю
-    this.setState({
-      activeCard: null,
-    });
-  }
 }
-
 
 PlacesList.propTypes = {
   onMainTitleClick: PropTypes.func.isRequired,
+  onCardMouseEnter: PropTypes.func.isRequired,
+  onCardMouseOut: PropTypes.func.isRequired,
   places: PropTypes.array.isRequired,
 };
 

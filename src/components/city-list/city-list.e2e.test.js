@@ -14,7 +14,7 @@ const PLACE = {
   city: `Amsterdam`,
   type: `Apartament`,
   description: `Beautiful & luxurious apartment at great location`,
-  prise: 120,
+  price: 120,
   isBookmark: false,
   isPremium: true,
   rating: 4.8,

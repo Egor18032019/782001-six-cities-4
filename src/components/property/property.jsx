@@ -10,7 +10,7 @@ class Property extends PureComponent {
   render() {
 
     const {place} = this.props;
-    const {description, prise, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host} = place;
+    const {description, price, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host} = place;
     return (
       <div className="page">
         <header className="header">
@@ -82,7 +82,7 @@ class Property extends PureComponent {
                   </li>
                 </ul>
                 <div className="property__price">
-                  <b className="property__price-value">&euro;{prise}</b>
+                  <b className="property__price-value">&euro;{price}</b>
                   <span className="property__price-text">&nbsp;night</span>
                 </div>
                 <div className="property__inside">
@@ -317,7 +317,7 @@ Property.propTypes = {
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    prise: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
     isBookmark: PropTypes.bool.isRequired,
     isPremium: PropTypes.bool.isRequired,
     rating: PropTypes.number.isRequired,

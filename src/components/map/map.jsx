@@ -10,21 +10,35 @@ const city = {
 };
 // конфигурируем иконку-маркер
 // - цвет иконки узнать где??
-const icon = leaflet.icon({
-  iconUrl: `img/pin.svg`,
-  iconSize: [30, 30]
-});
+// const icon = leaflet.icon({
+//   iconUrl: `img/pin.svg`,
+//   iconSize: [30, 30]
+// });
 
 class Map extends PureComponent {
   constructor(props) {
     super(props);
+    this._map = null;
     // добавляем реф чтобы карта знала куда отрисовываться
     this.mapCity = createRef();
   }
 
-  componentDidMount() { // --??? почему если тут использовать функцию initMap() а потом передать в render() она не срабатывает?
-    // отриcoвка карты
-    // инциализируем карту и установим фокус на определённую область(город)
+  // отрисовка карты
+  addMap() {
+    this.map.setView(city.center, city.zoom);
+    leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
+      attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
+    }).addTo(this.map);
+  }
+
+  removeMap() {
+    this.map.eachLayer((layer) => {
+      layer.remove();
+    });
+  }
+
+  componentDidMount() {
+    // инциализируем контейнер для карты и установим фокус на определённую область(город)
     // this.mapCity(в документации `mapid` , в задание `map`) место куда отрисовываем карту
     this.map = leaflet.map(this.mapCity.current, {
       center: city.center,
@@ -32,12 +46,7 @@ class Map extends PureComponent {
       zoomControl: false,
       marker: true
     });
-    this.map.setView(city.center, city.zoom);
-    // подключим слой карты.
-    leaflet.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
-      attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
-    }).addTo(this.map);
-
+    this.addMap();
     this._addPoints();
   }
 
@@ -46,20 +55,24 @@ class Map extends PureComponent {
   }
 
   componentDidUpdate() {
-    // ????    как почистить карту ?
-    // если     this.map = null; он всё равно пишет что контейнер занят
+    this.removeMap();
+    this.addMap();
     this._addPoints();
   }
 
-  // отрисовка точек
   _addPoints() {
-    // console.log(this.props.places);
-    // форычом проходим по пропсам и о leaferom отрисовываем place.coordinate
-    this.props.places.forEach((place) => {
-      // отрисовка точек
+    const {places, activeOffer} = this.props;
+    // форычом проходим по пропсам и о leaferom отрисовываем по place.coordinate-ам
+    places.forEach((place) => {
+      const activeIcon = (place.id === activeOffer) ? `img/pin-active.svg` : `img/pin.svg`;
+      const icon = leaflet.icon({
+        iconUrl: activeIcon,
+        iconSize: [30, 30]
+      });
+      // вызываем методы leaflet
       leaflet
-      .marker(place.coordinate, icon) // убрал скобки у icon-работает без них
-      .addTo(this.map);
+        .marker(place.coordinate, {icon}) // без скобки не работает
+        .addTo(this.map);
     });
   }
 
@@ -79,4 +92,10 @@ export default Map;
 
 Map.propTypes = {
   places: PropTypes.array.isRequired,
+  activeOffer: PropTypes.number,
+  // activeOffer: PropTypes.oneOfType([
+  //   PropTypes.number.isRequired,
+  //   PropTypes.oneOf([null]).isRequired,
+  // ]).isRequired,
+  // --??? Максим как указать нулл  в проптайпсах??,,,,,,,,,,,,,,,,,,,,,,,,,,,,???????????????????????????
 };

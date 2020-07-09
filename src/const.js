@@ -1,4 +1,4 @@
-export const CITYLIST = [
+const CITYLIST = [
   `Paris`,
   `Cologne`,
   `Brussels`,
@@ -6,3 +6,16 @@ export const CITYLIST = [
   `Hamburg`,
   `Dusseldorf`,
 ];
+
+const SORTING = [
+  `Popular`,
+  `Price: low to high`,
+  `Price: high to low`,
+  `Top rated first`,
+];
+
+
+export {
+  CITYLIST,
+  SORTING
+};

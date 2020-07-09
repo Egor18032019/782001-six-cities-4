@@ -7,7 +7,7 @@ const PLACE = [{
   city: `Amsterdam`,
   type: `Private room`,
   description: `Wood and Stone`,
-  prise: 120,
+  price: 120,
   isBookmark: false,
   isPremium: false,
   rating: 22,

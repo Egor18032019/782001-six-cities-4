@@ -9,8 +9,6 @@ import {
 class CityList extends PureComponent {
   constructor(props) {
     super(props);
-    // this.onCityNameClick = this.onCityNameClick.bind(this);
-    // -? а разве не надо так биндить функцию
   }
 
   render() {
