@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 
 import PlacesList from "../places-list/places-list.jsx";
 import CityList from "../city-list/city-list.jsx";
-import SortingList from "../sorting/sorting-list.jsx";
 import Map from "../map/map.jsx";
 
+import SortingList from "../sorting/sorting-list.jsx";
+import withSorting from ".././hocs/with-sorting/with-sorting.js";
+const SortingListWrapped = withSorting(SortingList);
 
 class Main extends PureComponent {
   constructor(props) {
@@ -65,9 +67,8 @@ class Main extends PureComponent {
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">{placesCount} places to stay in {town} </b>
-
                 {
-                  <SortingList
+                  <SortingListWrapped
                     typeSorting={this.state.typeSorting}
                     onSortingTypeClick={this.onSortingTypeClick}
                   />
