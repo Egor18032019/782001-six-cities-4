@@ -1,6 +1,5 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import PropTypes from "prop-types";
 
 import withSorting from "./with-sorting.js";
 

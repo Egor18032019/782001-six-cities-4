@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../Main/main.jsx";
-import withMain from ".././hocs/with-main/with-main.js";
+import withMain from "../hocs/with-main/with-main.js";
 
 const MainWrapped = withMain(Main);
 

@@ -6,7 +6,7 @@ import CityList from "../city-list/city-list.jsx";
 import Map from "../map/map.jsx";
 
 import SortingList from "../sorting/sorting-list.jsx";
-import withSorting from ".././hocs/with-sorting/with-sorting.js";
+import withSorting from "../hocs/with-sorting/with-sorting.js";
 const SortingListWrapped = withSorting(SortingList);
 
 class Main extends PureComponent {
