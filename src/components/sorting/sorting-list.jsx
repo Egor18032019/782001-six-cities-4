@@ -11,35 +11,29 @@ class SortingList extends PureComponent {
     super(props);
 
     this.menuRef = React.createRef();
-
-    this.state = {
-      isOpen: false,
-    };
-
-    this.onSelectClick = this.onSelectClick.bind(this);
-    this.onSelectItemClick = this.onSelectItemClick.bind(this);
-    this.handleClickOutside = this.handleClickOutside.bind(this);
+    // не придумал как вынести это в реф === оставил тут
+    this.onClickOutside = this.onClickOutside.bind(this);
   }
 
   render() {
-    const {typeSorting} = this.props;
+    const {typeSorting, isOpen, onSelectClick, onSelectItemClick} = this.props;
     return (
       <form className="places__sorting" action="#" method="get" ref={this.menuRef}>
         <span className="places__sorting-caption">Sort by </span>
         <span className="places__sorting-type" tabIndex="0"
-          onClick={this.onSelectClick}>
+          onClick={onSelectClick}>
           {typeSorting}
           <svg className="places__sorting-arrow" width="7" height="4">
             <use xlinkHref="#icon-arrow-select"></use>
           </svg>
         </span>
-        <ul className={`places__options places__options--custom ${this.state.isOpen ? `places__options--opened` : ``}`}>
+        <ul className={`places__options places__options--custom ${isOpen ? `places__options--opened` : ``}`}>
           {SORTING.map((type, index) => {
             const activeClasss = (type === typeSorting) ? `places__option--active` : ``;
             return (
               <li className={`places__option ${activeClasss}`} tabIndex="0" key={index + type}
                 onClick={() => {
-                  this.onSelectItemClick(type);
+                  onSelectItemClick(type);
                 }}>
                 {type}
               </li>);
@@ -49,34 +43,16 @@ class SortingList extends PureComponent {
       </form>
     );
   }
-
   componentDidMount() {
-    document.addEventListener(`click`, this.handleClickOutside, true);
+    document.addEventListener(`click`, this.onClickOutside, true);
   }
   componentWillUnmount() {
-    document.removeEventListener(`click`, this.handleClickOutside, true);
+    document.removeEventListener(`click`, this.onClickOutside, true);
   }
-
-  handleClickOutside(event) {
-    if (this.menuRef && !this.menuRef.current.contains(event.target)) {
-      // добавил реф и вот тут делается проверкая что реф есть и реф содержит event.target
-      this.setState({
-        isOpen: false
-      });
-    }
-  }
-  onSelectClick() {
-    this.setState({
-      isOpen: true
-    });
-  }
-  onSelectItemClick(type) {
-    const {onSortingTypeClick} = this.props;
-    this.setState({
-      isOpen: false
-    });
-    if (onSortingTypeClick) {
-      onSortingTypeClick(type);
+  onClickOutside(event, menuRef) {
+    if (menuRef && !menuRef.current.contains(event.target)) {
+      const {handleClickOutside} = this.props;
+      handleClickOutside();
     }
   }
 }
@@ -84,6 +60,10 @@ class SortingList extends PureComponent {
 SortingList.propTypes = {
   onSortingTypeClick: PropTypes.func.isRequired,
   typeSorting: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  handleClickOutside: PropTypes.func.isRequired,
+  onSelectClick: PropTypes.func.isRequired,
+  onSelectItemClick: PropTypes.func.isRequired,
 };
 
 
