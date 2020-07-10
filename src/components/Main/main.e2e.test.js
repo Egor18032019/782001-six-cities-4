@@ -223,9 +223,20 @@ describe(`test Main e2e`, () => {
   test(`Should  title h2 be pressed`, () => {
     const onMainTitleClick = jest.fn();
     const onCityNameClick = jest.fn();
+    const onCardMouseOut = jest.fn();
+    const onCardMouseEnter = jest.fn();
+    const onSortingTypeClick = jest.fn();
 
     const mainScreen = mount(<
-      Main placesCount = {
+      Main
+
+      typeSorting = {
+        `Popular`
+      }
+      activeOffer = {
+        null
+      }
+      placesCount = {
         Settings.PLACES
       }
       town = {
@@ -233,6 +244,15 @@ describe(`test Main e2e`, () => {
       }
       places = {
         mockSettings
+      }
+      onCardMouseOut = {
+        onCardMouseOut
+      }
+      onCardMouseEnter = {
+        onCardMouseEnter
+      }
+      onSortingTypeClick = {
+        onSortingTypeClick
       }
       onCityNameClick = {
         onCityNameClick
@@ -257,9 +277,20 @@ describe(`test Main e2e`, () => {
   test(`Should  first title h2 be pressed`, () => {
     const onMainTitleClick = jest.fn();
     const onCityNameClick = jest.fn();
+    const onCardMouseOut = jest.fn();
+    const onCardMouseEnter = jest.fn();
+    const onSortingTypeClick = jest.fn();
 
     const mainScreen = mount(<
-      Main placesCount = {
+      Main
+
+      typeSorting = {
+        `Popular`
+      }
+      activeOffer = {
+        null
+      }
+      placesCount = {
         Settings.PLACES
       }
       town = {
@@ -267,6 +298,15 @@ describe(`test Main e2e`, () => {
       }
       places = {
         mockSettings
+      }
+      onCardMouseOut = {
+        onCardMouseOut
+      }
+      onCardMouseEnter = {
+        onCardMouseEnter
+      }
+      onSortingTypeClick = {
+        onSortingTypeClick
       }
       onCityNameClick = {
         onCityNameClick

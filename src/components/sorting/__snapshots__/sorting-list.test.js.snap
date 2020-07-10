@@ -90,7 +90,7 @@ exports[`SortingList snepshot test Should SortingList render correctly and will 
     </svg>
   </span>
   <ul
-    className="places__options places__options--custom "
+    className="places__options places__options--custom places__options--opened"
   >
     <li
       className="places__option places__option--active"

@@ -13,17 +13,25 @@ Enzyme.configure({
 
 describe(`test SortingList e2e`, () => {
   test(`Should all li be pressed`, () => {
-    const onSortingTypeClick = jest.fn();
+    const onSelectClick = jest.fn();
+    const onSelectItemClick = jest.fn();
+    const handleClickOutside = jest.fn();
 
     const sortingMenu = mount(<SortingList
-      sortingState = {
+      isOpen = {
         true
       }
       typeSorting = {
         `Popular`
       }
-      onSortingTypeClick = {
-        onSortingTypeClick
+      onSelectClick = {
+        onSelectClick
+      }
+      onSelectItemClick = {
+        onSelectItemClick
+      }
+      handleClickOutside = {
+        handleClickOutside
       }
     />
     );
@@ -35,20 +43,28 @@ describe(`test SortingList e2e`, () => {
           li.simulate(`click`);
         }
     );
-    expect(onSortingTypeClick.mock.calls.length).toBe(liOnSortingMenu.length);
+    expect(onSelectItemClick.mock.calls.length).toBe(liOnSortingMenu.length);
   });
   test(`Should  first li be pressed`, () => {
-    const onSortingTypeClick = jest.fn();
+    const onSelectClick = jest.fn();
+    const onSelectItemClick = jest.fn();
+    const handleClickOutside = jest.fn();
 
     const sortingMenu = mount(<SortingList
-      sortingState = {
+      isOpen = {
         true
       }
       typeSorting = {
         `Popular`
       }
-      onSortingTypeClick = {
-        onSortingTypeClick
+      onSelectClick = {
+        onSelectClick
+      }
+      onSelectItemClick = {
+        onSelectItemClick
+      }
+      handleClickOutside = {
+        handleClickOutside
       }
     />
     );
@@ -56,6 +72,6 @@ describe(`test SortingList e2e`, () => {
     const liOnSortingMenu = sortingMenu.find(`.places__option`);
     liOnSortingMenu.at(0).simulate(`click`);
     // ожидаем что один раз вызовется
-    expect(onSortingTypeClick.mock.calls.length).toBe(1);
+    expect(onSelectItemClick.mock.calls.length).toBe(1);
   });
 });

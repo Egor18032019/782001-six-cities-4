@@ -11,7 +11,7 @@ class SortingList extends PureComponent {
     super(props);
 
     this.menuRef = React.createRef();
-    // не придумал как вынести это в реф === оставил тут
+    // не придумал как вынести это в hoc === оставил тут
     this.onClickOutside = this.onClickOutside.bind(this);
   }
 
@@ -50,6 +50,7 @@ class SortingList extends PureComponent {
     document.removeEventListener(`click`, this.onClickOutside, true);
   }
   onClickOutside(event, menuRef) {
+    // так сделал чтобы использовать реф(по другому не смог придумать)
     if (menuRef && !menuRef.current.contains(event.target)) {
       const {handleClickOutside} = this.props;
       handleClickOutside();
@@ -58,7 +59,6 @@ class SortingList extends PureComponent {
 }
 
 SortingList.propTypes = {
-  onSortingTypeClick: PropTypes.func.isRequired,
   typeSorting: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   handleClickOutside: PropTypes.func.isRequired,

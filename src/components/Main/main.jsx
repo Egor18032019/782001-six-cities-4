@@ -10,23 +10,13 @@ import withSorting from ".././hocs/with-sorting/with-sorting.js";
 const SortingListWrapped = withSorting(SortingList);
 
 class Main extends PureComponent {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      activeSortingList: false,
-      isOpen: false,
-      activeOffer: null,
-      typeSorting: `Popular`
-    };
-    this.onCardMouseEnter = this.onCardMouseEnter.bind(this);
-    this.onCardMouseOut = this.onCardMouseOut.bind(this);
-    this.onSortingTypeClick = this.onSortingTypeClick.bind(this);
-  }
 
   render() {
-    const {placesCount, town, places, onMainTitleClick, onCityNameClick} = this.props;
-    const sortingPlaces = this._getSortedPlaces(this.state.typeSorting, places);
+    const {placesCount, town, places, onMainTitleClick, onCityNameClick,
+      typeSorting, onSortingTypeClick, onCardMouseEnter, onCardMouseOut, activeOffer} = this.props;
+
+    const sortingPlaces = this._getSortedPlaces(typeSorting, places);
     return (
       <div className="page page--gray page--main">
         <header className="header">
@@ -69,33 +59,26 @@ class Main extends PureComponent {
                 <b className="places__found">{placesCount} places to stay in {town} </b>
                 {
                   <SortingListWrapped
-                    typeSorting={this.state.typeSorting}
-                    onSortingTypeClick={this.onSortingTypeClick}
+                    typeSorting={typeSorting}
+                    onSortingTypeClick={onSortingTypeClick}
                   />
                 }
                 {/*
-                <select className="places__sorting-type" id="places-sorting">
-                  <option className="places__option" value="popular" selected="">Popular</option>
-                  <option className="places__option" value="to-high">Price: low to high</option>
-                  <option className="places__option" value="to-low">Price: high to low</option>
-                  <option className="places__option" value="top-rated">Top rated first</option>
-                </select>
                  коментировать в реакте так
                  */}
-
                 {
                   <PlacesList
                     places={sortingPlaces}
                     onMainTitleClick={onMainTitleClick}
-                    onCardMouseEnter={this.onCardMouseEnter}
-                    onCardMouseOut={this.onCardMouseOut}
+                    onCardMouseEnter={onCardMouseEnter}
+                    onCardMouseOut={onCardMouseOut}
                   />
                 }
               </section>
               <div className="cities__right-section">
                 <Map
                   places={places}
-                  activeOffer={this.state.activeOffer}
+                  activeOffer={activeOffer}
                 />
               </div>
             </div>
@@ -105,15 +88,6 @@ class Main extends PureComponent {
     );
   }
 
-  onCardMouseEnter(place) {
-    this.setState({activeOffer: place});
-  }
-  onCardMouseOut() {
-    this.setState({activeOffer: null});
-  }
-  onSortingTypeClick(type) {
-    this.setState({typeSorting: type});
-  }
   _getSortedPlaces(sortingType, places) {
     switch (sortingType) {
       case `Price: low to high`:
@@ -137,6 +111,12 @@ Main.propTypes = {
   town: PropTypes.string.isRequired,
   places: PropTypes.array.isRequired,
   onMainTitleClick: PropTypes.func.isRequired,
+  onCardMouseEnter: PropTypes.func.isRequired,
+  onSortingTypeClick: PropTypes.func.isRequired,
+  onCardMouseOut: PropTypes.func.isRequired,
+  activeOffer: PropTypes.number,
+  // я таки и не понял что с нулем в пропсах делать
+  typeSorting: PropTypes.string.isRequired,
 };
 
 export default Main;

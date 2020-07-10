@@ -1,14 +1,10 @@
 import React, {PureComponent} from "react";
-// import React, {createRef, PureComponent} from "react";
 import PropTypes from "prop-types";
 
 const withSorting = (Component) => {
   class WithSorting extends PureComponent {
     constructor(props) {
       super(props);
-
-      // this.menuRef = React.createRef();
-
       this.state = {
         isOpen: false,
       };
@@ -26,7 +22,6 @@ const withSorting = (Component) => {
       return (
         <Component
           {...this.props}
-          menuRef
           isOpen={isOpen}
           handleClickOutside={this.handleClickOutside}
           onSelectClick={()=>{
