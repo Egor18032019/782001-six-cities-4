@@ -7,13 +7,19 @@ describe(`SortingList snepshot test`, () => {
   it(`Should SortingList render correctly and will be open`, () => {
     const tree = renderer
       .create(<SortingList
-        sortingState = {
+        isOpen = {
           true
         }
         typeSorting = {
           `Popular`
         }
-        onSortingTypeClick = {
+        onSelectClick = {
+          () => {}
+        }
+        onSelectItemClick = {
+          () => {}
+        }
+        handleClickOutside = {
           () => {}
         }
       />,
@@ -28,13 +34,19 @@ describe(`SortingList snepshot test`, () => {
   it(`Should SortingList render correctly and will be close`, () => {
     const tree = renderer
       .create(<SortingList
-        sortingState = {
+        isOpen = {
           false
         }
         typeSorting = {
           `Popular`
         }
-        onSortingTypeClick = {
+        onSelectClick = {
+          () => {}
+        }
+        onSelectItemClick = {
+          () => {}
+        }
+        handleClickOutside = {
           () => {}
         }
       />,

@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../Main/main.jsx";
+import withMain from "../hocs/with-main/with-main.js";
+
+const MainWrapped = withMain(Main);
+
 import Property from "../property/property.jsx";
 import {
   ActionActive, ActionTown
@@ -18,7 +22,7 @@ class App extends PureComponent {
 
     if (store.active === `mainPages` || store.active === false) {
       return (
-        <Main
+        <MainWrapped
           placesCount={store.placesCount}
           town={store.town}
           places={store.offers}
