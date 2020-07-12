@@ -77,7 +77,6 @@ class Main extends PureComponent {
               </section>
               <div className="cities__right-section">
                 <Map
-                  places={places}
                   activeOffer={activeOffer}
                 />
               </div>
