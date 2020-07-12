@@ -13,13 +13,8 @@ const townList = {
   Dusseldorf: [51.2217, 6.7761]
 };
 
+// инициализируем переменую и позже переопределяем
 let city;
-// конфигурируем иконку-маркер
-// - цвет иконки узнать где??
-// const icon = leaflet.icon({
-//   iconUrl: `img/pin.svg`,
-//   iconSize: [30, 30]
-// });
 
 class Map extends PureComponent {
   constructor(props) {
