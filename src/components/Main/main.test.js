@@ -212,7 +212,7 @@ const mockSettings = [{
 ];
 const mockStore = configureStore([]);
 
-describe(`test Main`, () => {
+describe(`snapshots test Main`, () => {
   it(`Should Main render correctly`, () => {
     const store = mockStore({
       active: `mainPages`,
