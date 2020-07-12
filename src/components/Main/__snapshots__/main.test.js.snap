@@ -57,7 +57,7 @@ exports[`test Main Should Main render correctly 1`] = `
     </div>
   </header>
   <main
-    className="page__main page__main--index"
+    className="page__main page__main--index "
   >
     <h1
       className="visually-hidden"
@@ -1196,6 +1196,7 @@ exports[`test Main Should Main render correctly 1`] = `
             />
           </section>
         </div>
+        ;
       </div>
     </div>
   </main>

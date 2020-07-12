@@ -99,7 +99,7 @@ const mockSettings = [{
 
 const mockStore = configureStore([]);
 
-describe(`test App`, () => {
+describe(`snapshots test App`, () => {
   it(`Render App`, () => {
     const store = mockStore({
       active: `mainPages`,
