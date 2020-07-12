@@ -62,7 +62,6 @@ class PlacesList extends PureComponent {
           <EmptyPlaces />;
           <div className="cities__right-section"></div>;
         </div>
-
       );
     }
   }
