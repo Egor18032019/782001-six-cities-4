@@ -59,7 +59,9 @@ class PlacesList extends PureComponent {
     } else {
       return (
         <div className={`cities__places-container cities__places-container--empty container`}>
-          <EmptyPlaces />;
+          <EmptyPlaces
+            town={town}
+          />;
           <div className="cities__right-section"></div>;
         </div>
       );

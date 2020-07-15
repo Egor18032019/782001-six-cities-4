@@ -48,7 +48,6 @@ class Main extends PureComponent {
     return (
       <div className="page page--gray page--main">
         <Header />
-
         <main className={`page__main page__main--index ${emptyMain}`}>
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
