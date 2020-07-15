@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test App Render App 1`] = `
+exports[`snapshots test App Render App 1`] = `
 <div
   className="page page--gray page--main"
 >
@@ -57,7 +57,7 @@ exports[`test App Render App 1`] = `
     </div>
   </header>
   <main
-    className="page__main page__main--index"
+    className="page__main page__main--index "
   >
     <h1
       className="visually-hidden"
@@ -671,6 +671,7 @@ exports[`test App Render App 1`] = `
             />
           </section>
         </div>
+        ;
       </div>
     </div>
   </main>

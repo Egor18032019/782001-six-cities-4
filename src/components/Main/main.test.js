@@ -1,6 +1,9 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import Main from "./main.jsx";
+import configureStore from "redux-mock-store";
+import {Provider} from "react-redux";
+
 const Settings = {
   PLACES: 312,
   CITIES: `Amsterdam !`,
@@ -207,47 +210,62 @@ const mockSettings = [{
   }
 }
 ];
+const mockStore = configureStore([]);
 
-describe(`test Main`, () => {
+describe(`snapshots test Main`, () => {
   it(`Should Main render correctly`, () => {
-    const tree = renderer
-      .create(< Main
+    const store = mockStore({
+      active: `mainPages`,
+      cardId: null,
+      town: `Amsterdam`,
+      // TODO: сделать что бы автоматом считала кол-во элементов и записывала его в PlaceCount
+      placesCount: 121,
+      offers: mockSettings
+    });
 
-        typeSorting = {
-          `Popular`
-        }
-        activeOffer = {
-          null
-        }
-        placesCount = {
-          Settings.PLACES
-        }
-        town = {
-          Settings.CITIES
-        }
-        places = {
-          mockSettings
-        }
-        onMainTitleClick = {
-          () => {}
-        }
-        onCityNameClick = {
-          () => {}
-        }
-        onCardMouseOut = {
-          () => {}
-        }
-        onCardMouseEnter = {
-          () => {}
-        }
-        onSortingTypeClick = {
-          () => {}
-        }
-      />,
-      // так как нет контейнера делаем моковый
-      {
-        createNodeMock: () => document.createElement(`div`)
-      }
+    const tree = renderer
+      .create(
+          <Provider store={store}>
+            <Main
+              typeSorting = {
+                `Popular`
+              }
+              activeOffer = {
+                null
+              }
+              placesCount = {
+                Settings.PLACES
+              }
+              town = {
+                Settings.CITIES
+              }
+              places = {
+                mockSettings
+              }
+              store = {
+                store
+              }
+              onMainTitleClick = {
+                () => {}
+              }
+              onCityNameClick = {
+                () => {}
+              }
+              onCardMouseOut = {
+                () => {}
+              }
+              onCardMouseEnter = {
+                () => {}
+              }
+              onSortingTypeClick = {
+                () => {}
+              }
+            />
+          </Provider>,
+          // так как нет контейнера делаем моковый
+          {
+            createNodeMock: () => document.createElement(`div`)
+          }
       )
       .toJSON();
 

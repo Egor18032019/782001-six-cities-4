@@ -1,19 +1,20 @@
 import React, {PureComponent, createRef} from "react";
 import PropTypes from "prop-types";
 import leaflet from "leaflet";
+import {connect} from "react-redux";
 
 
-const city = {
-  name: `Amsterdam`,
-  center: [52.38333, 4.9],
-  zoom: 12
+const townList = {
+  Amsterdam: [52.38333, 4.9],
+  Paris: [48.8333, 2.34],
+  Cologne: [50.9333, 6.95],
+  Brussels: [50.8504, 4.34878],
+  Hamburg: [53.5753, 10.0153],
+  Dusseldorf: [51.2217, 6.7761]
 };
-// конфигурируем иконку-маркер
-// - цвет иконки узнать где??
-// const icon = leaflet.icon({
-//   iconUrl: `img/pin.svg`,
-//   iconSize: [30, 30]
-// });
+
+// инициализируем переменую и позже переопределяем
+let city;
 
 class Map extends PureComponent {
   constructor(props) {
@@ -38,6 +39,12 @@ class Map extends PureComponent {
   }
 
   componentDidMount() {
+    // прописываем city два раза = при монтаже и обновлении
+    city = {
+      name: this.props.store.town,
+      center: townList[this.props.store.town],
+      zoom: 12
+    };
     // инциализируем контейнер для карты и установим фокус на определённую область(город)
     // this.mapCity(в документации `mapid` , в задание `map`) место куда отрисовываем карту
     this.map = leaflet.map(this.mapCity.current, {
@@ -55,13 +62,22 @@ class Map extends PureComponent {
   }
 
   componentDidUpdate() {
-    this.removeMap();
+    // прописываем city два раза = при монтаже и обновлении
+    city = {
+      name: this.props.store.town,
+      center: townList[this.props.store.town],
+      zoom: 12
+    };
+    if (city.name === !this.props.store.town) {
+      this.removeMap();
+    }
     this.addMap();
     this._addPoints();
   }
 
   _addPoints() {
-    const {places, activeOffer} = this.props;
+    const {store, activeOffer} = this.props;
+    const places = store.offers;
     // форычом проходим по пропсам и о leaferom отрисовываем по place.coordinate-ам
     places.forEach((place) => {
       const activeIcon = (place.id === activeOffer) ? `img/pin-active.svg` : `img/pin.svg`;
@@ -88,14 +104,23 @@ class Map extends PureComponent {
   }
 }
 
-export default Map;
+const mapStateToProps = (store) => {
+  // console.log(`state:`, state);
+  return {
+    store
+  };
+};
+
+export {Map};
+export default connect(mapStateToProps)(Map); // первым стате а вторым фдиспатчеры
 
 Map.propTypes = {
-  places: PropTypes.array.isRequired,
+  store: PropTypes.shape({
+    active: PropTypes.string.isRequired,
+    cardId: PropTypes.number,
+    town: PropTypes.string.isRequired,
+    placesCount: PropTypes.number.isRequired,
+    offers: PropTypes.array.isRequired,
+  }).isRequired,
   activeOffer: PropTypes.number,
-  // activeOffer: PropTypes.oneOfType([
-  //   PropTypes.number.isRequired,
-  //   PropTypes.oneOf([null]).isRequired,
-  // ]).isRequired,
-  // --??? Максим как указать нулл  в проптайпсах??,,,,,,,,,,,,,,,,,,,,,,,,,,,,???????????????????????????
 };
