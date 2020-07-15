@@ -10,7 +10,7 @@ const MainWrapped = withMain(Main);
 import Property from "../property/property.jsx";
 import {
   ActionActive, ActionTown
-} from "../../reducer.js";
+} from "../../reducer/reducer.js";
 
 class App extends PureComponent {
   constructor(props) {

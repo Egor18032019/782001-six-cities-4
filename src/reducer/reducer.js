@@ -1,6 +1,6 @@
 import {
   mockSettings
-} from "./mocks/offers.js";
+} from "../mocks/offers.js";
 
 // Определяем действия(actions)
 const ActionType = {
