@@ -5,22 +5,23 @@ import {createStore, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
 import {Provider} from "react-redux";
 import App from "./components/App/app.jsx";
-import {
-  reducer
-} from "./reducer/reducer.js";
+// import {
+//   reducer
+// } from "./reducer/reducer.js";
+import combineReducers from "./reducer/combineReducers.js";
 import {
   createAPI
 } from "./api.js";
 import {
   loadDataAsync
-} from "./reducer/reducer.js";
+} from "./reducer/data/data-reducer.js";
 
 const onUnauthorized = () => {
   store.dispatch();
 };
 
 const onBadRequest = (err) => {
-  const fakealert = err + 1;
+  console.log(err);
   store.dispatch();
 };
 
@@ -28,7 +29,7 @@ const onBadRequest = (err) => {
 const api = createAPI(onUnauthorized, onBadRequest);
 
 const store = createStore(
-    reducer,
+    combineReducers,
     compose(
         applyMiddleware(thunk.withExtraArgument(api)),
         window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f

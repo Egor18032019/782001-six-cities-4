@@ -1,16 +1,13 @@
 import {
   mockSettings
-} from "../mocks/offers.js";
+} from "../../mocks/offers.js";
+
+import {getFilterOffersOnCity} from '../../utils';
 
 // Определяем действия(actions)
 const ActionType = {
   CHANGE_TOWN: `CHANGE_TOWN`,
   GET_OFFERS: `GET_OFFERS`,
-  GET_SERVER_DATA: `SET_SERVER_DATA`,
-};
-
-let filterOnCity = (town) => {
-  return mockSettings.filter((element) => element.city === town);
 };
 
 // Объект начального состояния(state):
@@ -18,22 +15,12 @@ const initialState = {
   active: `mainPages`,
   cardId: null,
   town: `Amsterdam`,
-  offers: filterOnCity(`Amsterdam`),
-  placesCount: filterOnCity(`Amsterdam`).length,
-  data: mockSettings
-};
-
-// запрос на сервер
-const loadDataAsync = () => (dispatch, getState, api) => {
-  return api.get(`/hotels`)
-    .then((response) => {
-      const serverDataOffers = response.data;
-      dispatch(setDataOffers(serverDataOffers));
-    });
+  offers: getFilterOffersOnCity(mockSettings, `Amsterdam`),
+  placesCount: getFilterOffersOnCity(mockSettings, `Amsterdam`).length,
 };
 
 
-const reducer = (state = initialState, action) => {
+const offersReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.CHANGE_TOWN:
       return Object.assign({}, state, {
@@ -43,12 +30,8 @@ const reducer = (state = initialState, action) => {
       });
     case ActionType.GET_OFFERS:
       return Object.assign({}, state, {
+        active: `property`,
         cardId: action.cardId,
-        active: `property`
-      });
-    case ActionType.GET_SERVER_DATA:
-      return Object.assign({}, state, {
-        data: action.data
       });
     default:
       return state;
@@ -71,18 +54,9 @@ const ActionTown = {
 };
 
 
-const setDataOffers = (data) => {
-  return {
-    type: ActionType.GET_SERVER_DATA,
-    data,
-  };
-};
-
-
 export {
-  reducer,
+  offersReducer,
   ActionType,
   ActionActive,
   ActionTown,
-  loadDataAsync,
 };

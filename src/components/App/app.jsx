@@ -10,7 +10,10 @@ const MainWrapped = withMain(Main);
 import Property from "../property/property.jsx";
 import {
   ActionActive, ActionTown
-} from "../../reducer/reducer.js";
+} from "../../reducer/offers/offers-reducer.js";
+import {
+  getOffersByActiveCity
+} from "../../reducer/data/selectors.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -19,13 +22,14 @@ class App extends PureComponent {
 
   _renderApp() {
     const {store, handlerClickOnTitle, onCityNameClick} = this.props;
-
-    if (store.active === `mainPages` || store.active === false) {
+    const {OFFERS, DATA} = store;
+    console.log(DATA);
+    if (OFFERS.active === `mainPages` || OFFERS.active === false) {
       return (
         <MainWrapped
-          placesCount={store.placesCount}
-          town={store.town}
-          places={store.offers}
+          placesCount={OFFERS.placesCount}
+          town={OFFERS.town}
+          places={OFFERS.offers}
           onMainTitleClick={handlerClickOnTitle}
           onCityNameClick={onCityNameClick}
         />
@@ -33,8 +37,8 @@ class App extends PureComponent {
     } else {
       return (
         <Property
-          place={store.offers.find((offer) => {
-            return offer.id === store.cardId;
+          place={OFFERS.offers.find((offer) => {
+            return offer.id === OFFERS.cardId;
           })}
         />
       );
@@ -43,6 +47,7 @@ class App extends PureComponent {
 
   render() {
     const {store} = this.props;
+    const {OFFERS, DATA} = store;
     return (
       <BrowserRouter>
         <Switch>
@@ -51,7 +56,7 @@ class App extends PureComponent {
           </Route>
           <Route exact path="/property">
             <Property
-              place={store.offers[0]}
+              place={OFFERS.offers[0]}
             />
           </Route>
         </Switch>
@@ -62,31 +67,30 @@ class App extends PureComponent {
 
 const mapDispatchToProps = (dispatch) => ({
   handlerClickOnTitle(place) {
-    // console.log(place.id); // / или неннужно его так выносить ? отставить тут внутрений state ?
     dispatch(ActionActive.activeState(place));
   },
   onCityNameClick(city) {
     dispatch(ActionTown.changeCity(city));
-  }
+  },
+  // offers: getOffersByActiveCity(OFFERS)
 });
 
 const mapStateToProps = (store) => {
-  // console.log(`state:`, state);
   return {
-    store
+    store,
   };
 };
 
 App.propTypes = {
   onCityNameClick: PropTypes.func.isRequired,
   handlerClickOnTitle: PropTypes.func.isRequired,
-  store: PropTypes.shape({
-    active: PropTypes.string.isRequired,
-    cardId: PropTypes.number,
-    town: PropTypes.string.isRequired,
-    placesCount: PropTypes.number.isRequired,
-    offers: PropTypes.array.isRequired,
-  }).isRequired,
+  // store: PropTypes.shape({
+  //   active: PropTypes.string.isRequired,
+  //   cardId: PropTypes.number,
+  //   town: PropTypes.string.isRequired,
+  //   placesCount: PropTypes.number.isRequired,
+  //   offers: PropTypes.array.isRequired,
+  // }).isRequired,
 };
 
 export {App};
