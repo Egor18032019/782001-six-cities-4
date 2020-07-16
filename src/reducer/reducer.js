@@ -6,10 +6,11 @@ import {
 const ActionType = {
   CHANGE_TOWN: `CHANGE_TOWN`,
   GET_OFFERS: `GET_OFFERS`,
+  GET_SERVER_DATA: `SET_SERVER_DATA`,
 };
 
-let filterOnCity = (town) => {
-  return mockSettings.filter((element) => element.city === town);
+let filterOnCity = (fakeData, town) => {
+  return fakeData.filter((element) => element.city === town);
 };
 
 // Объект начального состояния(state):
@@ -17,9 +18,20 @@ const initialState = {
   active: `mainPages`,
   cardId: null,
   town: `Amsterdam`,
-  offers: filterOnCity(`Amsterdam`),
-  placesCount: filterOnCity(`Amsterdam`).length,
+  offers: filterOnCity(mockSettings, `Amsterdam`),
+  placesCount: filterOnCity(mockSettings, `Amsterdam`).length,
+  data: mockSettings
 };
+
+// запрос на сервер
+const loadDataAsync = () => (dispatch, getState, api) => {
+  return api.get(`/hotels`)
+    .then((response) => {
+      const serverDataOffers = response.data;
+      dispatch(setDataOffers(serverDataOffers));
+    });
+};
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -34,7 +46,12 @@ const reducer = (state = initialState, action) => {
         cardId: action.cardId,
         active: `property`
       });
-    default : return state;
+    case ActionType.GET_SERVER_DATA:
+      return Object.assign({}, state, {
+        data: action.data
+      });
+    default:
+      return state;
   }
   // return state;
 };
@@ -54,9 +71,18 @@ const ActionTown = {
 };
 
 
+const setDataOffers = (data) => {
+  return {
+    type: ActionType.GET_SERVER_DATA,
+    data,
+  };
+};
+
+
 export {
   reducer,
   ActionType,
   ActionActive,
   ActionTown,
+  loadDataAsync,
 };

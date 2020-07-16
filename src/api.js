@@ -5,8 +5,8 @@ const Error = {
   BAD_REQUEST: 404
 };
 
-// опишите функцию, принимающую dispatch в качестве параметра и возвращающую сконфигурированный инстанс axios
-export const createAPI = (onDispatcher, onBadRequest) => {
+// опишите функцию, принимающую dispatch-еры в качестве параметра и возвращающую сконфигурированный инстанс axios
+export const createAPI = (onUnauthorized, onBadRequest) => {
   const api = axios.create({
     baseURL: `https://4.react.pages.academy/six-cities`,
     timeout: 5000,
@@ -21,7 +21,7 @@ export const createAPI = (onDispatcher, onBadRequest) => {
     const {response} = err;
 
     if (response.status === Error.UNAUTHORIZED) {
-      onDispatcher();
+      onUnauthorized();
 
       // Бросаем ошибку, потому что нам важно прервать цепочку промисов после запроса авторизации.
       // Запрос авторизации - это особый случай и важно дать понять приложению, что запрос был неудачным.
