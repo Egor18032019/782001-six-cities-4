@@ -9,7 +9,7 @@ const townList = {
   Paris: [48.8333, 2.34],
   Cologne: [50.9333, 6.95],
   Brussels: [50.8504, 4.34878],
-  Hamburg: [53.5753, 10.0153],
+  Hamburg: [53.550341, 10.000654],
   Dusseldorf: [51.2217, 6.7761]
 };
 

@@ -5,10 +5,6 @@ import {
 import {
   getFilterOffersOnCity
 } from '../../utils';
-import {
-  getOffersByActiveCity
-} from './selectors.js';
-
 
 // Определяем действия(actions)
 const ActionType = {
@@ -49,8 +45,8 @@ const dataReducer = (state = initialState, action) => {
     case ActionType.CHANGE_TOWN:
       return Object.assign({}, state, {
         town: action.payload,
-        offers: getOffersByActiveCity(state),
-        placesCount: getOffersByActiveCity(state).length
+        offers: getFilterOffersOnCity(state.data, action.payload),
+        placesCount: getFilterOffersOnCity(state.data, action.payload).length
       });
     case ActionType.GET_SERVER_STATUS:
       return Object.assign({}, state, {
