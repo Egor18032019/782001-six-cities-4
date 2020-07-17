@@ -11,9 +11,6 @@ import Property from "../property/property.jsx";
 import {
   ActionActive, ActionTown
 } from "../../reducer/offers/offers-reducer.js";
-import {
-  getOffersByActiveCity
-} from "../../reducer/data/selectors.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -23,13 +20,12 @@ class App extends PureComponent {
   _renderApp() {
     const {store, handlerClickOnTitle, onCityNameClick} = this.props;
     const {OFFERS, DATA} = store;
-    console.log(DATA);
     if (OFFERS.active === `mainPages` || OFFERS.active === false) {
       return (
         <MainWrapped
-          placesCount={OFFERS.placesCount}
-          town={OFFERS.town}
-          places={OFFERS.offers}
+          placesCount={DATA.placesCount}
+          town={DATA.town}
+          places={DATA.offers}
           onMainTitleClick={handlerClickOnTitle}
           onCityNameClick={onCityNameClick}
         />
@@ -37,7 +33,7 @@ class App extends PureComponent {
     } else {
       return (
         <Property
-          place={OFFERS.offers.find((offer) => {
+          place={DATA.offers.find((offer) => {
             return offer.id === OFFERS.cardId;
           })}
         />
@@ -47,7 +43,7 @@ class App extends PureComponent {
 
   render() {
     const {store} = this.props;
-    const {OFFERS, DATA} = store;
+    const {DATA} = store;
     return (
       <BrowserRouter>
         <Switch>
@@ -56,7 +52,7 @@ class App extends PureComponent {
           </Route>
           <Route exact path="/property">
             <Property
-              place={OFFERS.offers[0]}
+              place={DATA.offers[0]}
             />
           </Route>
         </Switch>
@@ -70,6 +66,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(ActionActive.activeState(place));
   },
   onCityNameClick(city) {
+    // console.log(city);
     dispatch(ActionTown.changeCity(city));
   },
   // offers: getOffersByActiveCity(OFFERS)
@@ -84,13 +81,17 @@ const mapStateToProps = (store) => {
 App.propTypes = {
   onCityNameClick: PropTypes.func.isRequired,
   handlerClickOnTitle: PropTypes.func.isRequired,
-  // store: PropTypes.shape({
-  //   active: PropTypes.string.isRequired,
-  //   cardId: PropTypes.number,
-  //   town: PropTypes.string.isRequired,
-  //   placesCount: PropTypes.number.isRequired,
-  //   offers: PropTypes.array.isRequired,
-  // }).isRequired,
+  store: PropTypes.shape({
+    DATA: PropTypes.shape({
+      town: PropTypes.string.isRequired,
+      placesCount: PropTypes.number.isRequired,
+      offers: PropTypes.array.isRequired,
+    }).isRequired,
+    OFFERS: PropTypes.shape({
+      active: PropTypes.string.isRequired,
+      cardId: PropTypes.number,
+    }).isRequired
+  }).isRequired,
 };
 
 export {App};

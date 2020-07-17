@@ -41,8 +41,8 @@ class Map extends PureComponent {
   componentDidMount() {
     // прописываем city два раза = при монтаже и обновлении
     city = {
-      name: this.props.store.OFFERS.town,
-      center: townList[this.props.store.OFFERS.town],
+      name: this.props.store.DATA.town,
+      center: townList[this.props.store.DATA.town],
       zoom: 12
     };
     // инциализируем контейнер для карты и установим фокус на определённую область(город)
@@ -64,11 +64,11 @@ class Map extends PureComponent {
   componentDidUpdate() {
     // прописываем city два раза = при монтаже и обновлении
     city = {
-      name: this.props.store.OFFERS.town,
-      center: townList[this.props.store.OFFERS.town],
+      name: this.props.store.DATA.town,
+      center: townList[this.props.store.DATA.town],
       zoom: 12
     };
-    if (city.name === !this.props.store.OFFERS.town) {
+    if (city.name === !this.props.store.DATA.town) {
       this.removeMap();
     }
     this.addMap();
@@ -77,8 +77,8 @@ class Map extends PureComponent {
 
   _addPoints() {
     const {store, activeOffer} = this.props;
-    const {OFFERS, DATA} = store;
-    const places = OFFERS.offers;
+    const {DATA} = store;
+    const places = DATA.offers;
     // форычом проходим по пропсам и о leaferom отрисовываем по place.coordinate-ам
     places.forEach((place) => {
       const activeIcon = (place.id === activeOffer) ? `img/pin-active.svg` : `img/pin.svg`;
@@ -116,12 +116,16 @@ export {Map};
 export default connect(mapStateToProps)(Map); // первым стате а вторым фдиспатчеры
 
 Map.propTypes = {
-  // store: PropTypes.shape({
-  //   active: PropTypes.string.isRequired,
-  //   cardId: PropTypes.number,
-  //   town: PropTypes.string.isRequired,
-  //   placesCount: PropTypes.number.isRequired,
-  //   offers: PropTypes.array.isRequired,
-  // }).isRequired,
+  store: PropTypes.shape({
+    DATA: PropTypes.shape({
+      town: PropTypes.string.isRequired,
+      placesCount: PropTypes.number.isRequired,
+      offers: PropTypes.array.isRequired,
+    }).isRequired,
+    OFFERS: PropTypes.shape({
+      active: PropTypes.string.isRequired,
+      cardId: PropTypes.number,
+    }).isRequired
+  }).isRequired,
   activeOffer: PropTypes.number,
 };

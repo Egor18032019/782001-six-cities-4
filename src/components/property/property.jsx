@@ -10,6 +10,7 @@ class Property extends PureComponent {
   render() {
 
     const {place} = this.props;
+    console.log(place);
     const {description, price, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host} = place;
     return (
       <div className="page">
@@ -111,15 +112,17 @@ class Property extends PureComponent {
                   </div>
                   <div className="property__description">
                     {
-                      stories.map((store, index)=>{
-                        return (
-                          <p className="property__text" key={index + stories.length}>
-                            {store}
-                          </p>
-                        );
-                      }
-
-                      )
+                      // stories.map((store, index)=>{
+                      //   return (
+                      //     <p className="property__text" key={index + stories.length}>
+                      //       {store}
+                      //     </p>
+                      //   );
+                      // })
+                      // );
+                      <p className="property__text">
+                        {stories}
+                      </p>
                     }
 
                   </div>
@@ -321,12 +324,12 @@ Property.propTypes = {
     isBookmark: PropTypes.bool.isRequired,
     isPremium: PropTypes.bool.isRequired,
     rating: PropTypes.number.isRequired,
-    coordinate: PropTypes.array.isRequired,
     bedrooms: PropTypes.number.isRequired,
     maxAdults: PropTypes.number.isRequired,
     options: PropTypes.array.isRequired,
     images: PropTypes.array.isRequired,
-    stories: PropTypes.array.isRequired,
+    // stories: PropTypes.array.isRequired,
+    stories: PropTypes.string.isRequired,
     host: PropTypes.shape({
       avatarUrl: PropTypes.string.isRequired,
       isPro: PropTypes.bool.isRequired,
