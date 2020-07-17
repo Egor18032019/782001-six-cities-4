@@ -1,5 +1,5 @@
 import React, {PureComponent} from "react";
-import PropTypes from "prop-types";
+import PropTypes, {bool} from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../Main/main.jsx";
@@ -9,8 +9,11 @@ const MainWrapped = withMain(Main);
 
 import Property from "../property/property.jsx";
 import {
-  ActionActive, ActionTown
+  ActionActive,
 } from "../../reducer/offers/offers-reducer.js";
+import {
+  ActionTown
+} from "../../reducer/data/data-reducer.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -20,24 +23,29 @@ class App extends PureComponent {
   _renderApp() {
     const {store, handlerClickOnTitle, onCityNameClick} = this.props;
     const {OFFERS, DATA} = store;
-    if (OFFERS.active === `mainPages` || OFFERS.active === false) {
-      return (
-        <MainWrapped
-          placesCount={DATA.placesCount}
-          town={DATA.town}
-          places={DATA.offers}
-          onMainTitleClick={handlerClickOnTitle}
-          onCityNameClick={onCityNameClick}
-        />
-      );
+    console.log(DATA.isDataLoaded);
+    if (DATA.isDataLoaded) {
+      if (OFFERS.active === `mainPages` || OFFERS.active === false) {
+        return (
+          <MainWrapped
+            placesCount={DATA.placesCount}
+            town={DATA.town}
+            places={DATA.offers}
+            onMainTitleClick={handlerClickOnTitle}
+            onCityNameClick={onCityNameClick}
+          />
+        );
+      } else {
+        return (
+          <Property
+            place={DATA.offers.find((offer) => {
+              return offer.id === OFFERS.cardId;
+            })}
+          />
+        );
+      }
     } else {
-      return (
-        <Property
-          place={DATA.offers.find((offer) => {
-            return offer.id === OFFERS.cardId;
-          })}
-        />
-      );
+      return ``;
     }
   }
 
@@ -66,10 +74,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(ActionActive.activeState(place));
   },
   onCityNameClick(city) {
-    // console.log(city);
     dispatch(ActionTown.changeCity(city));
   },
-  // offers: getOffersByActiveCity(OFFERS)
 });
 
 const mapStateToProps = (store) => {
@@ -86,6 +92,7 @@ App.propTypes = {
       town: PropTypes.string.isRequired,
       placesCount: PropTypes.number.isRequired,
       offers: PropTypes.array.isRequired,
+      isDataLoaded: bool.isRequired
     }).isRequired,
     OFFERS: PropTypes.shape({
       active: PropTypes.string.isRequired,
@@ -95,4 +102,4 @@ App.propTypes = {
 };
 
 export {App};
-export default connect(mapStateToProps, mapDispatchToProps)(App); // первым стате а вторым фдиспатчеры
+export default connect(mapStateToProps, mapDispatchToProps)(App); // первым стате а вторым диспатчеры

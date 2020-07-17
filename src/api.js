@@ -11,6 +11,7 @@ export const createAPI = (onUnauthorized, onBadRequest) => {
     baseURL: `https://4.react.pages.academy/six-cities`,
     timeout: 5000,
     withCredentials: true,
+    // Запросы должны предоставлять доступ к кукам. В случае, если запросы отправляются через axios, должен быть проставлен параметр withCredentials: true.
   });
 
   const onSuccess = (response) => {
@@ -19,6 +20,8 @@ export const createAPI = (onUnauthorized, onBadRequest) => {
 
   const onFail = (err) => {
     const {response} = err;
+    // console.log(err);
+    // -,,,,,,,,,????????????  максим почему тут не работает ??
 
     if (response.status === Error.UNAUTHORIZED) {
       onUnauthorized();

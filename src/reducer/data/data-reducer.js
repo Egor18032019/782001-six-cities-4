@@ -1,21 +1,31 @@
 // reducer которые доставляет только данные
-import {adapter} from "../adapter/data.js";
-import {getFilterOffersOnCity} from '../../utils';
+import {
+  adapter
+} from "../adapter/data.js";
+import {
+  getFilterOffersOnCity
+} from '../../utils';
+import {
+  getOffersByActiveCity
+} from './selectors.js';
 
 
 // Определяем действия(actions)
 const ActionType = {
   GET_SERVER_DATA: `GET_SERVER_DATA`,
+  GET_SERVER_STATUS: `GET_SERVER_STATUS`,
   CHANGE_TOWN: `CHANGE_TOWN`,
 };
 
 // Объект начального состояния(state):
 const initialState = {
   data: [],
+  isDataLoaded: false,
   offers: [],
   placesCount: 0,
   town: `Amsterdam`,
 };
+
 
 // запрос на сервер
 const loadDataAsync = () => (dispatch, getState, api) => {
@@ -23,7 +33,9 @@ const loadDataAsync = () => (dispatch, getState, api) => {
     .then((response) => {
       const serverDataOffers = adapter(response.data); // адаптер для пересборки данных
       dispatch(getDataOffers(serverDataOffers));
+      dispatch(setIdDataLoaded(true));
     });
+
 };
 
 const dataReducer = (state = initialState, action) => {
@@ -31,19 +43,34 @@ const dataReducer = (state = initialState, action) => {
     case ActionType.GET_SERVER_DATA:
       return Object.assign({}, state, {
         data: action.data,
-        offers: getFilterOffersOnCity(action.data, `Amsterdam`),
-        placesCount: getFilterOffersOnCity(action.data, `Amsterdam`).length,
+        offers: getFilterOffersOnCity(action.data, state.town),
+        placesCount: getFilterOffersOnCity(action.data, state.town).length,
       });
     case ActionType.CHANGE_TOWN:
       return Object.assign({}, state, {
         town: action.payload,
-        offers: getFilterOffersOnCity(state.data, action.payload),
-        placesCount: getFilterOffersOnCity(state.data, action.payload).length
+        offers: getOffersByActiveCity(state),
+        placesCount: getOffersByActiveCity(state).length
+      });
+    case ActionType.GET_SERVER_STATUS:
+      return Object.assign({}, state, {
+        isDataLoaded: action.isDataLoaded
       });
     default:
       return state;
   }
   // return state;
+};
+
+/**
+ * @param {status} status bool-ево значение.
+ * @return{isDataLoaded} статус загрузки(позже за диспатчим его в загрузчик(по другому не придумал))
+ */
+const setIdDataLoaded = (status) => {
+  return {
+    type: ActionType.GET_SERVER_STATUS,
+    isDataLoaded: status
+  };
 };
 
 const getDataOffers = (data) => {
@@ -52,7 +79,9 @@ const getDataOffers = (data) => {
     data,
   };
 };
-
+/**
+ * @return{*} меняет в сторе town на выбранный
+ */
 const ActionTown = {
   changeCity: (city) => ({
     type: ActionType.CHANGE_TOWN,
@@ -65,5 +94,6 @@ export {
   dataReducer,
   ActionType,
   loadDataAsync,
-  ActionTown
+  ActionTown,
+  setIdDataLoaded
 };

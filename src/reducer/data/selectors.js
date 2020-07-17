@@ -3,11 +3,10 @@ import NameSpace from "../name-space.js";
 import {getFilterOffersOnCity} from '../../utils';
 
 const getOffers = (state) => {
-  console.log(state);
-  return state[NameSpace.DATA].data;
+  return state.data;
 };
 const getActiveTown = (state) => {
-  return state[NameSpace.OFFERS].town;
+  return state.town;
 };
 
 const getOffersByActiveCity = createSelector(
@@ -17,7 +16,6 @@ const getOffersByActiveCity = createSelector(
       return getFilterOffersOnCity(offers, activeTown);
     }
 );
-
 
 export {
   getOffersByActiveCity
