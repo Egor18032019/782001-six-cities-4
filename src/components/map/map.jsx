@@ -2,6 +2,7 @@ import React, {PureComponent, createRef} from "react";
 import PropTypes from "prop-types";
 import leaflet from "leaflet";
 import {connect} from "react-redux";
+import {getOffersByActiveCity, getActiveTown} from "../../reducer/data/selectors.js";
 
 
 const townList = {
@@ -41,9 +42,9 @@ class Map extends PureComponent {
   componentDidMount() {
     // прописываем city два раза = при монтаже и обновлении
     city = {
-      name: this.props.store.DATA.town,
-      center: townList[this.props.store.DATA.town],
-      zoom: 12
+      name: this.props.activeTown,
+      center: townList[this.props.activeTown],
+      zoom: 13
     };
     // инциализируем контейнер для карты и установим фокус на определённую область(город)
     // this.mapCity(в документации `mapid` , в задание `map`) место куда отрисовываем карту
@@ -64,11 +65,11 @@ class Map extends PureComponent {
   componentDidUpdate() {
     // прописываем city два раза = при монтаже и обновлении
     city = {
-      name: this.props.store.DATA.town,
-      center: townList[this.props.store.DATA.town],
-      zoom: 12
+      name: this.props.activeTown,
+      center: townList[this.props.activeTown],
+      zoom: 13
     };
-    if (city.name === !this.props.store.DATA.town) {
+    if (city.name === !this.props.activeTown) {
       this.removeMap();
     }
     this.addMap();
@@ -76,9 +77,8 @@ class Map extends PureComponent {
   }
 
   _addPoints() {
-    const {store, activeOffer} = this.props;
-    const {DATA} = store;
-    const places = DATA.offers;
+    const {activeOffer, activeOffers} = this.props;
+    const places = activeOffers;
     // форычом проходим по пропсам и о leaferom отрисовываем по place.coordinate-ам
     places.forEach((place) => {
       const activeIcon = (place.id === activeOffer) ? `img/pin-active.svg` : `img/pin.svg`;
@@ -95,11 +95,9 @@ class Map extends PureComponent {
 
   render() {
     return (
-      <section className="cities__map map">
-        <div id="map" style={{height: `100%`, width: `100%`}} ref={this.mapCity}>
-          {/* {this.initMap()} */}
-        </div>
-      </section>
+      <div id="map" style={{height: `100%`, width: `100%`}} ref={this.mapCity}>
+        {/* {this.initMap()} */}
+      </div>
 
     );
   }
@@ -108,7 +106,9 @@ class Map extends PureComponent {
 const mapStateToProps = (store) => {
   // console.log(`state:`, state);
   return {
-    store
+    store,
+    activeOffers: getOffersByActiveCity(store),
+    activeTown: getActiveTown(store),
   };
 };
 
@@ -116,10 +116,11 @@ export {Map};
 export default connect(mapStateToProps)(Map); // первым стате а вторым фдиспатчеры
 
 Map.propTypes = {
+  activeTown: PropTypes.string.isRequired,
+  activeOffers: PropTypes.array.isRequired,
   store: PropTypes.shape({
     DATA: PropTypes.shape({
       town: PropTypes.string.isRequired,
-      placesCount: PropTypes.number.isRequired,
       offers: PropTypes.array.isRequired,
     }).isRequired,
     OFFERS: PropTypes.shape({

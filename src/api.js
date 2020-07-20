@@ -21,8 +21,10 @@ export const createAPI = (onUnauthorized, onBadRequest) => {
   const onFail = (err) => {
     const {response} = err;
     // console.log(err);
+    // console.log(response);
     // -,,,,,,,,,????????????  максим почему тут не работает ??
-
+    // -- ??? когда нет инета в консоли пишет ошибку
+    // TypeError: can't access property "status", response is undefined
     if (response.status === Error.UNAUTHORIZED) {
       onUnauthorized();
 

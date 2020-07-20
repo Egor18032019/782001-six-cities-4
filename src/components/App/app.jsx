@@ -4,6 +4,8 @@ import {Switch, Route, BrowserRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../Main/main.jsx";
 import withMain from "../hocs/with-main/with-main.js";
+import {getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount} from "../../reducer/data/selectors.js";
+import {getOffersActive, getCardId} from "../../reducer/offers/selectors.js";
 
 const MainWrapped = withMain(Main);
 
@@ -21,16 +23,16 @@ class App extends PureComponent {
   }
 
   _renderApp() {
-    const {store, handlerClickOnTitle, onCityNameClick} = this.props;
-    const {OFFERS, DATA} = store;
-    console.log(DATA.isDataLoaded);
-    if (DATA.isDataLoaded) {
-      if (OFFERS.active === `mainPages` || OFFERS.active === false) {
+    const {handlerClickOnTitle, onCityNameClick, isDataLoaded, activeTown, placesCount, activeOffers, cardId, active} = this.props;
+    // console.log(activeOffer);
+
+    if (isDataLoaded) {
+      if (active === `mainPages` || active === false) {
         return (
           <MainWrapped
-            placesCount={DATA.placesCount}
-            town={DATA.town}
-            places={DATA.offers}
+            placesCount={placesCount}
+            town={activeTown}
+            places={activeOffers}
             onMainTitleClick={handlerClickOnTitle}
             onCityNameClick={onCityNameClick}
           />
@@ -38,20 +40,29 @@ class App extends PureComponent {
       } else {
         return (
           <Property
-            place={DATA.offers.find((offer) => {
-              return offer.id === OFFERS.cardId;
+            place={activeOffers.find((offer) => {
+              return offer.id === cardId;
             })}
           />
         );
       }
     } else {
-      return ``;
+      return (
+        <div className="error" style={{height: `100%`, width: `50%`, paddingTop: `300px`, margin: `auto`, color: `red
+        `}}>
+          <p className="error__message">Ошибка загрузки страницы</p>
+          <button className="error__button">Попробовать снова</button>
+          {/*
+    как бы к этой кнопке прикрутить обновление странцы ??
+    -- Максим получиться ??
+     */}
+        </div>
+      );
     }
   }
 
   render() {
-    const {store} = this.props;
-    const {DATA} = store;
+    const {activeOffers} = this.props;
     return (
       <BrowserRouter>
         <Switch>
@@ -60,7 +71,7 @@ class App extends PureComponent {
           </Route>
           <Route exact path="/property">
             <Property
-              place={DATA.offers[0]}
+              place={activeOffers[0]}
             />
           </Route>
         </Switch>
@@ -79,26 +90,26 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (store) => {
-  return {
+  return ({
     store,
-  };
+    isDataLoaded: getDataStatus(store),
+    activeOffers: getOffersByActiveCity(store),
+    activeTown: getActiveTown(store),
+    placesCount: getPlaceCount(store),
+    cardId: getCardId(store),
+    active: getOffersActive(store),
+  });
 };
 
 App.propTypes = {
   onCityNameClick: PropTypes.func.isRequired,
   handlerClickOnTitle: PropTypes.func.isRequired,
-  store: PropTypes.shape({
-    DATA: PropTypes.shape({
-      town: PropTypes.string.isRequired,
-      placesCount: PropTypes.number.isRequired,
-      offers: PropTypes.array.isRequired,
-      isDataLoaded: bool.isRequired
-    }).isRequired,
-    OFFERS: PropTypes.shape({
-      active: PropTypes.string.isRequired,
-      cardId: PropTypes.number,
-    }).isRequired
-  }).isRequired,
+  isDataLoaded: bool.isRequired,
+  activeTown: PropTypes.string.isRequired,
+  placesCount: PropTypes.number.isRequired,
+  activeOffers: PropTypes.array.isRequired,
+  active: PropTypes.string.isRequired,
+  cardId: PropTypes.number,
 };
 
 export {App};

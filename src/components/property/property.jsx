@@ -1,6 +1,7 @@
 // компонент  «Детальная информация о предложении»
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
+import Map from "../map/map.jsx";
 
 class Property extends PureComponent {
   constructor(props) {
@@ -10,8 +11,7 @@ class Property extends PureComponent {
   render() {
 
     const {place} = this.props;
-    console.log(place);
-    const {description, price, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host} = place;
+    const {description, price, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host, id} = place;
     return (
       <div className="page">
         <header className="header">
@@ -202,7 +202,11 @@ class Property extends PureComponent {
                 </section>
               </div>
             </div>
-            <section className="property__map map"></section>
+            <section className="property__map map">
+              <Map
+                activeOffer={id}
+              />
+            </section>
           </section>
           <div className="container">
             <section className="near-places places">

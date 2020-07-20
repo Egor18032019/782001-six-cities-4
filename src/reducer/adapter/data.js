@@ -5,7 +5,7 @@ let adapter = (serverdata) => {
     return {
       id: it.id,
       city: it.city.name,
-      locationCity: it.city.location, // прописать в компоненте Map
+      locationCity: [it.city.location.latitude, it.city.location.longitude, it.city.location.zoom], // прописать в компоненте Map
       type: it.type,
       description: it.description,
       title:	it.title, // посмотреть где это применяется
