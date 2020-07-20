@@ -17,11 +17,10 @@ const ActionType = {
 const initialState = {
   data: [],
   isDataLoaded: false,
-  offers: [],
   placesCount: 0,
   town: `Amsterdam`,
+  errorMessage: ``
 };
-
 
 // запрос на сервер
 const loadDataAsync = () => (dispatch, getState, api) => {
@@ -39,13 +38,11 @@ const dataReducer = (state = initialState, action) => {
     case ActionType.GET_SERVER_DATA:
       return Object.assign({}, state, {
         data: action.data,
-        offers: getFilterOffersOnCity(action.data, state.town),
         placesCount: getFilterOffersOnCity(action.data, state.town).length,
       });
     case ActionType.CHANGE_TOWN:
       return Object.assign({}, state, {
         town: action.payload,
-        offers: getFilterOffersOnCity(state.data, action.payload),
         placesCount: getFilterOffersOnCity(state.data, action.payload).length
       });
     case ActionType.GET_SERVER_STATUS:
@@ -60,12 +57,14 @@ const dataReducer = (state = initialState, action) => {
 
 /**
  * @param {status} status bool-ево значение.
+ * @param {err} err ошибка.
  * @return{isDataLoaded} статус загрузки(позже за диспатчим его в загрузчик(по другому не придумал))
  */
-const setIdDataLoaded = (status) => {
+const setIdDataLoaded = (status, err) => {
   return {
     type: ActionType.GET_SERVER_STATUS,
-    isDataLoaded: status
+    isDataLoaded: status,
+    errorMessage: err
   };
 };
 

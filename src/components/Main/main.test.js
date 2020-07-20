@@ -3,6 +3,7 @@ import renderer from "react-test-renderer";
 import Main from "./main.jsx";
 import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
+import NameSpace from "../../reducer/name-space.js";
 
 const Settings = {
   PLACES: 312,
@@ -215,12 +216,17 @@ const mockStore = configureStore([]);
 describe(`snapshots test Main`, () => {
   it(`Should Main render correctly`, () => {
     const store = mockStore({
-      active: `mainPages`,
-      cardId: null,
-      town: `Amsterdam`,
-      // TODO: сделать что бы автоматом считала кол-во элементов и записывала его в PlaceCount
-      placesCount: 121,
-      offers: mockSettings
+      [NameSpace.DATA]: {
+        data: [],
+        isDataLoaded: false,
+        placesCount: 0,
+        town: `Amsterdam`,
+        errorMessage: ``
+      },
+      [NameSpace.OFFERS]: {
+        active: `mainPages`,
+        cardId: null,
+      },
     });
 
     const tree = renderer
@@ -242,9 +248,6 @@ describe(`snapshots test Main`, () => {
               places = {
                 mockSettings
               }
-              store = {
-                store
-              }
               onMainTitleClick = {
                 () => {}
               }
@@ -260,7 +263,7 @@ describe(`snapshots test Main`, () => {
               onSortingTypeClick = {
                 () => {}
               }
-            />
+            />,
           </Provider>,
           // так как нет контейнера делаем моковый
           {

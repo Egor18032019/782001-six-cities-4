@@ -91,7 +91,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (store) => {
   return ({
-    store,
     isDataLoaded: getDataStatus(store),
     activeOffers: getOffersByActiveCity(store),
     activeTown: getActiveTown(store),

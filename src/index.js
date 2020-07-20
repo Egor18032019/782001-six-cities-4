@@ -21,8 +21,7 @@ const onUnauthorized = () => {
 };
 
 const onBadRequest = (err) => {
-  console.log(err);
-  store.dispatch(setIdDataLoaded(false));
+  store.dispatch(setIdDataLoaded(false, err));
 };
 
 

@@ -1,4 +1,3 @@
-import {createSelector} from "reselect";
 import NameSpace from "../name-space.js";
 
 const getOffersActive = (state) => {

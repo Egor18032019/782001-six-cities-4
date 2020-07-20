@@ -106,7 +106,6 @@ class Map extends PureComponent {
 const mapStateToProps = (store) => {
   // console.log(`state:`, state);
   return {
-    store,
     activeOffers: getOffersByActiveCity(store),
     activeTown: getActiveTown(store),
   };
@@ -118,15 +117,5 @@ export default connect(mapStateToProps)(Map); // первым стате а вт
 Map.propTypes = {
   activeTown: PropTypes.string.isRequired,
   activeOffers: PropTypes.array.isRequired,
-  store: PropTypes.shape({
-    DATA: PropTypes.shape({
-      town: PropTypes.string.isRequired,
-      offers: PropTypes.array.isRequired,
-    }).isRequired,
-    OFFERS: PropTypes.shape({
-      active: PropTypes.string.isRequired,
-      cardId: PropTypes.number,
-    }).isRequired
-  }).isRequired,
   activeOffer: PropTypes.number,
 };

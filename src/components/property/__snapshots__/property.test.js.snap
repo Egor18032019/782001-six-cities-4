@@ -327,16 +327,6 @@ exports[`Property snepshot test Should Property render correctly 1`] = `
               >
                 У нас всегда свежие булочки
               </p>
-              <p
-                className="property__text"
-              >
-                А из окна площадь Эйфиля видна
-              </p>
-              <p
-                className="property__text"
-              >
-                Лувр где то рядом
-              </p>
             </div>
           </div>
           <section
@@ -580,7 +570,17 @@ exports[`Property snepshot test Should Property render correctly 1`] = `
       </div>
       <section
         className="property__map map"
-      />
+      >
+        <div
+          id="map"
+          style={
+            Object {
+              "height": "100%",
+              "width": "100%",
+            }
+          }
+        />
+      </section>
     </section>
     <div
       className="container"
