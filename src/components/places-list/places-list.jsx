@@ -50,9 +50,13 @@ class PlacesList extends PureComponent {
             </div>
           </section>
           <div className="cities__right-section">
-            <Map
-              activeOffer={activeOffer}
-            />
+            <section className="cities__map map">
+
+              <Map
+                activeOffer={activeOffer}
+              />
+            </section>
+
           </div>;
         </div>
       );

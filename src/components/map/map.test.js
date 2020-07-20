@@ -2,6 +2,8 @@ import React from "react";
 import renderer from "react-test-renderer";
 import Map from "./map.jsx";
 import configureStore from "redux-mock-store";
+import {Provider} from "react-redux";
+import NameSpace from "../../reducer/name-space.js";
 
 const PLACE = [{
   id: 2,
@@ -15,38 +17,39 @@ const PLACE = [{
   coordinate: [52.369553943508, 4.85309666406198]
 }];
 
-const handlerClickOnTitle = () => {
-};
-const placesCount = 3;
-const town = `Ekaterinburg`;
 
 const mockStore = configureStore([]);
 
 describe(`Map snapshots test`, () => {
   it(`Should map and point render correctly`, () => {
     const store = mockStore({
-      active: `mainPages`,
-      cardId: null,
-      town: `Amsterdam`,
-      // TODO: сделать что бы автоматом считала кол-во элементов и записывала его в PlaceCount
-      placesCount: 1,
-      offers: []
+      [NameSpace.DATA]: {
+        data: [],
+        isDataLoaded: false,
+        placesCount: 0,
+        town: `Amsterdam`,
+        errorMessage: ``
+      },
+      [NameSpace.OFFERS]: {
+        active: `mainPages`,
+        cardId: null,
+      },
     });
 
 
     const tree = renderer
-      .create(<Map
-
-        placesCount={placesCount}
-        town={town}
-        places={PLACE}
-        store={store}
-        onMainTitleClick={handlerClickOnTitle}
-      />,
-      // так как нет контейнера делаем моковый
-      {
-        createNodeMock: () => document.createElement(`div`)
-      })
+      .create(
+          <Provider store={store}>
+            <Map
+              activeOffers={PLACE}
+              activeTown={`Amsterdam`}
+              activeOffer={2}
+            />
+          </Provider>,
+          // так как нет контейнера делаем моковый
+          {
+            createNodeMock: () => document.createElement(`div`)
+          })
       .toJSON();
 
     expect(tree).toMatchSnapshot();

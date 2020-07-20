@@ -1,23 +1,10 @@
-import React from "react";
-import Enzyme, {
-  mount
-} from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
-import Main from "./main.jsx";
-import {Provider} from "react-redux";
-import configureStore from "redux-mock-store";
-import NameSpace from "../../reducer/name-space.js";
-
-const mockStore = configureStore([]);
-
-Enzyme.configure({
-  adapter: new Adapter(),
-});
-
-const Settings = {
-  PLACES: 111,
-  CITIES: `Amsterdam !`,
-};
+import {
+  ActionType,
+  dataReducer,
+} from "./data-reducer.js";
+import {
+  getFilterOffersOnCity
+} from '../../utils';
 
 const mockSettings = [
   {
@@ -69,14 +56,14 @@ const mockSettings = [
   },
   {
     id: 2,
-    city: `Paris`,
+    city: `Cologne`,
     type: `House`,
     description: `big + warm + good`,
     price: 66,
     isBookmark: false,
     isPremium: true,
     rating: 2.8,
-    coordinate: [52.3909553943508, 4.929309666406198],
+    coordinate: [50.9109553943508, 6.929309666406198],
     mainPhoto: `img/apartment-02.jpg`,
     bedrooms: 3,
     maxAdults: 4,
@@ -120,7 +107,7 @@ const mockSettings = [
     isBookmark: false,
     isPremium: true,
     rating: 4.8,
-    coordinate: [52.3809553943508, 4.939309666406198],
+    coordinate: [50.9009553943508, 6.939309666406198],
     mainPhoto: `img/apartment-02.jpg`,
     bedrooms: 3,
     maxAdults: 4,
@@ -142,7 +129,7 @@ const mockSettings = [
     isBookmark: false,
     isPremium: true,
     rating: 4.8,
-    coordinate: [52.3809553943508, 4.939309666406198],
+    coordinate: [50.9309553943508, 6.939309666406198],
     mainPhoto: `img/apartment-02.jpg`,
     bedrooms: 3,
     maxAdults: 4,
@@ -164,7 +151,7 @@ const mockSettings = [
     isBookmark: false,
     isPremium: true,
     rating: 4.8,
-    coordinate: [52.3809553943508, 4.939309666406198],
+    coordinate: [50.8409553943508, 4.339309666406198],
     mainPhoto: `img/apartment-02.jpg`,
     bedrooms: 3,
     maxAdults: 4,
@@ -186,7 +173,7 @@ const mockSettings = [
     isBookmark: false,
     isPremium: true,
     rating: 4.8,
-    coordinate: [52.3809553943508, 4.939309666406198],
+    coordinate: [53.5609553943508, 9.939309666406198],
     mainPhoto: `img/apartment-02.jpg`,
     bedrooms: 3,
     maxAdults: 4,
@@ -208,7 +195,7 @@ const mockSettings = [
     isBookmark: false,
     isPremium: true,
     rating: 4.8,
-    coordinate: [52.3809553943508, 4.939309666406198],
+    coordinate: [51.2809553943508, 6.739309666406198],
     mainPhoto: `img/apartment-02.jpg`,
     bedrooms: 3,
     maxAdults: 4,
@@ -223,133 +210,81 @@ const mockSettings = [
   }
 ];
 
-describe(`test Main e2e`, () => {
-  test(`Should  title h2 be pressed`, () => {
-    const onMainTitleClick = jest.fn();
-    const onCityNameClick = jest.fn();
-    const onCardMouseOut = jest.fn();
-    const onCardMouseEnter = jest.fn();
-    const onSortingTypeClick = jest.fn();
-    const store = mockStore({
-      [NameSpace.DATA]: {
-        data: [],
-        isDataLoaded: false,
-        placesCount: 0,
-        town: `Amsterdam`,
-        errorMessage: ``
-      },
-      [NameSpace.OFFERS]: {
-        active: `mainPages`,
-        cardId: null,
-      },
-    });
-    const mainScreen = mount(
-        <Provider store={store}>
-          <Main
-            typeSorting = {
-              `Popular`
-            }
-            activeOffer = {
-              null
-            }
-            placesCount = {
-              Settings.PLACES
-            }
-            town = {
-              Settings.CITIES
-            }
-            places = {
-              mockSettings
-            }
-            onMainTitleClick = {
-              onMainTitleClick
-            }
-            onCityNameClick = {
-              onCityNameClick
-            }
-            onCardMouseOut = {
-              onCardMouseOut
-            }
-            onCardMouseEnter = {
-              onCardMouseEnter
-            }
-            onSortingTypeClick = {
-              onSortingTypeClick
-            }
-          />
-        </Provider>
-    );
-    // ищем все видимые заголовки
-    const titleOnMain = mainScreen.find(`.place-card__name`);
-    // проходим по массиву найденых форычом и симулируем клик мышкой
-    titleOnMain.forEach(
-        (title) => {
-          title.props().onClick();
-        // title.simulate(`click`); - второй вариант написания
-        }
-    );
-    // ожидаем что onMainTitleClick вызовется в количстве раз равным количеству найденых загловков
-    expect(onMainTitleClick.mock.calls.length).toBe(titleOnMain.length);
+it(`Reducer without additional parameters should return initial state`, () => {
+  expect(dataReducer(void 0, {})).toEqual({
+    data: [],
+    errorMessage: ``,
+    isDataLoaded: false,
+    placesCount: 0,
+    town: `Amsterdam`,
   });
-  test(`Should  first title h2 be pressed`, () => {
-    const onMainTitleClick = jest.fn();
-    const onCityNameClick = jest.fn();
-    const onCardMouseOut = jest.fn();
-    const onCardMouseEnter = jest.fn();
-    const onSortingTypeClick = jest.fn();
-    const store = mockStore({
-      [NameSpace.DATA]: {
-        data: [],
-        isDataLoaded: false,
-        placesCount: 0,
-        town: `Amsterdam`,
-        errorMessage: ``
-      },
-      [NameSpace.OFFERS]: {
-        active: `mainPages`,
-        cardId: null,
-      },
-    });
-    const mainScreen = mount(
-        <Provider store={store}>
-          <Main
-            typeSorting = {
-              `Popular`
-            }
-            activeOffer = {
-              null
-            }
-            placesCount = {
-              Settings.PLACES
-            }
-            town = {
-              Settings.CITIES
-            }
-            places = {
-              mockSettings
-            }
-            onMainTitleClick = {
-              onMainTitleClick
-            }
-            onCityNameClick = {
-              onCityNameClick
-            }
-            onCardMouseOut = {
-              onCardMouseOut
-            }
-            onCardMouseEnter = {
-              onCardMouseEnter
-            }
-            onSortingTypeClick = {
-              onSortingTypeClick
-            }
-          />
-        </Provider>
-    );
-    // ищем все видимые заголовки
-    const allTitleOnMain = mainScreen.find(`.place-card__name`);
-    allTitleOnMain.at(0).simulate(`click`);
-    // ожидаем что один раз вызовется
-    expect(onMainTitleClick.mock.calls.length).toBe(1);
+});
+
+it(`The reducer should change the city to the value that came in`, () => {
+  expect(dataReducer({
+    data: mockSettings,
+    isDataLoaded: true,
+    town: `Amsterdam`,
+    placesCount: 3,
+  }, {
+    type: ActionType.CHANGE_TOWN,
+    payload: `Paris`,
+  })).toEqual({
+    data: mockSettings,
+    isDataLoaded: true,
+    town: `Paris`,
+    placesCount: getFilterOffersOnCity(mockSettings, `Paris`).length,
   });
+
+  expect(dataReducer({
+    data: mockSettings,
+    isDataLoaded: true,
+    town: `Amsterdam`,
+    placesCount: 3,
+  }, {
+    type: ActionType.CHANGE_TOWN,
+    payload: `Amsterdam`,
+  })).toEqual({
+    data: mockSettings,
+    isDataLoaded: true,
+    town: `Amsterdam`,
+    placesCount: 3,
+  });
+});
+
+describe(`loading work correctly`, () => {
+  it(`successfull dowland of data returns correct data`, () => {
+    expect(dataReducer({
+      data: [],
+      placesCount: 0,
+      town: `Amsterdam`,
+    }, {
+      type: ActionType.GET_SERVER_DATA,
+      data: mockSettings,
+      placesCount: getFilterOffersOnCity(mockSettings, `Amsterdam`),
+    })).toEqual({
+      data: mockSettings,
+      town: `Amsterdam`,
+      placesCount: 3,
+    });
+  });
+
+  it(`failed to load data`, () => {
+    expect(dataReducer({
+      data: [],
+      isDataLoaded: false,
+      placesCount: 0,
+      town: `Amsterdam`,
+    }, {
+      type: ActionType.GET_SERVER_DATA,
+      data: [],
+      placesCount: getFilterOffersOnCity(mockSettings, `Amsterdam`),
+    })).toEqual({
+      data: [],
+      isDataLoaded: false,
+      town: `Amsterdam`,
+      placesCount: 0,
+    });
+  });
+
 });

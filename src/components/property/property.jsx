@@ -1,6 +1,7 @@
 // компонент  «Детальная информация о предложении»
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
+import Map from "../map/map.jsx";
 
 class Property extends PureComponent {
   constructor(props) {
@@ -10,7 +11,7 @@ class Property extends PureComponent {
   render() {
 
     const {place} = this.props;
-    const {description, price, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host} = place;
+    const {description, price, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host, id} = place;
     return (
       <div className="page">
         <header className="header">
@@ -111,15 +112,17 @@ class Property extends PureComponent {
                   </div>
                   <div className="property__description">
                     {
-                      stories.map((store, index)=>{
-                        return (
-                          <p className="property__text" key={index + stories.length}>
-                            {store}
-                          </p>
-                        );
-                      }
-
-                      )
+                      // stories.map((store, index)=>{
+                      //   return (
+                      //     <p className="property__text" key={index + stories.length}>
+                      //       {store}
+                      //     </p>
+                      //   );
+                      // })
+                      // );
+                      <p className="property__text">
+                        {stories}
+                      </p>
                     }
 
                   </div>
@@ -199,7 +202,11 @@ class Property extends PureComponent {
                 </section>
               </div>
             </div>
-            <section className="property__map map"></section>
+            <section className="property__map map">
+              <Map
+                activeOffer={id}
+              />
+            </section>
           </section>
           <div className="container">
             <section className="near-places places">
@@ -321,12 +328,12 @@ Property.propTypes = {
     isBookmark: PropTypes.bool.isRequired,
     isPremium: PropTypes.bool.isRequired,
     rating: PropTypes.number.isRequired,
-    coordinate: PropTypes.array.isRequired,
     bedrooms: PropTypes.number.isRequired,
     maxAdults: PropTypes.number.isRequired,
     options: PropTypes.array.isRequired,
     images: PropTypes.array.isRequired,
-    stories: PropTypes.array.isRequired,
+    // stories: PropTypes.array.isRequired,
+    stories: PropTypes.string.isRequired,
     host: PropTypes.shape({
       avatarUrl: PropTypes.string.isRequired,
       isPro: PropTypes.bool.isRequired,
