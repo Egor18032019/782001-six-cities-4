@@ -1,6 +1,4 @@
 
-// import {getFilterOffersOnCity} from '../../utils';
-
 // Определяем действия(actions)
 const ActionType = {
   GET_OFFERS: `GET_OFFERS`,

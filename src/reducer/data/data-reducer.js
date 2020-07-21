@@ -30,7 +30,6 @@ const loadDataAsync = () => (dispatch, getState, api) => {
       dispatch(getDataOffers(serverDataOffers));
       dispatch(setIdDataLoaded(true));
     });
-
 };
 
 const dataReducer = (state = initialState, action) => {
