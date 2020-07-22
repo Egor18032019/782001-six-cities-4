@@ -6,7 +6,7 @@ import Main from "../Main/main.jsx";
 import withMain from "../hocs/with-main/with-main.js";
 import {getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount} from "../../reducer/data/selectors.js";
 import {getOffersActive, getCardId} from "../../reducer/offers/selectors.js";
-import {getAuthStatus} from "../../reducer/user/selectors.js";
+import {getAuthStatus, getEmail} from "../../reducer/user/selectors.js";
 import {AuthorizationStatus, Operation} from "../../reducer/user/user-reducer.js";
 
 const MainWrapped = withMain(Main);
@@ -27,7 +27,7 @@ class App extends PureComponent {
 
   _renderApp() {
     const {handlerClickOnTitle, onCityNameClick, isDataLoaded, activeTown, placesCount, activeOffers, cardId,
-      active, authorizationStatus, onLoginUsers} = this.props;
+      active, authorizationStatus, onLoginUsers, email} = this.props;
     if (isDataLoaded) {
       if (authorizationStatus === AuthorizationStatus.AUTH) {
         if (active === `mainPages` || active === false) {
@@ -38,6 +38,8 @@ class App extends PureComponent {
               places={activeOffers}
               onMainTitleClick={handlerClickOnTitle}
               onCityNameClick={onCityNameClick}
+              email={email}
+              authorizationStatus={authorizationStatus}
             />
           );
         } else {
@@ -70,12 +72,24 @@ class App extends PureComponent {
   }
 
   render() {
-    const {activeOffers} = this.props;
+    const {handlerClickOnTitle, onCityNameClick, activeTown, placesCount, activeOffers,
+      authorizationStatus, email} = this.props;
     return (
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
             {this._renderApp()}
+          </Route>
+          <Route exact path="/main">
+            <MainWrapped
+              placesCount={placesCount}
+              town={activeTown}
+              places={activeOffers}
+              onMainTitleClick={handlerClickOnTitle}
+              onCityNameClick={onCityNameClick}
+              email={email}
+              authorizationStatus={authorizationStatus}
+            />;
           </Route>
           <Route exact path="/property">
             <Property
@@ -114,6 +128,7 @@ const mapStateToProps = (store) => {
     cardId: getCardId(store),
     active: getOffersActive(store),
     authorizationStatus: getAuthStatus(store),
+    email: getEmail(store),
   });
 };
 
@@ -127,8 +142,12 @@ App.propTypes = {
   active: PropTypes.string.isRequired,
   cardId: PropTypes.number,
   authorizationStatus: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
   onLoginUsers: PropTypes.func.isRequired,
 };
 
 export {App};
 export default connect(mapStateToProps, mapDispatchToProps)(App); // первым стате а вторым диспатчеры
+
+
+// ---???? Макс, а на этот applicationCache.jsx нужно писать тест e2e ? и как ? ничего вголову не приходит

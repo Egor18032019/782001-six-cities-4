@@ -70,5 +70,6 @@ export {
   usersReducer,
   ActionType,
   Operation,
-  AuthorizationStatus
+  AuthorizationStatus,
+  setAuthStatus
 };

@@ -1,4 +1,4 @@
-// компонент "Карточка предложения"
+// компонент "авторизация пользователя"
 import React, {PureComponent, createRef} from "react";
 import PropTypes from "prop-types";
 

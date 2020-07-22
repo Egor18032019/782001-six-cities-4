@@ -21,6 +21,7 @@ exports[`snapshots test App Render App 1`] = `
   </p>
   <button
     className="error__button"
+    onClick={[Function]}
   >
     Попробовать снова
   </button>

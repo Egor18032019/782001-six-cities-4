@@ -114,12 +114,22 @@ describe(`snapshots test App`, () => {
         active: `mainPages`,
         cardId: null,
       },
+      [NameSpace.USERS]: {
+        authorizationStatus: `NO_AUTH`,
+        users: ``,
+      },
     });
 
     const tree = renderer
       .create(
           <Provider store={store}>
             < App
+              email = {
+                `goro5@mail.ru`
+              }
+              authorizationStatus = {
+                `AUTH`
+              }
               onMainTitleClick = {
                 () => {}
               }

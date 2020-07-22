@@ -1,14 +1,16 @@
-import React from "react";
-import renderer from "react-test-renderer";
-import Main from "./main.jsx";
+import React from 'react';
+import {Provider} from 'react-redux';
+import renderer from 'react-test-renderer';
+import PropTypes from 'prop-types';
+import Enzyme from 'enzyme';
+import Adapter from "enzyme-adapter-react-16";
 import configureStore from "redux-mock-store";
-import {Provider} from "react-redux";
-import NameSpace from "../../reducer/name-space.js";
+import NameSpace from "../../../reducer/name-space.js";
 
-const Settings = {
-  PLACES: 312,
-  CITIES: `Amsterdam !`,
-};
+
+import withMain from './with-main.js';
+
+const mockStore = configureStore([]);
 const mockSettings = [{
   id: 0,
   city: `Amsterdam`,
@@ -211,76 +213,66 @@ const mockSettings = [{
   }
 }
 ];
-const mockStore = configureStore([]);
+const store = mockStore({
+  [NameSpace.DATA]: {
+    data: [],
+    isDataLoaded: false,
+    placesCount: 0,
+    town: `Amsterdam`,
+    errorMessage: ``
+  },
+  [NameSpace.OFFERS]: {
+    active: `mainPages`,
+    cardId: null,
+  },
+  [NameSpace.USERS]: {
+    authorizationStatus: `NO_AUTH`,
+    users: ``,
+  },
+});
 
-describe(`snapshots test Main`, () => {
-  it(`Should Main render correctly`, () => {
-    const store = mockStore({
-      [NameSpace.DATA]: {
-        data: [],
-        isDataLoaded: false,
-        placesCount: 0,
-        town: `Amsterdam`,
-        errorMessage: ``
-      },
-      [NameSpace.OFFERS]: {
-        active: `mainPages`,
-        cardId: null,
-      },
-      [NameSpace.USERS]: {
-        users: ``,
-      },
+Enzyme.configure({
+  adapter: new Adapter()
+});
+
+const MockComponent = (props) => {
+  const {typeSorting, activeOffer} = props;
+
+  return (
+    <div>
+      <header>{typeSorting}</header>
+      <span>{activeOffer}</span>
+    </div>
+  );
+};
+
+MockComponent.propTypes = {
+  activeOffer: PropTypes.number,
+  typeSorting: PropTypes.string.isRequired,
+};
+
+const MockComponentWrapped = withMain(MockComponent);
+
+describe(`withMain`, () => {
+  it(`withMain is rendered correctly`, () => {
+    const component = renderer.create((
+      <Provider store={store}>
+        <MockComponentWrapped
+          placesCount={1}
+          town={`Amsterdam`}
+          places={mockSettings}
+          onMainTitleClick={()=>{}}
+          onCityNameClick={()=>{}}
+          email={`foo@Main.ru`}
+          authorizationStatus={`AUTH`}/>
+      </Provider>
+    ), {
+      // createNodeMock() {
+      //   return {};}
+      createNodeMock: () => document.createElement(`div`)
     });
 
-    const tree = renderer
-      .create(
-          <Provider store={store}>
-            <Main
-              typeSorting = {
-                `Popular`
-              }
-              activeOffer = {
-                null
-              }
-              email = {
-                `goro5@mail.ru`
-              }
-              authorizationStatus = {
-                `AUTH`
-              }
-              placesCount = {
-                Settings.PLACES
-              }
-              town = {
-                Settings.CITIES
-              }
-              places = {
-                mockSettings
-              }
-              onMainTitleClick = {
-                () => {}
-              }
-              onCityNameClick = {
-                () => {}
-              }
-              onCardMouseOut = {
-                () => {}
-              }
-              onCardMouseEnter = {
-                () => {}
-              }
-              onSortingTypeClick = {
-                () => {}
-              }
-            />,
-          </Provider>,
-          // так как нет контейнера делаем моковый
-          {
-            createNodeMock: () => document.createElement(`div`)
-          }
-      )
-      .toJSON();
-
+    const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
 });

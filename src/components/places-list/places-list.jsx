@@ -1,8 +1,6 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-
 import PlaceCard from "../place-card/place-card.jsx";
-
 import SortingList from "../sorting/sorting-list.jsx";
 import withSorting from "../hocs/with-sorting/with-sorting.js";
 const SortingListWrapped = withSorting(SortingList);
@@ -29,9 +27,7 @@ class PlacesList extends PureComponent {
                 onSortingTypeClick={onSortingTypeClick}
               />
             }
-            {/*
-     коментировать в реакте так
-     */}
+            {/*  коментировать в реакте так  */}
             <div className="cities__places-list places__list tabs__content">
               {
                 places.map(
@@ -51,12 +47,10 @@ class PlacesList extends PureComponent {
           </section>
           <div className="cities__right-section">
             <section className="cities__map map">
-
               <Map
                 activeOffer={activeOffer}
               />
             </section>
-
           </div>;
         </div>
       );
@@ -71,10 +65,7 @@ class PlacesList extends PureComponent {
       );
     }
   }
-
-
 }
-
 
 PlacesList.propTypes = {
   activeOffer: PropTypes.number,
