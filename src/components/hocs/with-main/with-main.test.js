@@ -5,9 +5,8 @@ import PropTypes from 'prop-types';
 import Enzyme from 'enzyme';
 import Adapter from "enzyme-adapter-react-16";
 import configureStore from "redux-mock-store";
+
 import NameSpace from "../../../reducer/name-space.js";
-
-
 import withMain from './with-main.js';
 
 const mockStore = configureStore([]);
@@ -255,7 +254,7 @@ const MockComponentWrapped = withMain(MockComponent);
 
 describe(`withMain`, () => {
   it(`withMain is rendered correctly`, () => {
-    const component = renderer.create((
+    const hocComponent = renderer.create((
       <Provider store={store}>
         <MockComponentWrapped
           placesCount={1}
@@ -264,15 +263,14 @@ describe(`withMain`, () => {
           onMainTitleClick={()=>{}}
           onCityNameClick={()=>{}}
           email={`foo@Main.ru`}
-          authorizationStatus={`AUTH`}/>
+          authorizationStatus={`AUTH`}
+        />
       </Provider>
     ), {
-      // createNodeMock() {
-      //   return {};}
       createNodeMock: () => document.createElement(`div`)
     });
 
-    const tree = component.toJSON();
+    const tree = hocComponent.toJSON();
     expect(tree).toMatchSnapshot();
   });
 });
