@@ -46,7 +46,8 @@ const dataReducer = (state = initialState, action) => {
       });
     case ActionType.GET_SERVER_STATUS:
       return Object.assign({}, state, {
-        isDataLoaded: action.isDataLoaded
+        isDataLoaded: action.isDataLoaded,
+        errorMessage: action.errorMessage
       });
     default:
       return state;

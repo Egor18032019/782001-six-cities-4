@@ -1,8 +1,10 @@
 import axios from "axios";
 
 const Error = {
+  INVALID_LOGIN: 400,
   UNAUTHORIZED: 401,
-  BAD_REQUEST: 404
+  BAD_REQUEST: 404,
+  NO_INTERNET: `Network Error`
 };
 
 // опишите функцию, принимающую dispatch-еры в качестве параметра и возвращающую сконфигурированный инстанс axios
@@ -19,24 +21,23 @@ export const createAPI = (onUnauthorized, onBadRequest) => {
   };
 
   const onFail = (err) => {
-    const {response} = err;
-    // console.log(err);
-    // console.log(response);
-    // -,,,,,,,,,????????????  максим почему тут не работает ??
-    // -- ??? когда нет инета в консоли пишет ошибку
-    // TypeError: can't access property "status", response is undefined
-    if (response.status === Error.UNAUTHORIZED) {
-      onUnauthorized();
-
+    if (err.message === Error.NO_INTERNET) {
+      onBadRequest(err.message);
+      throw err;
       // Бросаем ошибку, потому что нам важно прервать цепочку промисов после запроса авторизации.
       // Запрос авторизации - это особый случай и важно дать понять приложению, что запрос был неудачным.
+    } else if (err.response.status === Error.UNAUTHORIZED) {
+      onUnauthorized(err.response.status);
       throw err;
-    } else if (response.status === Error.BAD_REQUEST) {
+    } else if (err.response.status === Error.INVALID_LOGIN) {
+      onUnauthorized(err.response);
+      throw err;
+    } else if (err.response.status === Error.BAD_REQUEST) {
       onBadRequest(err);
       throw err;
     }
-
     throw err;
+
   };
 
   api.interceptors.response.use(onSuccess, onFail);

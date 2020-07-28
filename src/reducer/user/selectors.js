@@ -6,7 +6,10 @@ const getAuthStatus = (state) => {
 const getEmail = (state) => {
   return state[NameSpace.USERS].users;
 };
+const getUsersErrorMessage = (state) => {
+  return state[NameSpace.USERS].usersErrorMessage;
+};
 
 export {
-  getAuthStatus, getEmail
+  getAuthStatus, getEmail, getUsersErrorMessage
 };

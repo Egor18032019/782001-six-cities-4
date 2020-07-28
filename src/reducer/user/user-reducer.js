@@ -2,6 +2,7 @@
 // Определяем действия(actions)
 const ActionType = {
   REQUIRED_AUTHORIZATION: `REQUIRED_AUTHORIZATION`,
+  AUTHORIZATION: `AUTHORIZATION`,
 };
 
 const AuthorizationStatus = {
@@ -12,7 +13,8 @@ const AuthorizationStatus = {
 // Объект начального состояния(state):
 const initialState = {
   authorizationStatus: AuthorizationStatus.NO_AUTH,
-  users: ``
+  users: ``,
+  errorMessage: ``
 };
 
 
@@ -20,6 +22,11 @@ const usersReducer = (state = initialState, action) => {
   switch (action.type) {
 
     case ActionType.REQUIRED_AUTHORIZATION:
+      return Object.assign({}, state, {
+        authorizationStatus: action.authorizationStatus,
+        usersErrorMessage: action.errorMessage
+      });
+    case ActionType.AUTHORIZATION:
       return Object.assign({}, state, {
         authorizationStatus: action.authorizationStatus,
         users: action.users
@@ -35,20 +42,19 @@ const Operation = {
   checkStatusAuth: () => (dispatch, getState, api) => {
     return api.get(`/login`)
       .then((response) => {
-        dispatch(setAuthStatus(AuthorizationStatus.AUTH, response.data.email));
+        dispatch(setAuthData(AuthorizationStatus.AUTH, response.data.email));
       })
       .catch((err) => {
         throw err;
       });
   },
-
   login: (authData) => (dispatch, getState, api) => {
     return api.post(`/login`, {
       email: authData.login,
       password: authData.password,
     })
     .then((response) => {
-      dispatch(setAuthStatus(AuthorizationStatus.AUTH, response.data.email));
+      dispatch(setAuthData(AuthorizationStatus.AUTH, response.data.email));
     })
     .catch((err) => {
       throw err;
@@ -56,15 +62,20 @@ const Operation = {
   }
 };
 
-const setAuthStatus = (status, data) => {
-  // console.log(data);
+const setAuthStatus = (err) => {
   return {
     type: ActionType.REQUIRED_AUTHORIZATION,
+    authorizationStatus: AuthorizationStatus.NO_AUTH,
+    errorMessage: err.statusText
+  };
+};
+const setAuthData = (status, data) => {
+  return {
+    type: ActionType.AUTHORIZATION,
     authorizationStatus: status,
     users: data
   };
 };
-
 
 export {
   usersReducer,
@@ -72,4 +83,5 @@ export {
   Operation,
   AuthorizationStatus,
   setAuthStatus
+
 };

@@ -27,7 +27,6 @@ const onBadRequest = (err) => {
   store.dispatch(setIdDataLoaded(false, err));
 };
 
-
 const api = createAPI(onUnauthorized, onBadRequest);
 
 const store = createStore(

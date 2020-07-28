@@ -5,7 +5,7 @@ import {AuthorizationStatus} from "../../reducer/user/user-reducer.js";
 
 const Header = (props) => {
   const {email, authorizationStatus} = props;
-  const userStatus = (authorizationStatus === AuthorizationStatus.AUTH) ? true : false;
+  const isAuth = (authorizationStatus === AuthorizationStatus.AUTH);
   return (
     <header className="header">
       <div className="container">
@@ -21,7 +21,7 @@ const Header = (props) => {
                 <a className="header__nav-link header__nav-link--profile" href="#">
                   <div className="header__avatar-wrapper user__avatar-wrapper">
                   </div>
-                  <span className="header__user-name user__name">{userStatus ? email : `Sing in now`}</span>
+                  <span className="header__user-name user__name">{isAuth ? email : `Sing in now`}</span>
                 </a>
               </li>
             </ul>

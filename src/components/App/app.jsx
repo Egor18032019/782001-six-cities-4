@@ -4,9 +4,9 @@ import {Switch, Route, BrowserRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../Main/main.jsx";
 import withMain from "../hocs/with-main/with-main.js";
-import {getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount} from "../../reducer/data/selectors.js";
+import {getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount, getErrorMessage} from "../../reducer/data/selectors.js";
 import {getOffersActive, getCardId} from "../../reducer/offers/selectors.js";
-import {getAuthStatus, getEmail} from "../../reducer/user/selectors.js";
+import {getAuthStatus, getEmail, getUsersErrorMessage} from "../../reducer/user/selectors.js";
 import {AuthorizationStatus, Operation} from "../../reducer/user/user-reducer.js";
 
 const MainWrapped = withMain(Main);
@@ -27,7 +27,7 @@ class App extends PureComponent {
 
   _renderApp() {
     const {handlerClickOnTitle, onCityNameClick, isDataLoaded, activeTown, placesCount, activeOffers, cardId,
-      active, authorizationStatus, onLoginUsers, email} = this.props;
+      active, authorizationStatus, onLoginUsers, email, errorMessage, usersErrorMessage} = this.props;
     if (isDataLoaded) {
       if (authorizationStatus === AuthorizationStatus.AUTH) {
         if (active === `mainPages` || active === false) {
@@ -52,6 +52,10 @@ class App extends PureComponent {
           );
         }
       } else {
+        if (usersErrorMessage) {
+          // eslint-disable-next-line no-alert
+          alert(`Проверьте логин и пароль`);
+        }
         return (
           <SignIn
             onSubmit={onLoginUsers}
@@ -62,7 +66,7 @@ class App extends PureComponent {
       return (
         <div className="error" style={{height: `100%`, width: `50%`, paddingTop: `300px`, margin: `auto`, color: `red
         `}}>
-          <p className="error__message">Ошибка загрузки страницы</p>
+          <p className="error__message">Ошибка загрузки страницы {errorMessage}</p>
           <button className="error__button" onClick={()=>{
             window.location.reload(true);
           }}>Попробовать снова</button>
@@ -129,6 +133,8 @@ const mapStateToProps = (store) => {
     active: getOffersActive(store),
     authorizationStatus: getAuthStatus(store),
     email: getEmail(store),
+    errorMessage: getErrorMessage(store),
+    usersErrorMessage: getUsersErrorMessage(store),
   });
 };
 
@@ -143,6 +149,8 @@ App.propTypes = {
   cardId: PropTypes.number,
   authorizationStatus: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  usersErrorMessage: PropTypes.string,
+  errorMessage: PropTypes.string,
   onLoginUsers: PropTypes.func.isRequired,
 };
 
