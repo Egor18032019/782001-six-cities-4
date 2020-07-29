@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react";
 import PropTypes, {bool} from "prop-types";
-import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {Switch, Route, Router} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../Main/main.jsx";
 import withMain from "../hocs/with-main/with-main.js";
@@ -8,7 +8,7 @@ import {getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount, getE
 import {getOffersActive, getCardId} from "../../reducer/offers/selectors.js";
 import {getAuthStatus, getEmail, getUsersErrorMessage} from "../../reducer/user/selectors.js";
 import {AuthorizationStatus, Operation} from "../../reducer/user/user-reducer.js";
-
+import history from "../../history";
 const MainWrapped = withMain(Main);
 
 import Property from "../property/property.jsx";
@@ -19,6 +19,9 @@ import {
 import {
   ActionTown
 } from "../../reducer/data/data-reducer.js";
+import {
+  AppRoute
+} from "../../const.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -79,12 +82,13 @@ class App extends PureComponent {
     const {handlerClickOnTitle, onCityNameClick, activeTown, placesCount, activeOffers,
       authorizationStatus, email} = this.props;
     return (
-      <BrowserRouter>
+      <Router
+        history={history}>
         <Switch>
-          <Route exact path="/">
+          <Route exact path={AppRoute.ROOT}>
             {this._renderApp()}
           </Route>
-          <Route exact path="/main">
+          <Route exact path={AppRoute.MAIN}>
             <MainWrapped
               placesCount={placesCount}
               town={activeTown}
@@ -95,18 +99,21 @@ class App extends PureComponent {
               authorizationStatus={authorizationStatus}
             />;
           </Route>
-          <Route exact path="/property">
+          <Route exact path={AppRoute.PROPERTY}>
             <Property
               place={activeOffers[0]}
             />
           </Route>
-          <Route exact path="/login">
+          <Route exact path={AppRoute.LOGIN}>
             <SignIn
               onSubmit={() => {}}
             />
           </Route>
+          <Route exact path={AppRoute.FAVORITES}>
+
+          </Route>
         </Switch>
-      </BrowserRouter >
+      </Router >
     );
   }
 }
@@ -159,3 +166,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(App); // первы�
 
 
 // ---???? Макс, а на этот applicationCache.jsx нужно писать тест e2e ? и как ? ничего вголову не приходит
+
+
+// TODO: Удалите логику рендера компонента «Главная страница»,
+// когда по значению аuthorizationStatus равному NO_AUTH рендерится компонент «Sign In».
+//  Теперь оба эти компонента должны рендериться только каждый по своему маршруту.

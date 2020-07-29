@@ -14,8 +14,16 @@ const SORTING = [
   `Top rated first`,
 ];
 
+const AppRoute = {
+  ROOT: `/`,
+  LOGIN: `/login`,
+  MAIN: `/main`,
+  PROPERTY: `/property`,
+  FAVORITES: `/favorites`,
+};
 
 export {
   CITYLIST,
-  SORTING
+  SORTING,
+  AppRoute
 };
