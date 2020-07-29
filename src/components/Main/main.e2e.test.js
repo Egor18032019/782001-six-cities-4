@@ -276,6 +276,12 @@ describe(`test Main e2e`, () => {
             onSortingTypeClick = {
               onSortingTypeClick
             }
+            email = {
+              `goro5@mail.ru`
+            }
+            authorizationStatus = {
+              `AUTH`
+            }
           />
         </Provider>
     );
@@ -308,6 +314,9 @@ describe(`test Main e2e`, () => {
       [NameSpace.OFFERS]: {
         active: `mainPages`,
         cardId: null,
+      },
+      [NameSpace.USERS]: {
+        users: ``,
       },
     });
     const mainScreen = mount(
@@ -342,6 +351,12 @@ describe(`test Main e2e`, () => {
             }
             onSortingTypeClick = {
               onSortingTypeClick
+            }
+            email = {
+              `goro5@mail.ru`
+            }
+            authorizationStatus = {
+              `AUTH`
             }
           />
         </Provider>

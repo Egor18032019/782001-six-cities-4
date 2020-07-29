@@ -24,11 +24,11 @@ const withMain = (Component) => {
           onCardMouseEnter={(place)=>{
             this.setState({activeOffer: place});
           }}
-          onSortingTypeClick={(type)=>{
-            this.setState({typeSorting: type});
-          }}
           onCardMouseOut={()=>{
             this.setState({activeOffer: null});
+          }}
+          onSortingTypeClick={(type)=>{
+            this.setState({typeSorting: type});
           }}
         >
         </Component>

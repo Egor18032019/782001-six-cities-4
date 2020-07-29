@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshots test App Render App 1`] = `
+exports[`snapshots test App Render App for bad loading 1`] = `
 <div
   className="error"
   style={
@@ -21,6 +21,35 @@ exports[`snapshots test App Render App 1`] = `
   </p>
   <button
     className="error__button"
+    onClick={[Function]}
+  >
+    Попробовать снова
+  </button>
+</div>
+`;
+
+exports[`snapshots test App Render App for good loading 1`] = `
+<div
+  className="error"
+  style={
+    Object {
+      "color": "red
+        ",
+      "height": "100%",
+      "margin": "auto",
+      "paddingTop": "300px",
+      "width": "50%",
+    }
+  }
+>
+  <p
+    className="error__message"
+  >
+    Ошибка загрузки страницы
+  </p>
+  <button
+    className="error__button"
+    onClick={[Function]}
   >
     Попробовать снова
   </button>

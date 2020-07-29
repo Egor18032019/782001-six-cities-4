@@ -23,10 +23,14 @@ const getDataStatus = (state) => {
 const getPlaceCount = (state) => {
   return state[NameSpace.DATA].placesCount;
 };
+const getErrorMessage = (state) => {
+  return state[NameSpace.DATA].errorMessage;
+};
 
 export {
   getOffersByActiveCity,
   getDataStatus,
   getActiveTown,
-  getPlaceCount
+  getPlaceCount,
+  getErrorMessage
 };

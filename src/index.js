@@ -15,15 +15,17 @@ import {
 import {
   loadDataAsync
 } from "./reducer/data/data-reducer.js";
+import {
+  setAuthStatus
+} from "./reducer/user/user-reducer.js";
 
-const onUnauthorized = () => {
-  store.dispatch();
+const onUnauthorized = (status) => {
+  store.dispatch(setAuthStatus(status));
 };
 
 const onBadRequest = (err) => {
   store.dispatch(setIdDataLoaded(false, err));
 };
-
 
 const api = createAPI(onUnauthorized, onBadRequest);
 

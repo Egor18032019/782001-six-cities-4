@@ -42,14 +42,15 @@ describe(`test CityList e2e`, () => {
   it(`click title or no click`, () => {
     const onCityNameClick = jest.fn();
 
-    const cityTitleList = mount(<CityList
-      town = {
-        PLACE.city
-      }
-      onCityNameClick = {
-        onCityNameClick
-      }
-    />
+    const cityTitleList = mount(
+        <CityList
+          town = {
+            PLACE.city
+          }
+          onCityNameClick = {
+            onCityNameClick
+          }
+        />
     );
     const titleOnMain = cityTitleList.find(`.locations__item-link`);
     titleOnMain.forEach(

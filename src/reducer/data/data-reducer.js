@@ -30,7 +30,6 @@ const loadDataAsync = () => (dispatch, getState, api) => {
       dispatch(getDataOffers(serverDataOffers));
       dispatch(setIdDataLoaded(true));
     });
-
 };
 
 const dataReducer = (state = initialState, action) => {
@@ -47,7 +46,8 @@ const dataReducer = (state = initialState, action) => {
       });
     case ActionType.GET_SERVER_STATUS:
       return Object.assign({}, state, {
-        isDataLoaded: action.isDataLoaded
+        isDataLoaded: action.isDataLoaded,
+        errorMessage: action.errorMessage
       });
     default:
       return state;

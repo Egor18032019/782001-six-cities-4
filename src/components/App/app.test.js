@@ -101,7 +101,7 @@ const mockSettings = [{
 const mockStore = configureStore([]);
 
 describe(`snapshots test App`, () => {
-  it(`Render App`, () => {
+  it(`Render App for good loading`, () => {
     const store = mockStore({
       [NameSpace.DATA]: {
         data: [],
@@ -114,12 +114,22 @@ describe(`snapshots test App`, () => {
         active: `mainPages`,
         cardId: null,
       },
+      [NameSpace.USERS]: {
+        authorizationStatus: `NO_AUTH`,
+        users: ``,
+      },
     });
 
     const tree = renderer
       .create(
           <Provider store={store}>
             < App
+              email = {
+                `goro5@mail.ru`
+              }
+              authorizationStatus = {
+                `AUTH`
+              }
               onMainTitleClick = {
                 () => {}
               }
@@ -128,6 +138,68 @@ describe(`snapshots test App`, () => {
               }
               isDataLoaded = {
                 true
+              }
+              cardId = {
+                null
+              }
+              activeTown = {
+                `Amsterdam`
+              }
+              placesCount = {
+                121
+              }
+              activeOffers = {
+                mockSettings
+              }
+              active = {
+                `mainPages`
+              }
+            />
+          </Provider>,
+          // так как нет контейнера делаем моковый
+          {
+            createNodeMock: () => document.createElement(`div`)
+          })
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+  it(`Render App for bad loading`, () => {
+    const store = mockStore({
+      [NameSpace.DATA]: {
+        data: [],
+        isDataLoaded: false,
+        placesCount: 0,
+        town: `Amsterdam`,
+        errorMessage: ``
+      },
+      [NameSpace.OFFERS]: {
+        active: `mainPages`,
+        cardId: null,
+      },
+      [NameSpace.USERS]: {
+        authorizationStatus: `NO_AUTH`,
+        users: ``,
+      },
+    });
+
+    const tree = renderer
+      .create(
+          <Provider store={store}>
+            < App
+              email = {
+                `goro5@mail.ru`
+              }
+              authorizationStatus = {
+                `AUTH`
+              }
+              onMainTitleClick = {
+                () => {}
+              }
+              onCityNameClick = {
+                () => {}
+              }
+              isDataLoaded = {
+                false
               }
               cardId = {
                 null
