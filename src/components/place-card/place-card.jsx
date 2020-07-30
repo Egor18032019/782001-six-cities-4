@@ -1,10 +1,20 @@
 // компонент "Карточка предложения"
 import React, {PureComponent} from "react";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
+
+import {AppRoute} from "../../const.js";
+import {AuthorizationStatus} from "../../reducer/user/user-reducer.js";
+import {Operation} from "../../reducer/data/data-reducer.js";
+import {getAuthStatus} from "../../reducer/user/selectors.js";
 
 class PlaceCard extends PureComponent {
   constructor(props) {
     super(props);
+
+    // есть кнопка биндим её
+    this.onFavoriteClick = this.onFavoriteClick.bind(this);
   }
 
   render() {
@@ -15,6 +25,8 @@ class PlaceCard extends PureComponent {
     const {
       description, type, isPremium, mainPhoto, price, isBookmark, rating
     } = place;
+    console.log(isBookmark);
+
     if (place) {
       return (
         <article
@@ -36,7 +48,8 @@ class PlaceCard extends PureComponent {
                 <b className="place-card__price-value">&euro;{price}</b>
                 <span className="place-card__price-text">&#47;&nbsp;night</span>
               </div>
-              <button className={`place-card__bookmark-button button ${isBookmark ? `place-card__bookmark-button--active` : ``}`} type="button">
+              <button className={`place-card__bookmark-button button ${isBookmark ? `place-card__bookmark-button--active` : ``}`} type="button"
+                onClick={this.onFavoriteClick}>
                 <svg className="place-card__bookmark-icon" width="18" height="19">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
@@ -54,7 +67,7 @@ class PlaceCard extends PureComponent {
             <h2 onClick={() => {
               onMainTitleClick(place);
             }} className="place-card__name">
-              <a href="#">{description}</a>
+              <Link to={AppRoute.PROPERTY}>{description}</Link>
             </h2>
             <p className="place-card__type">{type}</p>
           </div>
@@ -64,12 +77,32 @@ class PlaceCard extends PureComponent {
       return ``;
     }
   }
+
+  onFavoriteClick() {
+    const {authorizationStatus, onFavoriteButtonClick, place} = this.props;
+    if (authorizationStatus === AuthorizationStatus.AUTH) {
+      return history.push(AppRoute.LOGIN);
+    }
+    console.log(`нажал в избранное`, place.id);
+    onFavoriteButtonClick(place);
+    return false;
+  }
 }
+const mapDispatchToProps = (dispatch) => ({
+  onFavoriteButtonClick(place) {
+    dispatch(Operation.addToFavorite(place));
+  }}
+);
+const mapStateToProps = (store) => ({
+  authorizationStatus: getAuthStatus(store),
+});
 
 PlaceCard.propTypes = {
   onMainTitleClick: PropTypes.func.isRequired,
   onCardMouseEnter: PropTypes.func.isRequired,
   onCardMouseOut: PropTypes.func.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
+  onFavoriteButtonClick: PropTypes.func.isRequired,
   place: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
@@ -86,4 +119,5 @@ PlaceCard.propTypes = {
 };
 
 
-export default PlaceCard;
+export {PlaceCard};
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceCard);

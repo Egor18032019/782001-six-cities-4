@@ -20,6 +20,7 @@ const AppRoute = {
   MAIN: `/main`,
   PROPERTY: `/property`,
   FAVORITES: `/favorites`,
+  // AMSTERDAM: `/Amsterdam`,
 };
 
 export {

@@ -11,6 +11,7 @@ const ActionType = {
   GET_SERVER_DATA: `GET_SERVER_DATA`,
   GET_SERVER_STATUS: `GET_SERVER_STATUS`,
   CHANGE_TOWN: `CHANGE_TOWN`,
+  LOAD_FAVORITE_OFFERS: `LOAD_FAVORITE_OFFERS`,
 };
 
 // Объект начального состояния(state):
@@ -23,13 +24,29 @@ const initialState = {
 };
 
 // запрос на сервер
-const loadDataAsync = () => (dispatch, getState, api) => {
-  return api.get(`/hotels`)
-    .then((response) => {
-      const serverDataOffers = adapter(response.data); // адаптер для пересборки данных
-      dispatch(getDataOffers(serverDataOffers));
-      dispatch(setIdDataLoaded(true));
-    });
+const Operation = {
+  loadDataAsync: () => (dispatch, getState, api) => {
+    return api.get(`/hotels`)
+      .then((response) => {
+        // console.log(response);
+        const serverDataOffers = adapter(response.data); // адаптер для пересборки данных
+        dispatch(getDataOffers(serverDataOffers));
+        dispatch(setIdDataLoaded(true));
+      });
+  },
+  addToFavorite: (offer) => (dispatch, getState, api) => {
+    return api.post(`/favorite/${offer.id}/${+!offer.isBookmark}`, {})
+      .then((response) => {
+        dispatch(Operation.loadFavoriteOffers());
+      });
+  },
+  loadFavoriteOffers: () => (dispatch, getState, api) => {
+    return api.get(`/favorite`)
+      .then((response) => {
+        const favoriteDataOffers = adapter(response.data); // адаптер для пересборки данных
+        dispatch(addFavoriteOffers(favoriteDataOffers));
+      });
+  },
 };
 
 const dataReducer = (state = initialState, action) => {
@@ -49,10 +66,32 @@ const dataReducer = (state = initialState, action) => {
         isDataLoaded: action.isDataLoaded,
         errorMessage: action.errorMessage
       });
+    case ActionType.LOAD_FAVORITE_OFFERS:
+      let favoriteOffers = action.payload;
+      // в data ишем совпадающие по id элементы и заменяем их.
+      let lastOffer = favoriteOffers[favoriteOffers.length - 1];
+      console.log(lastOffer.isBookmark);
+      lastOffer.isBookmark = !lastOffer.isBookmark;
+      console.log(lastOffer.isBookmark);
+      // что бы каждый раз не сравнивать массивы -> ищем по последнему элемнту и меняем его
+      let index = state.data.findIndex((it) => it.id === lastOffer.id);
+      console.log(state.data[index]);
+      let newDate = state.data.splice(index, 1, lastOffer);
+      return Object.assign({}, state, {
+        data: newDate,
+      });
     default:
       return state;
   }
   // return state;
+};
+
+
+const addFavoriteOffers = (favoriteOffers) => {
+  return {
+    type: ActionType.LOAD_FAVORITE_OFFERS,
+    payload: favoriteOffers
+  };
 };
 
 /**
@@ -88,7 +127,7 @@ const ActionTown = {
 export {
   dataReducer,
   ActionType,
-  loadDataAsync,
+  Operation,
   ActionTown,
   setIdDataLoaded
 };

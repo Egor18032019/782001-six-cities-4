@@ -31,6 +31,7 @@ class App extends PureComponent {
   _renderApp() {
     const {handlerClickOnTitle, onCityNameClick, isDataLoaded, activeTown, placesCount, activeOffers, cardId,
       active, authorizationStatus, onLoginUsers, email, errorMessage, usersErrorMessage} = this.props;
+
     if (isDataLoaded) {
       if (authorizationStatus === AuthorizationStatus.AUTH) {
         if (active === `mainPages` || active === false) {
@@ -80,7 +81,7 @@ class App extends PureComponent {
 
   render() {
     const {handlerClickOnTitle, onCityNameClick, activeTown, placesCount, activeOffers,
-      authorizationStatus, email} = this.props;
+      authorizationStatus, email, onLoginUsers} = this.props;
     return (
       <Router
         history={history}>
@@ -97,16 +98,25 @@ class App extends PureComponent {
               onCityNameClick={onCityNameClick}
               email={email}
               authorizationStatus={authorizationStatus}
-            />;
-          </Route>
-          <Route exact path={AppRoute.PROPERTY}>
-            <Property
-              place={activeOffers[0]}
             />
+          </Route>
+          <Route exact path={AppRoute.PROPERTY}
+            render ={({match})=>{
+              console.log(match);
+              return (
+                <Property
+                  place={activeOffers[0]}
+                  // Макс как быть тут
+                />
+              );
+            }}>
+
+
           </Route>
           <Route exact path={AppRoute.LOGIN}>
             <SignIn
-              onSubmit={() => {}}
+              onSubmit={onLoginUsers}
+              activeTown={activeTown}
             />
           </Route>
           <Route exact path={AppRoute.FAVORITES}>

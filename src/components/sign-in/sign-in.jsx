@@ -1,6 +1,8 @@
 // компонент "авторизация пользователя"
 import React, {PureComponent, createRef} from "react";
 import PropTypes from "prop-types";
+import {AppRoute} from "../../const.js";
+import {Link} from "react-router-dom";
 
 class SignIn extends PureComponent {
   constructor(props) {
@@ -14,6 +16,7 @@ class SignIn extends PureComponent {
   }
 
   render() {
+    const {activeTown} = this.props;
 
     return (
       <div className="page page--gray page--login">
@@ -21,9 +24,9 @@ class SignIn extends PureComponent {
           <div className="container">
             <div className="header__wrapper">
               <div className="header__left">
-                <a className="header__logo-link" href="main.html">
+                <Link className="header__logo-link" to={AppRoute.MAIN}>
                   <img className="header__logo" src="img/logo.svg" alt="6 cities logo" style={{width: `81`}} />
-                </a>
+                </Link>
               </div>
               <nav className="header__nav">
                 <ul className="header__nav-list">
@@ -61,9 +64,9 @@ class SignIn extends PureComponent {
             </section>
             <section className="locations locations--login locations--current">
               <div className="locations__item">
-                <a className="locations__item-link" href="#">
-                  <span>Amsterdam</span>
-                </a>
+                <Link className="locations__item-link" to={AppRoute.MAIN}>
+                  <span>{activeTown}</span>
+                </Link>
               </div>
             </section>
           </div>
@@ -86,6 +89,8 @@ class SignIn extends PureComponent {
 
 SignIn.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  activeTown: PropTypes.string.isRequired
+  // Максим ка сделать чтоб тут не было ошибки в консоле???
 };
 
 
