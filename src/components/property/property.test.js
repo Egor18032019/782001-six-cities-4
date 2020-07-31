@@ -1,10 +1,13 @@
 import React from "react";
-import renderer from "react-test-renderer";
-import Property from "./property.jsx";
-import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
+import {Router} from "react-router-dom";
+import renderer from "react-test-renderer";
+import configureStore from "redux-mock-store";
+import Property from "./property.jsx";
 import NameSpace from "../../reducer/name-space.js";
+import {createBrowserHistory} from "history";
 
+const history = createBrowserHistory();
 const CARD = {
   id: 2,
   city: `Paris`,
@@ -47,9 +50,11 @@ describe(`Property snepshot test`, () => {
     const tree = renderer
             .create(
                 <Provider store={store}>
-                  <Property
-                    place={CARD}
-                  />
+                  <Router history={history}>
+                    <Property
+                      place={CARD}
+                    />
+                  </Router>
                 </Provider>, {
                   createNodeMock: () => document.createElement(`div`)
                 })

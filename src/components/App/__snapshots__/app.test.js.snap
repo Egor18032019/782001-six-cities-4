@@ -17,7 +17,8 @@ exports[`snapshots test App Render App for bad loading 1`] = `
   <p
     className="error__message"
   >
-    Ошибка загрузки страницы
+    Ошибка загрузки страницы 
+    
   </p>
   <button
     className="error__button"
@@ -45,7 +46,8 @@ exports[`snapshots test App Render App for good loading 1`] = `
   <p
     className="error__message"
   >
-    Ошибка загрузки страницы
+    Ошибка загрузки страницы 
+    
   </p>
   <button
     className="error__button"

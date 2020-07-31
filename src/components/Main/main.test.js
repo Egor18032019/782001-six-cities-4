@@ -1,10 +1,12 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import Main from "./main.jsx";
 import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
+import {Router} from "react-router-dom";
+import {createBrowserHistory} from "history";
+const history = createBrowserHistory();
+import Main from "./main.jsx";
 import NameSpace from "../../reducer/name-space.js";
-
 const Settings = {
   PLACES: 312,
   CITIES: `Amsterdam !`,
@@ -228,6 +230,7 @@ describe(`snapshots test Main`, () => {
         cardId: null,
       },
       [NameSpace.USERS]: {
+        authorizationStatus: `NO_AUTH`,
         users: ``,
       },
     });
@@ -235,44 +238,47 @@ describe(`snapshots test Main`, () => {
     const tree = renderer
       .create(
           <Provider store={store}>
-            <Main
-              typeSorting = {
-                `Popular`
-              }
-              activeOffer = {
-                null
-              }
-              email = {
-                `goro5@mail.ru`
-              }
-              authorizationStatus = {
-                `AUTH`
-              }
-              placesCount = {
-                Settings.PLACES
-              }
-              town = {
-                Settings.CITIES
-              }
-              places = {
-                mockSettings
-              }
-              onMainTitleClick = {
-                () => {}
-              }
-              onCityNameClick = {
-                () => {}
-              }
-              onCardMouseOut = {
-                () => {}
-              }
-              onCardMouseEnter = {
-                () => {}
-              }
-              onSortingTypeClick = {
-                () => {}
-              }
-            />,
+            <Router history={history}>
+
+              <Main
+                typeSorting = {
+                  `Popular`
+                }
+                activeOffer = {
+                  null
+                }
+                email = {
+                  `goro5@mail.ru`
+                }
+                authorizationStatus = {
+                  `AUTH`
+                }
+                placesCount = {
+                  Settings.PLACES
+                }
+                town = {
+                  Settings.CITIES
+                }
+                places = {
+                  mockSettings
+                }
+                onMainTitleClick = {
+                  () => {}
+                }
+                onCityNameClick = {
+                  () => {}
+                }
+                onCardMouseOut = {
+                  () => {}
+                }
+                onCardMouseEnter = {
+                  () => {}
+                }
+                onSortingTypeClick = {
+                  () => {}
+                }
+              />
+            </Router>
           </Provider>,
           // так как нет контейнера делаем моковый
           {

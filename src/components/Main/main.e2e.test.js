@@ -2,12 +2,14 @@ import React from "react";
 import Enzyme, {
   mount
 } from "enzyme";
+import {Provider} from "react-redux";
+import {Router} from "react-router-dom";
+import configureStore from "redux-mock-store";
 import Adapter from "enzyme-adapter-react-16";
 import Main from "./main.jsx";
-import {Provider} from "react-redux";
-import configureStore from "redux-mock-store";
 import NameSpace from "../../reducer/name-space.js";
-
+import {createBrowserHistory} from "history";
+const history = createBrowserHistory();
 const mockStore = configureStore([]);
 
 Enzyme.configure({
@@ -242,47 +244,53 @@ describe(`test Main e2e`, () => {
         active: `mainPages`,
         cardId: null,
       },
+      [NameSpace.USERS]: {
+        authorizationStatus: `AUTH`,
+        users: `test@mail.ru`
+      },
     });
     const mainScreen = mount(
         <Provider store={store}>
-          <Main
-            typeSorting = {
-              `Popular`
-            }
-            activeOffer = {
-              null
-            }
-            placesCount = {
-              Settings.PLACES
-            }
-            town = {
-              Settings.CITIES
-            }
-            places = {
-              mockSettings
-            }
-            onMainTitleClick = {
-              onMainTitleClick
-            }
-            onCityNameClick = {
-              onCityNameClick
-            }
-            onCardMouseOut = {
-              onCardMouseOut
-            }
-            onCardMouseEnter = {
-              onCardMouseEnter
-            }
-            onSortingTypeClick = {
-              onSortingTypeClick
-            }
-            email = {
-              `goro5@mail.ru`
-            }
-            authorizationStatus = {
-              `AUTH`
-            }
-          />
+          <Router history={history}>
+            <Main
+              typeSorting = {
+                `Popular`
+              }
+              activeOffer = {
+                null
+              }
+              placesCount = {
+                Settings.PLACES
+              }
+              town = {
+                Settings.CITIES
+              }
+              places = {
+                mockSettings
+              }
+              onMainTitleClick = {
+                onMainTitleClick
+              }
+              onCityNameClick = {
+                onCityNameClick
+              }
+              onCardMouseOut = {
+                onCardMouseOut
+              }
+              onCardMouseEnter = {
+                onCardMouseEnter
+              }
+              onSortingTypeClick = {
+                onSortingTypeClick
+              }
+              email = {
+                `goro5@mail.ru`
+              }
+              authorizationStatus = {
+                `AUTH`
+              }
+            />
+          </Router>
         </Provider>
     );
     // ищем все видимые заголовки
@@ -316,49 +324,53 @@ describe(`test Main e2e`, () => {
         cardId: null,
       },
       [NameSpace.USERS]: {
+        authorizationStatus: `NO_AUTH`,
         users: ``,
       },
     });
     const mainScreen = mount(
         <Provider store={store}>
-          <Main
-            typeSorting = {
-              `Popular`
-            }
-            activeOffer = {
-              null
-            }
-            placesCount = {
-              Settings.PLACES
-            }
-            town = {
-              Settings.CITIES
-            }
-            places = {
-              mockSettings
-            }
-            onMainTitleClick = {
-              onMainTitleClick
-            }
-            onCityNameClick = {
-              onCityNameClick
-            }
-            onCardMouseOut = {
-              onCardMouseOut
-            }
-            onCardMouseEnter = {
-              onCardMouseEnter
-            }
-            onSortingTypeClick = {
-              onSortingTypeClick
-            }
-            email = {
-              `goro5@mail.ru`
-            }
-            authorizationStatus = {
-              `AUTH`
-            }
-          />
+          <Router history={history}>
+
+            <Main
+              typeSorting = {
+                `Popular`
+              }
+              activeOffer = {
+                null
+              }
+              placesCount = {
+                Settings.PLACES
+              }
+              town = {
+                Settings.CITIES
+              }
+              places = {
+                mockSettings
+              }
+              onMainTitleClick = {
+                onMainTitleClick
+              }
+              onCityNameClick = {
+                onCityNameClick
+              }
+              onCardMouseOut = {
+                onCardMouseOut
+              }
+              onCardMouseEnter = {
+                onCardMouseEnter
+              }
+              onSortingTypeClick = {
+                onSortingTypeClick
+              }
+              email = {
+                `goro5@mail.ru`
+              }
+              authorizationStatus = {
+                `AUTH`
+              }
+            />
+          </Router>
         </Provider>
     );
     // ищем все видимые заголовки

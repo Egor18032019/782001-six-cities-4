@@ -30,7 +30,7 @@ class App extends PureComponent {
 
   // --->?? Максим что тут должно остаться ?
   _renderApp() {
-    const {handlerClickOnTitle, onCityNameClick, isDataLoaded, activeTown, placesCount, activeOffers, cardId,
+    const {onMainTitleClick, onCityNameClick, isDataLoaded, activeTown, placesCount, activeOffers, cardId,
       active, authorizationStatus, onLoginUsers, email, errorMessage, usersErrorMessage} = this.props;
 
     if (isDataLoaded) {
@@ -41,7 +41,7 @@ class App extends PureComponent {
               placesCount={placesCount}
               town={activeTown}
               places={activeOffers}
-              onMainTitleClick={handlerClickOnTitle}
+              onMainTitleClick={onMainTitleClick}
               onCityNameClick={onCityNameClick}
               email={email}
               authorizationStatus={authorizationStatus}
@@ -86,7 +86,7 @@ class App extends PureComponent {
   }
 
   render() {
-    const {handlerClickOnTitle, onCityNameClick, activeTown, placesCount, activeOffers,
+    const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers,
       authorizationStatus, email, onLoginUsers} = this.props;
     return (
       <Router
@@ -100,7 +100,7 @@ class App extends PureComponent {
               placesCount={placesCount}
               town={activeTown}
               places={activeOffers}
-              onMainTitleClick={handlerClickOnTitle}
+              onMainTitleClick={onMainTitleClick}
               onCityNameClick={onCityNameClick}
               email={email}
               authorizationStatus={authorizationStatus}
@@ -116,8 +116,6 @@ class App extends PureComponent {
                 />
               );
             }}>
-
-
           </Route>
           <Route exact path={AppRoute.LOGIN}>
             <SignIn
@@ -135,7 +133,7 @@ class App extends PureComponent {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  handlerClickOnTitle(place) {
+  onMainTitleClick(place) {
     dispatch(ActionActive.activeState(place));
   },
   onCityNameClick(city) {
@@ -163,7 +161,7 @@ const mapStateToProps = (store) => {
 
 App.propTypes = {
   onCityNameClick: PropTypes.func.isRequired,
-  handlerClickOnTitle: PropTypes.func.isRequired,
+  onMainTitleClick: PropTypes.func.isRequired,
   isDataLoaded: bool.isRequired,
   activeTown: PropTypes.string.isRequired,
   placesCount: PropTypes.number.isRequired,
@@ -179,9 +177,6 @@ App.propTypes = {
 
 export {App};
 export default connect(mapStateToProps, mapDispatchToProps)(App); // первым стате а вторым диспатчеры
-
-
-// ---???? Макс, а на этот applicationCache.jsx нужно писать тест e2e ? и как ? ничего вголову не приходит
 
 
 // TODO: Удалите логику рендера компонента «Главная страница»,

@@ -18,7 +18,8 @@ exports[`SignIn snepshot test Should SignIn render correctly 1`] = `
         >
           <a
             className="header__logo-link"
-            href="main.html"
+            href="/main"
+            onClick={[Function]}
           >
             <img
               alt="6 cities logo"
@@ -128,10 +129,11 @@ exports[`SignIn snepshot test Should SignIn render correctly 1`] = `
         >
           <a
             className="locations__item-link"
-            href="#"
+            href="/main"
+            onClick={[Function]}
           >
             <span>
-              Amsterdam
+              Paris
             </span>
           </a>
         </div>

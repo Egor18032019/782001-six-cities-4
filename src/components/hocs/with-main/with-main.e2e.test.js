@@ -21,7 +21,7 @@ Enzyme.configure({
 //   typeSorting: `Popular`
 // });
 
-const place = {
+const place = [{
   id: 0,
   city: `Amsterdam`,
   type: `Apartament`,
@@ -44,10 +44,10 @@ const place = {
     isPro: true,
     name: `Angelina`
   }
-};
+}];
 
 const MockComponent = (props) => {
-  const {onSortingTypeClick, onCardMouseEnter, onCardMouseOut} = props;
+  const {onSortingTypeClick, onCardMouseEnter, onCardMouseOut, typeSorting} = props;
   const type = `price`;
   return (
     <div>
@@ -64,6 +64,7 @@ const MockComponent = (props) => {
 };
 
 MockComponent.propTypes = {
+  typeSorting: PropTypes.string.isRequired,
   onSortingTypeClick: PropTypes.func.isRequired,
   onCardMouseEnter: PropTypes.func.isRequired,
   onCardMouseOut: PropTypes.func.isRequired,
@@ -80,6 +81,7 @@ describe(`test withMain e2e`, () => {
 
     const hocComponent = mount(
         <MockComponentWrapped
+          typeSorting ={`popuar`}
           town={`Amsterdam`}
           place = {
             place

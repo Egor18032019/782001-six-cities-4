@@ -1,6 +1,12 @@
 import React from "react";
+import {Provider} from "react-redux";
+import {Router} from "react-router-dom";
 import renderer from "react-test-renderer";
+import configureStore from "redux-mock-store";
+import {createBrowserHistory} from "history";
+const history = createBrowserHistory();
 import PlaceCard from "./place-card.jsx";
+import NameSpace from "../../reducer/name-space.js";
 
 const PLACE = {
   id: 1,
@@ -26,27 +32,51 @@ const PLACE = {
   }
 };
 
+const mockStore = configureStore([]);
+const store = mockStore({
+  [NameSpace.DATA]: {
+    data: [],
+    isDataLoaded: false,
+    placesCount: 0,
+    town: `Amsterdam`,
+    errorMessage: ``
+  },
+  [NameSpace.OFFERS]: {
+    active: `mainPages`,
+    cardId: null,
+  },
+  [NameSpace.USERS]: {
+    authorizationStatus: `NO_AUTH`,
+    users: ``,
+  },
+});
 
 describe(`PlaceCard snepshot test`, () => {
   it(`Should PlaceCard render correctly`, () => {
     const tree = renderer
-      .create(<PlaceCard place = {
-        PLACE
-      }
-      onMainTitleClick = {
-        () => {}
-      }
-      onCardMouseEnter = {
-        () => {}
-      }
-      onCardMouseOut = {
-        () => {}
-      }
-      />,
-      // так как нет контейнера куда отрисовываться = делаем мокковый
-      {
-        createNodeMock: () => document.createElement(`div`)
-      })
+      .create(
+          <Provider store={store}>
+            <Router history={history}>
+
+              <PlaceCard place = {
+                PLACE
+              }
+              onMainTitleClick = {
+                () => {}
+              }
+              onCardMouseEnter = {
+                () => {}
+              }
+              onCardMouseOut = {
+                () => {}
+              }
+              />
+            </Router>
+          </Provider>,
+          // так как нет контейнера куда отрисовываться = делаем мокковый
+          {
+            createNodeMock: () => document.createElement(`div`)
+          })
       .toJSON();
 
     expect(tree).toMatchSnapshot();

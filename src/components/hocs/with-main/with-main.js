@@ -38,7 +38,6 @@ const withMain = (Component) => {
   WithMain.propTypes = {
     placesCount: PropTypes.number.isRequired,
     onCityNameClick: PropTypes.func.isRequired,
-    town: PropTypes.string.isRequired,
     places: PropTypes.array.isRequired,
     onMainTitleClick: PropTypes.func.isRequired,
   };

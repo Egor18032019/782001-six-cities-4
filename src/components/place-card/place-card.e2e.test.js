@@ -3,10 +3,35 @@ import Enzyme, {
   mount, shallow
 } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
+import configureStore from "redux-mock-store";
+import {Provider} from "react-redux";
+import {Router} from "react-router-dom";
+import {createBrowserHistory} from "history";
+const history = createBrowserHistory();
 import PlaceCard from "./place-card.jsx";
+import NameSpace from "../../reducer/name-space.js";
 
 Enzyme.configure({
   adapter: new Adapter(),
+});
+
+const mockStore = configureStore([]);
+const store = mockStore({
+  [NameSpace.DATA]: {
+    data: [],
+    isDataLoaded: false,
+    placesCount: 0,
+    town: `Amsterdam`,
+    errorMessage: ``
+  },
+  [NameSpace.OFFERS]: {
+    active: `mainPages`,
+    cardId: null,
+  },
+  [NameSpace.USERS]: {
+    authorizationStatus: `NO_AUTH`,
+    users: ``,
+  },
 });
 
 const place = {
@@ -39,20 +64,25 @@ describe(`test PlaceCard e2e`, () => {
     const onCardMouseEnter = jest.fn();
     const onCardMouseOut = jest.fn();
 
-    const mainScreen = mount(<
-      PlaceCard place = {
-        place
-      }
-      onMainTitleClick = {
-        onMainTitleClick
-      }
-      onCardMouseEnter = {
-        onCardMouseEnter
-      }
-      onCardMouseOut = {
-        onCardMouseOut
-      }
-    />
+    const mainScreen = mount(
+        <Provider store={store}>
+          <Router history={history}>
+
+            <PlaceCard place = {
+              place
+            }
+            onMainTitleClick = {
+              onMainTitleClick
+            }
+            onCardMouseEnter = {
+              onCardMouseEnter
+            }
+            onCardMouseOut = {
+              onCardMouseOut
+            }
+            />
+          </Router>
+        </Provider>
     );
     // симулируем наведение и убирание мышки onMouseLeave
     mainScreen.simulate(`mouseEnter`);
@@ -69,51 +99,51 @@ describe(`test PlaceCard e2e`, () => {
     const onCardMouseEnter = jest.fn();
     const onCardMouseOut = jest.fn();
 
-    const mainScreen = shallow(<
-      PlaceCard place = {
-        place
-      }
-      onMainTitleClick = {
-        onMainTitleClick
-      }
-      onCardMouseEnter = {
-        onCardMouseEnter
-      }
-      onCardMouseOut = {
-        onCardMouseOut
-      }
-    />
+    const component = shallow(
+        <Provider store={store}>
+          <Router history={history}>
+
+            <PlaceCard place = {
+              place
+            }
+            onMainTitleClick = {
+              onMainTitleClick
+            }
+            onCardMouseEnter = {
+              onCardMouseEnter
+            }
+            onCardMouseOut = {
+              onCardMouseOut
+            }
+            />
+          </Router>
+        </Provider>
     );
-    const titleOnMain = mainScreen.find(`.place-card__name`);
+    const titleOnMain = component.find(`.place-card__name`);
     titleOnMain.props().onClick();
     // titleOnMain.simulate(`click`);
     expect(onMainTitleClick.mock.calls.length).toBe(1);
   });
 
   it(`Should  first title h2 be pressed`, () => {
-    const onMainTitleClick = jest.fn();
-    const onCardMouseEnter = jest.fn();
-    const onCardMouseOut = jest.fn();
 
-    const mainScreen = shallow(<
-      PlaceCard place = {
-        place
-      }
-      onMainTitleClick = {
-        onMainTitleClick
-      }
-      onCardMouseEnter = {
-        onCardMouseEnter
-      }
-      onCardMouseOut = {
-        onCardMouseOut
-      }
-    />
+    store.dispatch = jest.fn();
+
+    const component = shallow(
+        <Provider store={store}>
+          <Router history={history}>
+
+            <PlaceCard place = {
+              place
+            }
+            />
+          </Router>
+        </Provider>
     );
-    const titleOnMain = mainScreen.find(`.place-card__name`);
-    titleOnMain.at(0).props().onClick();
+    const titleOnMain = component.find(`.place-card__name`);
+    titleOnMain.at(3).props().onClick();
     // titleOnMain.simulate(`click`);
-    expect(onMainTitleClick.mock.calls.length).toBe(1);
+    expect(store.dispatch).toHaveBeenCalledTimes(3);
   });
 
 });

@@ -1,13 +1,36 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import configureStore from "redux-mock-store";
+import {Router} from "react-router-dom";
+import {Provider} from "react-redux";
+import {createBrowserHistory} from "history";
 
+const history = createBrowserHistory();
+import NameSpace from "../../reducer/name-space.js";
 import PlacesList from "./places-list.jsx";
 // TODO сделать два теста . в 1 массив с данными
 // во стом случаи пустой массив
 // подумать как атк модно сделать в APP
 
+const mockStore = configureStore([]);
+const store = mockStore({
+  [NameSpace.DATA]: {
+    data: [],
+    isDataLoaded: false,
+    placesCount: 0,
+    town: `Amsterdam`,
+    errorMessage: ``
+  },
+  [NameSpace.OFFERS]: {
+    active: `mainPages`,
+    cardId: null,
+  },
+  [NameSpace.USERS]: {
+    authorizationStatus: `NO_AUTH`
+  },
+});
 
-const PLACE = {
+const PLACE = [{
   id: 1,
   city: `Amsterdam`,
   type: `Private room`,
@@ -29,33 +52,45 @@ const PLACE = {
     isPro: true,
     name: `Monro`
   }
-};
-
+}];
 
 describe(`PlacesList snepshot test`, () => {
   it(`Should PlacesList render correctly`, () => {
     const tree = renderer
-      .create(<PlacesList place = {
-        PLACE
-      }
-      onMainTitleClick = {
-        () => {}
-      }
-      onCardMouseEnter = {
-        () => {}
-      }
-      onCardMouseOut = {
-        () => {}
-      }
-      />,
-      // так как нет контейнера куда отрисовываться = делаем мокковый
-      {
-        createNodeMock: () => document.createElement(`div`)
-      })
-      .toJSON();
+      .create(
+          <Provider store={store}>
+            <Router history={history}>
+              <PlacesList
+                typeSorting = {`Popular`}
+                town = {`Amsterdam`}
+                placesCount = {11}
 
+                places = {
+                  PLACE
+                }
+                onMainTitleClick = {
+                  () => {}
+                }
+                onCardMouseEnter = {
+                  () => {}
+                }
+                onCardMouseOut = {
+                  () => {}
+                }
+                onSortingTypeClick = {
+                  () => {}
+                }
+              />
+            </Router>
+          </Provider>,
+          // так как нет контейнера куда отрисовываться = делаем мокковый
+          {
+            createNodeMock: () => document.createElement(`div`)
+          })
+      .toJSON();
     expect(tree).toMatchSnapshot();
   });
+
   it(`Should PlacesList render correctly whit zero array`, () => {
     const tree = renderer
       .create(<PlacesList
