@@ -35,7 +35,8 @@ const Operation = {
       });
   },
   addToFavorite: (offer) => (dispatch, getState, api) => {
-    return api.post(`/favorite/${offer.id}/${+!offer.isBookmark}`, {})
+    const status = offer.isBookmark ? 0 : 1;
+    return api.post(`/favorite/${offer.id}/${status}`, {})
       .then((response) => {
         dispatch(Operation.loadFavoriteOffers());
       });
@@ -68,6 +69,7 @@ const dataReducer = (state = initialState, action) => {
       });
     case ActionType.LOAD_FAVORITE_OFFERS:
       let favoriteOffers = action.payload;
+      console.log(favoriteOffers);
       // в data ишем совпадающие по id элементы и заменяем их.
       let lastOffer = favoriteOffers[favoriteOffers.length - 1];
       // что бы каждый раз не сравнивать массивы -> ищем по последнему элемнту и меняем его

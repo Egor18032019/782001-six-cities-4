@@ -28,13 +28,14 @@ class App extends PureComponent {
     super(props);
   }
 
+  // --->?? Максим что тут должно остаться ?
   _renderApp() {
     const {handlerClickOnTitle, onCityNameClick, isDataLoaded, activeTown, placesCount, activeOffers, cardId,
       active, authorizationStatus, onLoginUsers, email, errorMessage, usersErrorMessage} = this.props;
 
     if (isDataLoaded) {
       if (authorizationStatus === AuthorizationStatus.AUTH) {
-        if (active === `mainPages` || active === false) {
+        if (active === `mainPages`) {
           return (
             <MainWrapped
               placesCount={placesCount}
@@ -46,7 +47,7 @@ class App extends PureComponent {
               authorizationStatus={authorizationStatus}
             />
           );
-        } else {
+        } else if (active === `property`) {
           return (
             <Property
               place={activeOffers.find((offer) => {
@@ -56,15 +57,15 @@ class App extends PureComponent {
           );
         }
       } else {
-        if (usersErrorMessage) {
+        if (usersErrorMessage && authorizationStatus === AuthorizationStatus.AUTH) {
           // eslint-disable-next-line no-alert
           alert(`Проверьте логин и пароль`);
         }
-        return (
-          <SignIn
-            onSubmit={onLoginUsers}
-          />
-        );
+        // return (
+        //   <SignIn
+        //     onSubmit={onLoginUsers}
+        //   />
+        // );
       }
     } else {
       return (
@@ -77,6 +78,11 @@ class App extends PureComponent {
         </div>
       );
     }
+    return (
+      <SignIn
+        onLoginUsers={onLoginUsers}
+      />
+    );
   }
 
   render() {
@@ -115,7 +121,7 @@ class App extends PureComponent {
           </Route>
           <Route exact path={AppRoute.LOGIN}>
             <SignIn
-              onSubmit={onLoginUsers}
+              onLoginUsers={onLoginUsers}
               activeTown={activeTown}
             />
           </Route>

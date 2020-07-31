@@ -76,11 +76,11 @@ class SignIn extends PureComponent {
   }
 
   handleSubmit(evt) {
-    const {onSubmit} = this.props;
+    const {onLoginUsers} = this.props;
 
     evt.preventDefault();
 
-    onSubmit({
+    onLoginUsers({
       login: this.loginRef.current.value,
       password: this.passwordRef.current.value,
     });
@@ -88,7 +88,7 @@ class SignIn extends PureComponent {
 }
 
 SignIn.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  onLoginUsers: PropTypes.func.isRequired,
   activeTown: PropTypes.string.isRequired
   // Максим ка сделать чтоб тут не было ошибки в консоле???
 };

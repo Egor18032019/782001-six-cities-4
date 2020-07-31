@@ -1,3 +1,7 @@
+import {
+  AppRoute
+} from "../../const.js";
+import history from "../../history";
 
 // Определяем действия(actions)
 const ActionType = {
@@ -20,7 +24,6 @@ const initialState = {
 
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
-
     case ActionType.REQUIRED_AUTHORIZATION:
       return Object.assign({}, state, {
         authorizationStatus: action.authorizationStatus,
@@ -34,7 +37,6 @@ const usersReducer = (state = initialState, action) => {
     default:
       return state;
   }
-  // return state;
 };
 
 // запрос на сервер
@@ -55,6 +57,7 @@ const Operation = {
     })
     .then((response) => {
       dispatch(setAuthData(AuthorizationStatus.AUTH, response.data.email));
+      history.push(AppRoute.ROOT);
     })
     .catch((err) => {
       throw err;
