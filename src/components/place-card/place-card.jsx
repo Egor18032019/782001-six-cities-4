@@ -26,7 +26,7 @@ class PlaceCard extends PureComponent {
     const {
       description, type, isPremium, mainPhoto, price, isBookmark, rating
     } = place;
-    console.log(isBookmark);
+    // console.log(isBookmark);
 
     if (place) {
       return (
@@ -81,8 +81,6 @@ class PlaceCard extends PureComponent {
 
   onFavoriteClick() {
     const {authorizationStatus, onFavoriteButtonClick, place} = this.props;
-    console.log(authorizationStatus === AuthorizationStatus.AUTH);
-
     if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
       return history.push(AppRoute.LOGIN);
     }
