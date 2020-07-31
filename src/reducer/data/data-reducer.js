@@ -70,9 +70,6 @@ const dataReducer = (state = initialState, action) => {
       let favoriteOffers = action.payload;
       // в data ишем совпадающие по id элементы и заменяем их.
       let lastOffer = favoriteOffers[favoriteOffers.length - 1];
-      console.log(lastOffer.isBookmark);
-      lastOffer.isBookmark = !lastOffer.isBookmark;
-      console.log(lastOffer.isBookmark);
       // что бы каждый раз не сравнивать массивы -> ищем по последнему элемнту и меняем его
       let index = state.data.findIndex((it) => it.id === lastOffer.id);
       console.log(state.data[index]);

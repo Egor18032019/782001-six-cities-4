@@ -8,6 +8,7 @@ import {AppRoute} from "../../const.js";
 import {AuthorizationStatus} from "../../reducer/user/user-reducer.js";
 import {Operation} from "../../reducer/data/data-reducer.js";
 import {getAuthStatus} from "../../reducer/user/selectors.js";
+import history from "../../history.js";
 
 class PlaceCard extends PureComponent {
   constructor(props) {
@@ -80,7 +81,9 @@ class PlaceCard extends PureComponent {
 
   onFavoriteClick() {
     const {authorizationStatus, onFavoriteButtonClick, place} = this.props;
-    if (authorizationStatus === AuthorizationStatus.AUTH) {
+    console.log(authorizationStatus === AuthorizationStatus.AUTH);
+
+    if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
       return history.push(AppRoute.LOGIN);
     }
     console.log(`нажал в избранное`, place.id);
@@ -121,3 +124,6 @@ PlaceCard.propTypes = {
 
 export {PlaceCard};
 export default connect(mapStateToProps, mapDispatchToProps)(PlaceCard);
+
+
+// -??? Максим почему этот компонент перерисовываеться при наведении мышкой ??
