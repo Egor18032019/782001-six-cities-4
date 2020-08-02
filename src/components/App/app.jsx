@@ -2,6 +2,7 @@ import React, {PureComponent} from "react";
 import PropTypes, {bool} from "prop-types";
 import {Switch, Route, Router, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
+import Notifications, {notify} from 'react-notify-toast';
 import Main from "../Main/main.jsx";
 import withMain from "../hocs/with-main/with-main.js";
 import {getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount, getErrorMessage} from "../../reducer/data/selectors.js";
@@ -64,18 +65,11 @@ class App extends PureComponent {
   render() {
     const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers,
       authorizationStatus, email, onLoginUsers, cardId, active, errorMessage} = this.props;
-    let status = (errorMessage ? <div className="error" style={{height: `100%`, width: `50%`, paddingTop: `300px`, margin: `auto`, color: `red`}}>
-      <p className="error__message">Ошибка сети</p>
-      <b>{errorMessage}</b>
-      <br></br>
-      <button className="error__button"
-        onClick={()=>{
-          window.location.reload(true);
-        }}>Попробовать снова</button>
-    </div> : ``);
+    let status = (errorMessage ? notify.show(`${errorMessage}`, `error`) : ``);
     return (
       <Router
         history={history}>
+        <Notifications />
         <Switch>
           <Route exact path={AppRoute.ROOT}>
             {status}
