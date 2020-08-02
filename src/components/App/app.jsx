@@ -29,7 +29,6 @@ class App extends PureComponent {
     super(props);
   }
 
-  // --->?? Максим что тут должно остаться ?
   _renderApp() {
     const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers, cardId,
       active, authorizationStatus, email, usersErrorMessage} = this.props;

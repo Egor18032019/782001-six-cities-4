@@ -84,7 +84,7 @@ class PlaceCard extends PureComponent {
     if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
       return history.push(AppRoute.LOGIN);
     }
-    console.log(`нажал в избранное`, place.id);
+    // console.log(`нажал в избранное`, place.id);
     onFavoriteButtonClick(place);
     return false;
   }

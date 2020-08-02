@@ -90,7 +90,6 @@ class SignIn extends PureComponent {
 SignIn.propTypes = {
   onLoginUsers: PropTypes.func.isRequired,
   activeTown: PropTypes.string.isRequired
-  // Максим ка сделать чтоб тут не было ошибки в консоле???
 };
 
 
