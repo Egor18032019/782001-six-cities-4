@@ -51,11 +51,12 @@ class App extends PureComponent {
           place={activeOffers.find((offer) => {
             return offer.id === cardId;
           })}
+          email={email}
         />
       );
     } else if (usersErrorMessage && authorizationStatus === AuthorizationStatus.NO_AUTH) {
       // eslint-disable-next-line no-alert
-      alert(`Проверьте введеные даные`);
+      alert(`Проверьте введеные данные`);
     }
 
     return `что то пошло не так`;
@@ -63,7 +64,7 @@ class App extends PureComponent {
 
   render() {
     const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers,
-      authorizationStatus, email, onLoginUsers, cardId, active, errorMessage} = this.props;
+      authorizationStatus, email, onLoginUsers, cardId, errorMessage} = this.props;
     let status = (errorMessage ? notify.show(`${errorMessage}`, `error`) : ``);
     return (
       <Router
@@ -87,11 +88,12 @@ class App extends PureComponent {
             />
           </Route>
           <Route exact path={AppRoute.PROPERTY}>
-            {active === `mainPages` ? <Redirect to={AppRoute.MAIN}/> :
+            {authorizationStatus === AuthorizationStatus.NO_AUTH ? <Redirect to={AppRoute.LOGIN}/> :
               <Property
                 place={activeOffers.find((offer) => {
                   return offer.id === cardId;
                 })}
+                email={email}
               />}
             {status}
           </Route>

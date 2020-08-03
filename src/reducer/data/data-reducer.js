@@ -45,7 +45,6 @@ const Operation = {
     return api.get(`/favorite`)
       .then((response) => {
         const favoriteDataOffers = adapter(response.data); // адаптер для пересборки данных
-        console.log(favoriteDataOffers);
         dispatch(addFavoriteOffers(favoriteDataOffers));
       });
   },
@@ -71,15 +70,22 @@ const dataReducer = (state = initialState, action) => {
     case ActionType.LOAD_FAVORITE_OFFERS:
       let favoriteOffers = action.payload;
       console.log(favoriteOffers);
-      console.log(favoriteOffers.id);
-      console.log(state.data[1].isBookmark);
       // в data ишем совпадающие по id элементы и заменяем их.
-      // let lastOffer = favoriteOffers[favoriteOffers.length - 1];
+      let lastOffer;
+      if (favoriteOffers.length === 0) {
+        lastOffer = favoriteOffers[0];
+      } else {
+        lastOffer = favoriteOffers[favoriteOffers.length - 1];
+      }
       let Array = state.data;
       // что бы каждый раз не сравнивать массивы -> ищем по последнему элемнту и меняем у него его isBookmark
-      let index = Array.findIndex((it) => it.id === favoriteOffers.id);
-      return (state.data[index].isBookmark = favoriteOffers.isBookmark);
-
+      let index = Array.findIndex((it) => it.id === lastOffer.id);
+      console.log(lastOffer.id);
+      console.log(Array[index].isBookmark);
+      Array[index].isBookmark = !Array[index].isBookmark;
+      return Object.assign({}, state, {
+        data: Array,
+      });
     default:
       return state;
   }

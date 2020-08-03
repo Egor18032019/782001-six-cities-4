@@ -12,8 +12,7 @@ class Property extends PureComponent {
 
   render() {
 
-    const {place} = this.props;
-    console.log(place);
+    const {place, email} = this.props;
     const {description, price, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host, id} = place;
     return (
       <div className="page">
@@ -28,11 +27,11 @@ class Property extends PureComponent {
               <nav className="header__nav">
                 <ul className="header__nav-list">
                   <li className="header__nav-item user">
-                    <a className="header__nav-link header__nav-link--profile" href="#">
+                    <Link className="header__nav-link header__nav-link--profile" to={AppRoute.FAVORITES}>
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                       </div>
-                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    </a>
+                      <span className="header__user-name user__name">{email}</span>
+                    </Link>
                   </li>
                 </ul>
               </nav>
@@ -215,6 +214,7 @@ class Property extends PureComponent {
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
               <div className="near-places__list places__list">
+
                 <article className="near-places__card place-card">
                   <div className="near-places__image-wrapper place-card__image-wrapper">
                     <a href="#">
@@ -310,6 +310,7 @@ class Property extends PureComponent {
                     <p className="place-card__type">Apartment</p>
                   </div>
                 </article>
+
               </div>
             </section>
           </div>
@@ -323,6 +324,7 @@ class Property extends PureComponent {
 
 
 Property.propTypes = {
+  email: PropTypes.string.isRequired,
   place: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
