@@ -79,11 +79,11 @@ const dataReducer = (state = initialState, action) => {
     case ActionType.ADD_FAVORITE_OFFERS:
       // Идея: в data ишем совпадающие по id элементы и заменяем их.
       let favoriteOffer = action.payload;
-      let Array = state.data;
-      let index = Array.findIndex((it) => it.id === favoriteOffer.id);
-      Array[index].isBookmark = !Array[index].isBookmark;
+      let stateDataRewriteArray = [...state.data];
+      let index = stateDataRewriteArray.findIndex((it) => it.id === favoriteOffer.id);
+      stateDataRewriteArray[index].isBookmark = !stateDataRewriteArray[index].isBookmark;
       return Object.assign({}, state, {
-        data: Array,
+        data: stateDataRewriteArray,
       });
       // Плохо: тормозит при отрисовки.
     case ActionType.LOAD_FAVORITE_OFFERS:
@@ -95,7 +95,6 @@ const dataReducer = (state = initialState, action) => {
   }
   // return state;
 };
-
 
 const getFavoriteOffers = (offer) => {
   return {
