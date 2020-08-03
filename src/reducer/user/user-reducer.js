@@ -32,7 +32,8 @@ const usersReducer = (state = initialState, action) => {
     case ActionType.AUTHORIZATION:
       return Object.assign({}, state, {
         authorizationStatus: action.authorizationStatus,
-        users: action.users
+        users: action.users,
+        usersErrorMessage: ``
       });
     default:
       return state;
@@ -47,6 +48,7 @@ const Operation = {
         dispatch(setAuthData(AuthorizationStatus.AUTH, response.data.email));
       })
       .catch((err) => {
+        // dispatch(setAuthStatus(AuthorizationStatus.NO_AUTH, err)); // ,?? Максим утт надо так делать?
         throw err;
       });
   },

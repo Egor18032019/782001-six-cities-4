@@ -14,7 +14,7 @@ class PlacesList extends PureComponent {
 
   render() {
     const {places, onMainTitleClick, onCardMouseEnter, onCardMouseOut, activeOffer, onSortingTypeClick,
-      typeSorting, placesCount, town} = this.props;
+      typeSorting, placesCount, town, onFavoriteButtonClick, authorizationStatus} = this.props;
     if (places.length > 0) {
       return (
         <div className={`cities__places-container container`}>
@@ -39,6 +39,8 @@ class PlacesList extends PureComponent {
                         onCardMouseEnter={onCardMouseEnter}
                         onCardMouseOut={onCardMouseOut}
                         key={Date.now() + index}
+                        onFavoriteButtonClick={onFavoriteButtonClick}
+                        authorizationStatus={authorizationStatus}
                       />;
                     }
                 )
@@ -70,11 +72,13 @@ class PlacesList extends PureComponent {
 PlacesList.propTypes = {
   activeOffer: PropTypes.number,
   onSortingTypeClick: PropTypes.func.isRequired,
-  typeSorting: PropTypes.string.isRequired,
-  placesCount: PropTypes.number.isRequired,
-  town: PropTypes.string.isRequired,
+  onFavoriteButtonClick: PropTypes.func.isRequired,
   onMainTitleClick: PropTypes.func.isRequired,
   onCardMouseEnter: PropTypes.func.isRequired,
+  typeSorting: PropTypes.string.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
+  placesCount: PropTypes.number.isRequired,
+  town: PropTypes.string.isRequired,
   onCardMouseOut: PropTypes.func.isRequired,
   places: PropTypes.array.isRequired,
 };

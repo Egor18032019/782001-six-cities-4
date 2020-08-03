@@ -1,13 +1,10 @@
 // компонент "Карточка предложения"
 import React, {PureComponent} from "react";
-import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
 import {AppRoute} from "../../const.js";
 import {AuthorizationStatus} from "../../reducer/user/user-reducer.js";
-import {Operation} from "../../reducer/data/data-reducer.js";
-import {getAuthStatus} from "../../reducer/user/selectors.js";
 import history from "../../history.js";
 
 class PlaceCard extends PureComponent {
@@ -84,19 +81,11 @@ class PlaceCard extends PureComponent {
     if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
       return history.push(AppRoute.LOGIN);
     }
-    // console.log(`нажал в избранное`, place.id);
+    console.log(`нажал в избранное`, place.id);
     onFavoriteButtonClick(place);
     return false;
   }
 }
-const mapDispatchToProps = (dispatch) => ({
-  onFavoriteButtonClick(place) {
-    dispatch(Operation.addToFavorite(place));
-  }}
-);
-const mapStateToProps = (store) => ({
-  authorizationStatus: getAuthStatus(store),
-});
 
 PlaceCard.propTypes = {
   onMainTitleClick: PropTypes.func.isRequired,
@@ -120,8 +109,4 @@ PlaceCard.propTypes = {
 };
 
 
-export {PlaceCard};
-export default connect(mapStateToProps, mapDispatchToProps)(PlaceCard);
-
-
-// -??? Максим почему этот компонент перерисовываеться при наведении мышкой ??
+export default PlaceCard;

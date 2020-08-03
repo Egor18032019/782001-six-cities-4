@@ -5,6 +5,7 @@ import {
 import {
   getFilterOffersOnCity
 } from '../../utils';
+import {notify} from 'react-notify-toast';
 
 // Определяем действия(actions)
 const ActionType = {
@@ -12,6 +13,7 @@ const ActionType = {
   GET_SERVER_STATUS: `GET_SERVER_STATUS`,
   CHANGE_TOWN: `CHANGE_TOWN`,
   LOAD_FAVORITE_OFFERS: `LOAD_FAVORITE_OFFERS`,
+  ADD_FAVORITE_OFFERS: `ADD_FAVORITE_OFFERS`,
 };
 
 // Объект начального состояния(state):
@@ -20,7 +22,8 @@ const initialState = {
   isDataLoaded: false,
   placesCount: 0,
   town: `Amsterdam`,
-  errorMessage: ``
+  errorMessage: ``,
+  favoriteOffers: ``
 };
 
 // запрос на сервер
@@ -38,14 +41,20 @@ const Operation = {
     const status = offer.isBookmark ? 0 : 1;
     return api.post(`/favorite/${offer.id}/${status}`, {})
       .then((response) => {
-        dispatch(Operation.loadFavoriteOffers());
+        if (response.status === 200) {
+          dispatch(Operation.loadFavoriteOffers(offer));
+        } else {
+          notify.show(`Плохое соединение`, `warning`, `orange`);
+        }
       });
   },
-  loadFavoriteOffers: () => (dispatch, getState, api) => {
+  loadFavoriteOffers: (offer) => (dispatch, getState, api) => {
     return api.get(`/favorite`)
       .then((response) => {
         const favoriteDataOffers = adapter(response.data); // адаптер для пересборки данных
-        dispatch(addFavoriteOffers(favoriteDataOffers));
+        dispatch(setFavoriteOffers(favoriteDataOffers));
+        // добавить второй актион который будет менять
+        dispatch(getFavoriteOffers(offer));
       });
   },
 };
@@ -67,24 +76,19 @@ const dataReducer = (state = initialState, action) => {
         isDataLoaded: action.isDataLoaded,
         errorMessage: action.errorMessage
       });
-    case ActionType.LOAD_FAVORITE_OFFERS:
-      let favoriteOffers = action.payload;
-      console.log(favoriteOffers);
-      // в data ишем совпадающие по id элементы и заменяем их.
-      let lastOffer;
-      if (favoriteOffers.length === 0) {
-        lastOffer = favoriteOffers[0];
-      } else {
-        lastOffer = favoriteOffers[favoriteOffers.length - 1];
-      }
+    case ActionType.ADD_FAVORITE_OFFERS:
+      // Идея: в data ишем совпадающие по id элементы и заменяем их.
+      let favoriteOffer = action.payload;
       let Array = state.data;
-      // что бы каждый раз не сравнивать массивы -> ищем по последнему элемнту и меняем у него его isBookmark
-      let index = Array.findIndex((it) => it.id === lastOffer.id);
-      console.log(lastOffer.id);
-      console.log(Array[index].isBookmark);
+      let index = Array.findIndex((it) => it.id === favoriteOffer.id);
       Array[index].isBookmark = !Array[index].isBookmark;
       return Object.assign({}, state, {
         data: Array,
+      });
+      // Плохо: тормозит при отрисовки.
+    case ActionType.LOAD_FAVORITE_OFFERS:
+      return Object.assign({}, state, {
+        favoriteOffers: action.payload,
       });
     default:
       return state;
@@ -93,7 +97,13 @@ const dataReducer = (state = initialState, action) => {
 };
 
 
-const addFavoriteOffers = (favoriteOffers) => {
+const getFavoriteOffers = (offer) => {
+  return {
+    type: ActionType.ADD_FAVORITE_OFFERS,
+    payload: offer
+  };
+};
+const setFavoriteOffers = (favoriteOffers) => {
   return {
     type: ActionType.LOAD_FAVORITE_OFFERS,
     payload: favoriteOffers

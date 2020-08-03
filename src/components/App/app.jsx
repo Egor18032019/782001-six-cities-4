@@ -8,7 +8,8 @@ import withMain from "../hocs/with-main/with-main.js";
 import {getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount, getErrorMessage} from "../../reducer/data/selectors.js";
 import {getOffersActive, getCardId} from "../../reducer/offers/selectors.js";
 import {getAuthStatus, getEmail, getUsersErrorMessage} from "../../reducer/user/selectors.js";
-import {AuthorizationStatus, Operation} from "../../reducer/user/user-reducer.js";
+import {AuthorizationStatus, Operation as UserOperation} from "../../reducer/user/user-reducer.js";
+import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
 import history from "../../history";
 const MainWrapped = withMain(Main);
 
@@ -31,7 +32,7 @@ class App extends PureComponent {
 
   _renderApp() {
     const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers, cardId,
-      active, authorizationStatus, email, usersErrorMessage} = this.props;
+      active, authorizationStatus, email, usersErrorMessage, onFavoriteButtonClick} = this.props;
     // убрал отображение по статусу загрузки и статусу авторизации
     if (active === `mainPages`) {
       return (
@@ -43,6 +44,7 @@ class App extends PureComponent {
           onCityNameClick={onCityNameClick}
           email={email}
           authorizationStatus={authorizationStatus}
+          onFavoriteButtonClick={onFavoriteButtonClick}
         />
       );
     } else if (active === `property`) {
@@ -52,20 +54,23 @@ class App extends PureComponent {
             return offer.id === cardId;
           })}
           email={email}
+          onFavoriteButtonClick={onFavoriteButtonClick}
+          authorizationStatus={authorizationStatus}
         />
       );
     } else if (usersErrorMessage && authorizationStatus === AuthorizationStatus.NO_AUTH) {
-      // eslint-disable-next-line no-alert
-      alert(`Проверьте введеные данные`);
+      let myColor = {background: `#0E1717`, text: `orange`};
+      notify.show(`Проверьте введеные данные  ${usersErrorMessage}`, `custom`, 2500, myColor);
     }
-
     return `что то пошло не так`;
   }
 
   render() {
     const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers,
-      authorizationStatus, email, onLoginUsers, cardId, errorMessage} = this.props;
+      authorizationStatus, email, onLoginUsers, cardId, errorMessage, usersErrorMessage, onFavoriteButtonClick} = this.props;
     let status = (errorMessage ? notify.show(`${errorMessage}`, `error`) : ``);
+    let myColor = {background: `#0E1717`, text: `orange`};
+    let statusUser = (usersErrorMessage ? notify.show(`Проверьте введеные данные  ${usersErrorMessage}`, `custom`, 2500, myColor) : ``);
     return (
       <Router
         history={history}>
@@ -85,6 +90,7 @@ class App extends PureComponent {
               onCityNameClick={onCityNameClick}
               email={email}
               authorizationStatus={authorizationStatus}
+              onFavoriteButtonClick={onFavoriteButtonClick}
             />
           </Route>
           <Route exact path={AppRoute.PROPERTY}>
@@ -94,8 +100,10 @@ class App extends PureComponent {
                   return offer.id === cardId;
                 })}
                 email={email}
+                authorizationStatus={authorizationStatus}
+                onFavoriteButtonClick={onFavoriteButtonClick}
               />}
-            {status}
+            {statusUser}
           </Route>
           <Route exact path={AppRoute.LOGIN}>
             {status}
@@ -121,7 +129,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(ActionTown.changeCity(city));
   },
   onLoginUsers(authData) {
-    dispatch(Operation.login(authData));
+    dispatch(UserOperation.login(authData));
+  },
+  onFavoriteButtonClick(place) {
+    dispatch(DataOperation.addToFavorite(place));
   }
 });
 
@@ -143,6 +154,7 @@ const mapStateToProps = (store) => {
 App.propTypes = {
   onCityNameClick: PropTypes.func.isRequired,
   onMainTitleClick: PropTypes.func.isRequired,
+  onFavoriteButtonClick: PropTypes.func.isRequired,
   isDataLoaded: bool.isRequired,
   activeTown: PropTypes.string.isRequired,
   placesCount: PropTypes.number.isRequired,

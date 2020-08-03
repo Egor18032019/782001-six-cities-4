@@ -58,7 +58,7 @@ const MockComponent = (props) => {
       > Coming or Out</header>
       <h2 onClick={() => {
         onSortingTypeClick(type);
-      }}>{type}</h2>
+      }}>{typeSorting}</h2>
     </div>
   );
 };
