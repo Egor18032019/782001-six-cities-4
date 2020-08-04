@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import Notifications, {notify} from 'react-notify-toast';
 import Main from "../Main/main.jsx";
 import withMain from "../hocs/with-main/with-main.js";
-import {getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount, getErrorMessage} from "../../reducer/data/selectors.js";
+import {getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount, getErrorMessage, getFavoritesOffers} from "../../reducer/data/selectors.js";
 import {getOffersActive, getCardId} from "../../reducer/offers/selectors.js";
 import {getAuthStatus, getEmail, getUsersErrorMessage} from "../../reducer/user/selectors.js";
 import {AuthorizationStatus, Operation as UserOperation} from "../../reducer/user/user-reducer.js";
@@ -13,6 +13,7 @@ import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
 import history from "../../history";
 const MainWrapped = withMain(Main);
 
+import Favorites from "../favorites/favorites.jsx";
 import Property from "../property/property.jsx";
 import SignIn from "../sign-in/sign-in.jsx";
 import {
@@ -67,7 +68,7 @@ class App extends PureComponent {
 
   render() {
     const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers,
-      authorizationStatus, email, onLoginUsers, cardId, errorMessage, usersErrorMessage, onFavoriteButtonClick} = this.props;
+      authorizationStatus, email, onLoginUsers, cardId, errorMessage, usersErrorMessage, onFavoriteButtonClick, favoriteOffers} = this.props;
     let status = (errorMessage ? notify.show(`${errorMessage}`, `error`) : ``);
     let myColor = {background: `#0E1717`, text: `orange`};
     let statusUser = (usersErrorMessage ? notify.show(`Проверьте введеные данные  ${usersErrorMessage}`, `custom`, 2500, myColor) : ``);
@@ -110,9 +111,15 @@ class App extends PureComponent {
             <SignIn
               onLoginUsers={onLoginUsers}
               activeTown={activeTown}
+              email={email}
+              authorizationStatus={authorizationStatus}
             />
           </Route>
           <Route exact path={AppRoute.FAVORITES}>
+            <Favorites
+              email={email}
+              authorizationStatus={authorizationStatus}
+            />
           </Route>
 
         </Switch>
@@ -148,6 +155,7 @@ const mapStateToProps = (store) => {
     email: getEmail(store),
     errorMessage: getErrorMessage(store),
     usersErrorMessage: getUsersErrorMessage(store),
+    favoriteOffers: getFavoritesOffers(store),
   });
 };
 

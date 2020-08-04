@@ -7,6 +7,9 @@ import Header from "../header/header.jsx";
 
 
 class Main extends PureComponent {
+  constructor(props) {
+    super(props);
+  }
 
   render() {
     const {placesCount, town, places, onMainTitleClick, onCityNameClick, authorizationStatus,

@@ -23,7 +23,6 @@ class PlaceCard extends PureComponent {
     const {
       description, type, isPremium, mainPhoto, price, isBookmark, rating
     } = place;
-    console.log(isBookmark);
 
     if (place) {
       return (

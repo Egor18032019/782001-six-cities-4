@@ -26,11 +26,15 @@ const getPlaceCount = (state) => {
 const getErrorMessage = (state) => {
   return state[NameSpace.DATA].errorMessage;
 };
+const getFavoritesOffers = (state) => {
+  return state[NameSpace.DATA].favoriteOffers;
+};
 
 export {
   getOffersByActiveCity,
   getDataStatus,
   getActiveTown,
   getPlaceCount,
-  getErrorMessage
+  getErrorMessage,
+  getFavoritesOffers
 };

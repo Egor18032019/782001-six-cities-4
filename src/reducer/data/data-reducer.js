@@ -43,18 +43,18 @@ const Operation = {
       .then((response) => {
         if (response.status === 200) {
           dispatch(Operation.loadFavoriteOffers(offer));
+          // добавить второй актион который будет менять
+          dispatch(getFavoriteOffers(offer));
         } else {
           notify.show(`Плохое соединение`, `warning`, `orange`);
         }
       });
   },
-  loadFavoriteOffers: (offer) => (dispatch, getState, api) => {
+  loadFavoriteOffers: () => (dispatch, getState, api) => {
     return api.get(`/favorite`)
       .then((response) => {
         const favoriteDataOffers = adapter(response.data); // адаптер для пересборки данных
         dispatch(setFavoriteOffers(favoriteDataOffers));
-        // добавить второй актион который будет менять
-        dispatch(getFavoriteOffers(offer));
       });
   },
 };
