@@ -14,6 +14,7 @@ import {getFavoritesOffers} from "../../reducer/data/selectors.js";
 class Favorites extends PureComponent {
   constructor(props) {
     super(props);
+    this.onFavoriteClick = this.onFavoriteClick.bind(this);
   }
 
   render() {
@@ -41,7 +42,7 @@ class Favorites extends PureComponent {
                   return (
                     favoriteOffers.filter((offer)=> offer.city === city).length !== 0 ?
                     // проверка на длину массива. если вдруг не будет такого города
-                      <li className="favorites__locations-items">
+                      <li className="favorites__locations-items" key={city + Date.now()}>
                         <div className="favorites__locations locations locations--current">
                           <div className="locations__item">
                             <Link className="locations__item-link" to={AppRoute.MAIN}>
@@ -65,7 +66,8 @@ class Favorites extends PureComponent {
                                       <b className="place-card__price-value">&euro;{cardOffer.price}</b>
                                       <span className="place-card__price-text">&#47;&nbsp;night</span>
                                     </div>
-                                    <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+                                    <button className={`place-card__bookmark-button button  place-card__bookmark-button--active`} type="button"
+                                      onClick={this.onFavoriteClick(cardOffer)}>
                                       <svg className="place-card__bookmark-icon" style={{width: `18`, height: `19`}}>
                                         <use xlinkHref="#icon-bookmark"></use>
                                       </svg>
@@ -85,18 +87,10 @@ class Favorites extends PureComponent {
                                 </div>
                               </article>
                             );
-                          }
-                          )
-
-
-                          }
-
-
-                        </div>
+                          })}</div>
                       </li> : ``
                   );
                 })}
-
               </ul>
             </section>
           </div>
@@ -108,6 +102,12 @@ class Favorites extends PureComponent {
         </footer>
       </div>
     );
+  }
+
+  onFavoriteClick(place) {
+    const {onFavoriteButtonClick} = this.props;
+    console.log(`нажал в избранное`, place.id);
+    onFavoriteButtonClick(place);
   }
 
   //  что бы данные подгружались в момент монтирования это элемента дисптачим и делаем загрузку
@@ -124,6 +124,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   loadFavoriteOffers() {
     dispatch(DataOperation.loadFavoriteOffers());
+  },
+  onFavoriteButtonClick(place) {
+    dispatch(DataOperation.addToFavorite(place));
   }
 });
 Favorites.propTypes = {
@@ -131,6 +134,7 @@ Favorites.propTypes = {
   email: PropTypes.string.isRequired,
   favoriteOffers: PropTypes.array,
   loadFavoriteOffers: PropTypes.func.isRequired,
+  onFavoriteButtonClick: PropTypes.func.isRequired,
 };
 
 export {Favorites};

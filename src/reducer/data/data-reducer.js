@@ -42,8 +42,8 @@ const Operation = {
     return api.post(`/favorite/${offer.id}/${status}`, {})
       .then((response) => {
         if (response.status === 200) {
-          dispatch(Operation.loadFavoriteOffers(offer));
-          // добавить второй актион который будет менять
+          dispatch(Operation.loadFavoriteOffers());
+          // getFavoriteOffers перерисовка кнопки
           dispatch(getFavoriteOffers(offer));
         } else {
           notify.show(`Плохое соединение`, `warning`, `orange`);
