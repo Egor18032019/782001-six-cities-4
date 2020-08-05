@@ -202,7 +202,7 @@ const mockSettings = [
     }
   },
   {
-    id: 7,
+    id: 8,
     city: `Dusseldorf`,
     type: `House`,
     description: `big + warm + good`,

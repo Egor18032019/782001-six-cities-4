@@ -166,7 +166,7 @@ const mockSettings = [
   },
   {
     id: 7,
-    city: `Hamburg`,
+    city: `Paris`,
     type: `House`,
     description: `big + warm + good`,
     price: 120,
@@ -234,7 +234,7 @@ it(`The reducer should change the city to the value that came in`, () => {
     data: mockSettings,
     isDataLoaded: true,
     town: `Paris`,
-    placesCount: getFilterOffersOnCity(mockSettings, `Paris`).length, // цифру
+    placesCount: 1 // на фунцкию отдельный тест
   });
 
   expect(dataReducer({
