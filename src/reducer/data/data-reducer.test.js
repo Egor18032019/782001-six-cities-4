@@ -217,6 +217,7 @@ it(`Reducer without additional parameters should return initial state`, () => {
     isDataLoaded: false,
     placesCount: 0,
     town: `Amsterdam`,
+    favoriteOffers: ``
   });
 });
 

@@ -232,6 +232,7 @@ describe(`test Main e2e`, () => {
     const onCardMouseOut = jest.fn();
     const onCardMouseEnter = jest.fn();
     const onSortingTypeClick = jest.fn();
+    const onFavoriteButtonClick = jest.fn();
     const store = mockStore({
       [NameSpace.DATA]: {
         data: [],
@@ -277,6 +278,9 @@ describe(`test Main e2e`, () => {
               onCardMouseOut = {
                 onCardMouseOut
               }
+              onFavoriteButtonClick = {
+                onFavoriteButtonClick
+              }
               onCardMouseEnter = {
                 onCardMouseEnter
               }
@@ -311,6 +315,7 @@ describe(`test Main e2e`, () => {
     const onCardMouseOut = jest.fn();
     const onCardMouseEnter = jest.fn();
     const onSortingTypeClick = jest.fn();
+    const onFavoriteButtonClick = jest.fn();
     const store = mockStore({
       [NameSpace.DATA]: {
         data: [],
@@ -359,6 +364,9 @@ describe(`test Main e2e`, () => {
               }
               onCardMouseEnter = {
                 onCardMouseEnter
+              }
+              onFavoriteButtonClick = {
+                onFavoriteButtonClick
               }
               onSortingTypeClick = {
                 onSortingTypeClick

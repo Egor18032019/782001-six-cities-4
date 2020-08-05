@@ -64,11 +64,14 @@ describe(`PlacesList snepshot test`, () => {
                 typeSorting = {`Popular`}
                 town = {`Amsterdam`}
                 placesCount = {11}
-
                 places = {
                   PLACE
                 }
                 onMainTitleClick = {
+                  () => {}
+                }
+                authorizationStatus = {`NO_AUTH`}
+                onFavoriteButtonClick = {
                   () => {}
                 }
                 onCardMouseEnter = {
@@ -109,6 +112,10 @@ describe(`PlacesList snepshot test`, () => {
           () => {}
         }
         onCardMouseOut = {
+          () => {}
+        }
+        authorizationStatus = {`NO_AUTH`}
+        onFavoriteButtonClick = {
           () => {}
         }
       />,

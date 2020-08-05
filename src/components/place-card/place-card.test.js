@@ -58,18 +58,20 @@ describe(`PlaceCard snepshot test`, () => {
           <Provider store={store}>
             <Router history={history}>
 
-              <PlaceCard place = {
-                PLACE
-              }
-              onMainTitleClick = {
-                () => {}
-              }
-              onCardMouseEnter = {
-                () => {}
-              }
-              onCardMouseOut = {
-                () => {}
-              }
+              <PlaceCard place = {PLACE}
+                authorizationStatus = {`NO_AUTH`}
+                onMainTitleClick = {
+                  () => {}
+                }
+                onFavoriteButtonClick = {
+                  () => {}
+                }
+                onCardMouseEnter = {
+                  () => {}
+                }
+                onCardMouseOut = {
+                  () => {}
+                }
               />
             </Router>
           </Provider>,

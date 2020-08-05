@@ -53,6 +53,7 @@ describe(`Property snepshot test`, () => {
                   <Router history={history}>
                     <Property
                       place={CARD}
+                      email={``}
                     />
                   </Router>
                 </Provider>, {

@@ -48,7 +48,7 @@ const Operation = {
         dispatch(setAuthData(AuthorizationStatus.AUTH, response.data.email));
       })
       .catch((err) => {
-        // dispatch(setAuthStatus(AuthorizationStatus.NO_AUTH, err)); // ,?? Максим утт надо так делать?
+        // dispatch(setAuthStatus(AuthorizationStatus.NO_AUTH, err)); // ,?? Максим тут надо так делать?
         throw err;
       });
   },

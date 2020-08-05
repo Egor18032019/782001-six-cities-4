@@ -15,8 +15,9 @@ describe(`SignIn snepshot test`, () => {
               onLoginUsers = {
                 () => {}
               }
-              activeTown={`Paris`}
-            />
+              activeTown = {`Paris`}
+              email = {``}
+              authorizationStatus = {`NO_AUTH`} />
           </Router>,
           {
             createNodeMock: () => document.createElement(`div`)

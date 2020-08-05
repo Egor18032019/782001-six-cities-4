@@ -16,15 +16,9 @@ const MainWrapped = withMain(Main);
 import Favorites from "../favorites/favorites.jsx";
 import Property from "../property/property.jsx";
 import SignIn from "../sign-in/sign-in.jsx";
-import {
-  ActionActive,
-} from "../../reducer/offers/offers-reducer.js";
-import {
-  ActionTown
-} from "../../reducer/data/data-reducer.js";
-import {
-  AppRoute
-} from "../../const.js";
+import {ActionActive} from "../../reducer/offers/offers-reducer.js";
+import {ActionTown} from "../../reducer/data/data-reducer.js";
+import {AppRoute} from "../../const.js";
 
 class App extends PureComponent {
   constructor(props) {
@@ -68,7 +62,7 @@ class App extends PureComponent {
 
   render() {
     const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers,
-      authorizationStatus, email, onLoginUsers, cardId, errorMessage, usersErrorMessage, onFavoriteButtonClick, favoriteOffers} = this.props;
+      authorizationStatus, email, onLoginUsers, cardId, errorMessage, usersErrorMessage, onFavoriteButtonClick} = this.props;
     let status = (errorMessage ? notify.show(`${errorMessage}`, `error`) : ``);
     let myColor = {background: `#0E1717`, text: `orange`};
     let statusUser = (usersErrorMessage ? notify.show(`Проверьте введеные данные  ${usersErrorMessage}`, `custom`, 2500, myColor) : ``);

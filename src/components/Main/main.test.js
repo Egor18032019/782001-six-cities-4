@@ -271,6 +271,9 @@ describe(`snapshots test Main`, () => {
                 onCardMouseOut = {
                   () => {}
                 }
+                onFavoriteButtonClick = {
+                  () => {}
+                }
                 onCardMouseEnter = {
                   () => {}
                 }

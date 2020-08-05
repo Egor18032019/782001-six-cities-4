@@ -1,7 +1,5 @@
 import React from "react";
-import Enzyme, {
-  mount, shallow
-} from "enzyme";
+import Enzyme, {mount} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import configureStore from "redux-mock-store";
 import {Provider} from "react-redux";
@@ -10,7 +8,8 @@ import {createBrowserHistory} from "history";
 const history = createBrowserHistory();
 import PlaceCard from "./place-card.jsx";
 import NameSpace from "../../reducer/name-space.js";
-
+import {ActionActive} from "../../reducer/offers/offers-reducer.js";
+import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
 Enzyme.configure({
   adapter: new Adapter(),
 });
@@ -22,7 +21,8 @@ const store = mockStore({
     isDataLoaded: false,
     placesCount: 0,
     town: `Amsterdam`,
-    errorMessage: ``
+    errorMessage: ``,
+    favoriteOffers: ``
   },
   [NameSpace.OFFERS]: {
     active: `mainPages`,
@@ -59,10 +59,12 @@ const place = {
 };
 
 describe(`test PlaceCard e2e`, () => {
+
   it(`hover or no hover`, () => {
     const onMainTitleClick = jest.fn();
     const onCardMouseEnter = jest.fn();
     const onCardMouseOut = jest.fn();
+    const onFavoriteButtonClick = jest.fn();
 
     const mainScreen = mount(
         <Provider store={store}>
@@ -74,12 +76,16 @@ describe(`test PlaceCard e2e`, () => {
             onMainTitleClick = {
               onMainTitleClick
             }
+            onFavoriteButtonClick = {
+              onFavoriteButtonClick
+            }
             onCardMouseEnter = {
               onCardMouseEnter
             }
             onCardMouseOut = {
               onCardMouseOut
             }
+            authorizationStatus = {`NO_AUTH`}
             />
           </Router>
         </Provider>
@@ -94,12 +100,13 @@ describe(`test PlaceCard e2e`, () => {
     expect(onCardMouseOut.mock.calls.length).toBe(1);
   });
 
-  it(`click title or no click`, () => {
+  it(`Should  first "place-card__name" be pressed and change state`, () => {
     const onMainTitleClick = jest.fn();
     const onCardMouseEnter = jest.fn();
     const onCardMouseOut = jest.fn();
+    const onFavoriteButtonClick = jest.fn();
 
-    const component = shallow(
+    const component = mount(
         <Provider store={store}>
           <Router history={history}>
 
@@ -115,35 +122,56 @@ describe(`test PlaceCard e2e`, () => {
             onCardMouseOut = {
               onCardMouseOut
             }
+            onFavoriteButtonClick = {
+              onFavoriteButtonClick
+            }
+            authorizationStatus = {`NO_AUTH`}
             />
           </Router>
         </Provider>
     );
     const titleOnMain = component.find(`.place-card__name`);
-    titleOnMain.props().onClick();
-    // titleOnMain.simulate(`click`);
-    expect(onMainTitleClick.mock.calls.length).toBe(1);
+    titleOnMain.at(0).simulate(`click`);
+    store.dispatch(ActionActive.activeState(place)).then(() => {
+      return expect(store.getActions()).toEqual(place);
+    });
   });
 
-  it(`Should  first title h2 be pressed`, () => {
+  it(`click or no click on favorite button`, () => {
+    const onMainTitleClick = jest.fn();
+    const onCardMouseEnter = jest.fn();
+    const onCardMouseOut = jest.fn();
+    const onFavoriteButtonClick = jest.fn();
 
-    store.dispatch = jest.fn();
-
-    const component = shallow(
+    const component = mount(
         <Provider store={store}>
           <Router history={history}>
 
             <PlaceCard place = {
               place
             }
+            onMainTitleClick = {
+              onMainTitleClick
+            }
+            onCardMouseEnter = {
+              onCardMouseEnter
+            }
+            onCardMouseOut = {
+              onCardMouseOut
+            }
+            onFavoriteButtonClick = {
+              onFavoriteButtonClick
+            }
+            authorizationStatus = {`NO_AUTH`}
             />
           </Router>
         </Provider>
     );
-    const titleOnMain = component.find(`.place-card__name`);
-    titleOnMain.at(3).props().onClick();
-    // titleOnMain.simulate(`click`);
-    expect(store.dispatch).toHaveBeenCalledTimes(3);
+    const favoriteButton = component.find(`.place-card__bookmark-button`);
+    favoriteButton.at(0).simulate(`click`);
+    store.dispatch(DataOperation.addToFavorite(place)).then(() => {
+      return expect(store.getActions().favoriteOffers).toEqual(place);
+    });
   });
 
 });

@@ -67,7 +67,9 @@ class Favorites extends PureComponent {
                                       <span className="place-card__price-text">&#47;&nbsp;night</span>
                                     </div>
                                     <button className={`place-card__bookmark-button button  place-card__bookmark-button--active`} type="button"
-                                      onClick={this.onFavoriteClick(cardOffer)}>
+                                      onClick={()=>{
+                                        this.onFavoriteClick(cardOffer);
+                                      }}>
                                       <svg className="place-card__bookmark-icon" style={{width: `18`, height: `19`}}>
                                         <use xlinkHref="#icon-bookmark"></use>
                                       </svg>
@@ -106,7 +108,6 @@ class Favorites extends PureComponent {
 
   onFavoriteClick(place) {
     const {onFavoriteButtonClick} = this.props;
-    console.log(`нажал в избранное`, place.id);
     onFavoriteButtonClick(place);
   }
 

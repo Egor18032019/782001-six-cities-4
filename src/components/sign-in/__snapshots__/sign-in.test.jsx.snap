@@ -17,19 +17,16 @@ exports[`SignIn snepshot test Should SignIn render correctly 1`] = `
           className="header__left"
         >
           <a
-            className="header__logo-link"
+            className="header__logo-link header__logo-link--active"
             href="/main"
             onClick={[Function]}
           >
             <img
               alt="6 cities logo"
               className="header__logo"
+              height="41"
               src="img/logo.svg"
-              style={
-                Object {
-                  "width": "81",
-                }
-              }
+              width="81"
             />
           </a>
         </div>
@@ -44,15 +41,16 @@ exports[`SignIn snepshot test Should SignIn render correctly 1`] = `
             >
               <a
                 className="header__nav-link header__nav-link--profile"
-                href="#"
+                href="/login"
+                onClick={[Function]}
               >
                 <div
                   className="header__avatar-wrapper user__avatar-wrapper"
                 />
                 <span
-                  className="header__login"
+                  className="header__user-name user__name"
                 >
-                  Sign in
+                  Sing in now
                 </span>
               </a>
             </li>
@@ -140,5 +138,26 @@ exports[`SignIn snepshot test Should SignIn render correctly 1`] = `
       </section>
     </div>
   </main>
+  <footer
+    className="footer container"
+  >
+    <a
+      className="footer__logo-link"
+      href="/main"
+      onClick={[Function]}
+    >
+      <img
+        alt="6 cities logo"
+        className="footer__logo"
+        src="img/logo.svg"
+        style={
+          Object {
+            "height": "33",
+            "width": "64",
+          }
+        }
+      />
+    </a>
+  </footer>
 </div>
 `;
