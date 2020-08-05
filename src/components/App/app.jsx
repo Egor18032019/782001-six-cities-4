@@ -28,7 +28,6 @@ class App extends PureComponent {
   _renderApp() {
     const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers, cardId,
       active, authorizationStatus, email, usersErrorMessage, onFavoriteButtonClick} = this.props;
-    // убрал отображение по статусу загрузки и статусу авторизации
     if (active === `mainPages`) {
       return (
         <MainWrapped

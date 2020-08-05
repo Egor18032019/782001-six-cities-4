@@ -38,7 +38,7 @@ class PlacesList extends PureComponent {
                         forKey={place.id + place.city + index}
                         onCardMouseEnter={onCardMouseEnter}
                         onCardMouseOut={onCardMouseOut}
-                        key={Date.now() + index}
+                        key={place.id} // кей должен быть стабильный и уникальный
                         onFavoriteButtonClick={onFavoriteButtonClick}
                         authorizationStatus={authorizationStatus}
                       />;

@@ -8,8 +8,6 @@ import {createBrowserHistory} from "history";
 const history = createBrowserHistory();
 import PlaceCard from "./place-card.jsx";
 import NameSpace from "../../reducer/name-space.js";
-import {ActionActive} from "../../reducer/offers/offers-reducer.js";
-import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
 Enzyme.configure({
   adapter: new Adapter(),
 });
@@ -132,9 +130,8 @@ describe(`test PlaceCard e2e`, () => {
     );
     const titleOnMain = component.find(`.place-card__name`);
     titleOnMain.at(0).simulate(`click`);
-    store.dispatch(ActionActive.activeState(place)).then(() => {
-      return expect(store.getActions()).toEqual(place);
-    });
+    expect(onMainTitleClick.mock.calls.length).toBe(1);
+
   });
 
   it(`click or no click on favorite button`, () => {
@@ -169,9 +166,7 @@ describe(`test PlaceCard e2e`, () => {
     );
     const favoriteButton = component.find(`.place-card__bookmark-button`);
     favoriteButton.at(0).simulate(`click`);
-    store.dispatch(DataOperation.addToFavorite(place)).then(() => {
-      return expect(store.getActions().favoriteOffers).toEqual(place);
-    });
+    expect(onFavoriteButtonClick).toHaveBeenCalledTimes(1);
   });
 
 });
