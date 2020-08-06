@@ -15,7 +15,6 @@ const withMain = (Component) => {
     }
     render() {
       const {typeSorting, activeOffer} = this.state;
-
       return (
         <Component
           {...this.props}

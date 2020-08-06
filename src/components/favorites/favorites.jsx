@@ -3,7 +3,7 @@ import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
-import {AppRoute, CITYLIST} from "../../const.js";
+import {AppRoute} from "../../const.js";
 
 import Header from "../header/header.jsx";
 import FavoritesEmpty from "./favorites-empty.jsx";
@@ -18,7 +18,7 @@ class Favorites extends PureComponent {
   }
 
   render() {
-    const {email, authorizationStatus, favoriteOffers} = this.props;
+    const {email, authorizationStatus, favoriteOffers, cityList} = this.props;
     if (!favoriteOffers.length) {
       return <FavoritesEmpty
         email={email}
@@ -38,7 +38,7 @@ class Favorites extends PureComponent {
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
                 {/* прохожу по массиву с городами и фильтрую пришедший массив фаворитами по городу */}
-                {CITYLIST.map((city)=>{
+                {cityList.map((city)=>{
                   return (
                     favoriteOffers.filter((offer)=> offer.city === city).length !== 0 ?
                     // проверка на длину массива. если вдруг не будет такого города
@@ -134,6 +134,7 @@ Favorites.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   favoriteOffers: PropTypes.array,
+  cityList: PropTypes.array.isRequired,
   loadFavoriteOffers: PropTypes.func.isRequired,
   onFavoriteButtonClick: PropTypes.func.isRequired,
 };

@@ -5,6 +5,7 @@ import {getFilterOffersOnCity} from '../../utils';
 const getOffers = (state) => {
   return state[NameSpace.DATA].data;
 };
+
 const getActiveTown = (state) => {
   return state[NameSpace.DATA].town;
 };
@@ -16,6 +17,16 @@ const getOffersByActiveCity = createSelector(
       return getFilterOffersOnCity(offers, activeTown);
     }
 );
+
+// вытаскиваем города из пришедшего массива
+const getList = createSelector(
+    getOffers,
+    (offers) => {
+      // и делаем уникальный массив
+      return [...new Set(offers.map((offer) => offer.city))];
+    }
+);
+
 
 const getDataStatus = (state) => {
   return state[NameSpace.DATA].isDataLoaded;
@@ -36,5 +47,6 @@ export {
   getActiveTown,
   getPlaceCount,
   getErrorMessage,
-  getFavoritesOffers
+  getFavoritesOffers,
+  getList
 };

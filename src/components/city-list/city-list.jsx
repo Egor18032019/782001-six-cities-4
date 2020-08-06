@@ -2,20 +2,17 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 
-import {
-  CITYLIST
-} from "../../const.js";
-
 class CityList extends PureComponent {
   constructor(props) {
     super(props);
   }
 
   render() {
-    const {onCityNameClick, town} = this.props;
+    const {onCityNameClick, town, cityList} = this.props;
+
     return (
       <ul className="locations__list tabs__list">
-        {CITYLIST.map((city, index) => {
+        {cityList.map((city, index) => {
           const activeClasss = (city === town) ? `tabs__item--active` : ``;
           return (
             <li
@@ -38,6 +35,7 @@ CityList.propTypes = {
   onCityNameClick: PropTypes.func.isRequired,
   townList: PropTypes.array,
   town: PropTypes.string,
+  cityList: PropTypes.array.isRequired,
 };
 
 

@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import Notifications, {notify} from 'react-notify-toast';
 import Main from "../Main/main.jsx";
 import withMain from "../hocs/with-main/with-main.js";
-import {getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount, getErrorMessage, getFavoritesOffers} from "../../reducer/data/selectors.js";
+import {getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount, getErrorMessage, getFavoritesOffers, getList} from "../../reducer/data/selectors.js";
 import {getOffersActive, getCardId} from "../../reducer/offers/selectors.js";
 import {getAuthStatus, getEmail, getUsersErrorMessage} from "../../reducer/user/selectors.js";
 import {AuthorizationStatus, Operation as UserOperation} from "../../reducer/user/user-reducer.js";
@@ -27,10 +27,11 @@ class App extends PureComponent {
 
   _renderApp() {
     const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers, cardId,
-      active, authorizationStatus, email, usersErrorMessage, onFavoriteButtonClick} = this.props;
-    if (active === `mainPages`) {
+      active, authorizationStatus, email, usersErrorMessage, onFavoriteButtonClick, cityList, isDataLoaded} = this.props;
+    if (active === `mainPages` && isDataLoaded) {
       return (
         <MainWrapped
+          cityList={cityList}
           placesCount={placesCount}
           town={activeTown}
           places={activeOffers}
@@ -61,7 +62,7 @@ class App extends PureComponent {
 
   render() {
     const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers,
-      authorizationStatus, email, onLoginUsers, cardId, errorMessage, usersErrorMessage, onFavoriteButtonClick} = this.props;
+      authorizationStatus, email, onLoginUsers, cardId, errorMessage, usersErrorMessage, onFavoriteButtonClick, cityList} = this.props;
     let status = (errorMessage ? notify.show(`${errorMessage}`, `error`) : ``);
     let myColor = {background: `#0E1717`, text: `orange`};
     let statusUser = (usersErrorMessage ? notify.show(`Проверьте введеные данные  ${usersErrorMessage}`, `custom`, 2500, myColor) : ``);
@@ -79,6 +80,7 @@ class App extends PureComponent {
             <MainWrapped
               placesCount={placesCount}
               town={activeTown}
+              cityList={cityList}
               places={activeOffers}
               onMainTitleClick={onMainTitleClick}
               onCityNameClick={onCityNameClick}
@@ -112,6 +114,7 @@ class App extends PureComponent {
             <Favorites
               email={email}
               authorizationStatus={authorizationStatus}
+              cityList={cityList}
             />
           </Route>
 
@@ -149,6 +152,7 @@ const mapStateToProps = (store) => {
     errorMessage: getErrorMessage(store),
     usersErrorMessage: getUsersErrorMessage(store),
     favoriteOffers: getFavoritesOffers(store),
+    cityList: getList(store),
   });
 };
 
@@ -167,6 +171,7 @@ App.propTypes = {
   usersErrorMessage: PropTypes.string,
   errorMessage: PropTypes.string,
   onLoginUsers: PropTypes.func.isRequired,
+  cityList: PropTypes.array.isRequired,
 };
 
 export {App};

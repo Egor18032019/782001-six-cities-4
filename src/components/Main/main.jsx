@@ -13,8 +13,7 @@ class Main extends PureComponent {
 
   render() {
     const {placesCount, town, places, onMainTitleClick, onCityNameClick, authorizationStatus,
-      typeSorting, onSortingTypeClick, onCardMouseEnter, onCardMouseOut, activeOffer, email, onFavoriteButtonClick} = this.props;
-
+      typeSorting, onSortingTypeClick, onCardMouseEnter, onCardMouseOut, activeOffer, email, onFavoriteButtonClick, cityList} = this.props;
     let emptyMain = ``;
     if (places.length === 0) {
       emptyMain = `page__main--index-empty`;
@@ -33,6 +32,7 @@ class Main extends PureComponent {
             <section className="locations container">
               <CityList
                 town={town}
+                cityList={cityList}
                 onCityNameClick={onCityNameClick}
               />
             </section>
@@ -82,6 +82,7 @@ Main.propTypes = {
   onFavoriteButtonClick: PropTypes.func.isRequired,
   town: PropTypes.string.isRequired,
   places: PropTypes.array.isRequired,
+  cityList: PropTypes.array.isRequired,
   onMainTitleClick: PropTypes.func.isRequired,
   onCardMouseEnter: PropTypes.func.isRequired,
   onSortingTypeClick: PropTypes.func.isRequired,
