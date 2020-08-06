@@ -17,6 +17,16 @@ class Favorites extends PureComponent {
     this.onFavoriteClick = this.onFavoriteClick.bind(this);
   }
 
+  onFavoriteClick(place) {
+    const {onFavoriteButtonClick} = this.props;
+    onFavoriteButtonClick(place);
+  }
+  //  что бы данные подгружались в момент монтирования это элемента дисптачим и делаем загрузку
+  componentDidMount() {
+    const {loadFavoriteOffers} = this.props;
+    loadFavoriteOffers();
+  }
+
   render() {
     const {email, authorizationStatus, favoriteOffers, cityList} = this.props;
     if (!favoriteOffers.length) {
@@ -105,18 +115,8 @@ class Favorites extends PureComponent {
       </div>
     );
   }
-
-  onFavoriteClick(place) {
-    const {onFavoriteButtonClick} = this.props;
-    onFavoriteButtonClick(place);
-  }
-
-  //  что бы данные подгружались в момент монтирования это элемента дисптачим и делаем загрузку
-  componentDidMount() {
-    const {loadFavoriteOffers} = this.props;
-    loadFavoriteOffers();
-  }
 }
+
 const mapStateToProps = (state) => ({
   favoriteOffers: getFavoritesOffers(state),
   // TODO: может сделать чтобы он список городов выдергивал из пришедших офферов ??

@@ -1,7 +1,6 @@
 import {createSelector} from "reselect";
 import NameSpace from "../name-space.js";
 import {getFilterOffersOnCity} from '../../utils';
-import {getCardId} from "../../reducer/offers/selectors.js";
 
 const getOffers = (state) => {
   return state[NameSpace.DATA].data;
