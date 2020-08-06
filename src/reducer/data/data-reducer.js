@@ -2,9 +2,7 @@
 import {
   adapter
 } from "../adapter/data.js";
-import {
-  getFilterOffersOnCity
-} from '../../utils';
+
 import {notify} from 'react-notify-toast';
 
 // Определяем действия(actions)
@@ -20,7 +18,6 @@ const ActionType = {
 const initialState = {
   data: [],
   isDataLoaded: false,
-  placesCount: 0,
   town: `Amsterdam`,
   errorMessage: ``,
   favoriteOffers: ``
@@ -64,12 +61,10 @@ const dataReducer = (state = initialState, action) => {
     case ActionType.GET_SERVER_DATA:
       return Object.assign({}, state, {
         data: action.data,
-        placesCount: getFilterOffersOnCity(action.data, state.town).length,
       });
     case ActionType.CHANGE_TOWN:
       return Object.assign({}, state, {
         town: action.payload,
-        placesCount: getFilterOffersOnCity(state.data, action.payload).length
       });
     case ActionType.GET_SERVER_STATUS:
       return Object.assign({}, state, {

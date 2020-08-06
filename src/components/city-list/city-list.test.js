@@ -1,6 +1,9 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import CityList from "./city-list.jsx";
+import {
+  CITYLIST
+} from "../../const.js";
 
 const PLACE = {
   id: 0,
@@ -31,12 +34,16 @@ const PLACE = {
 describe(`CityList snepshot test`, () => {
   it(`Should CityList render correctly`, () => {
     const tree = renderer
-      .create(< CityList town = {
-        PLACE.city
-      }
-      onCityNameClick = {
-        () => {}
-      }
+      .create(<CityList
+        town = {
+          PLACE.city
+        }
+        onCityNameClick = {
+          () => {}
+        }
+        cityList={
+          CITYLIST
+        }
       />,
       // так как нет контейнера куда отрисовываться = делаем мокковый
       {

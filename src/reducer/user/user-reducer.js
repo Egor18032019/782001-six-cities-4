@@ -26,12 +26,13 @@ const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.REQUIRED_AUTHORIZATION:
       return Object.assign({}, state, {
-        authorizationStatus: action.authorizationStatus,
-        usersErrorMessage: action.errorMessage
+        authorizationStatus: AuthorizationStatus.NO_AUTH,
+        usersErrorMessage: action.usersErrorMessage,
+        users: ``
       });
     case ActionType.AUTHORIZATION:
       return Object.assign({}, state, {
-        authorizationStatus: action.authorizationStatus,
+        authorizationStatus: AuthorizationStatus.AUTH,
         users: action.users,
         usersErrorMessage: ``
       });
@@ -45,7 +46,7 @@ const Operation = {
   checkStatusAuth: () => (dispatch, getState, api) => {
     return api.get(`/login`)
       .then((response) => {
-        dispatch(setAuthData(AuthorizationStatus.AUTH, response.data.email));
+        dispatch(ActionCreator.setAuthData(response.data.email));
       })
       .catch((err) => {
         // dispatch(setAuthStatus(AuthorizationStatus.NO_AUTH, err)); // ,?? Максим тут надо так делать?
@@ -58,7 +59,7 @@ const Operation = {
       password: authData.password,
     })
     .then((response) => {
-      dispatch(setAuthData(AuthorizationStatus.AUTH, response.data.email));
+      dispatch(ActionCreator.setAuthData(response.data.email));
       history.push(AppRoute.ROOT);
     })
     .catch((err) => {
@@ -66,27 +67,26 @@ const Operation = {
     });
   }
 };
-
-const setAuthStatus = (err) => {
-  return {
-    type: ActionType.REQUIRED_AUTHORIZATION,
-    authorizationStatus: AuthorizationStatus.NO_AUTH,
-    errorMessage: err.statusText
-  };
+const ActionCreator = {
+  // этот сработал когда пришла ошибка
+  setAuthStatus: (err) => {
+    return {
+      type: ActionType.REQUIRED_AUTHORIZATION,
+      usersErrorMessage: err.statusText,
+    };
+  },
+  //  этот срабатывает когда всё хорошо
+  setAuthData: (data) => {
+    return {
+      type: ActionType.AUTHORIZATION,
+      users: data
+    };
+  },
 };
-const setAuthData = (status, data) => {
-  return {
-    type: ActionType.AUTHORIZATION,
-    authorizationStatus: status,
-    users: data
-  };
-};
-
 export {
   usersReducer,
   ActionType,
   Operation,
   AuthorizationStatus,
-  setAuthStatus
-
+  ActionCreator
 };

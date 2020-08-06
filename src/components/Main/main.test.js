@@ -6,6 +6,7 @@ import {Router} from "react-router-dom";
 import {createBrowserHistory} from "history";
 const history = createBrowserHistory();
 import Main from "./main.jsx";
+import CITYLIST from "../../const.js";
 import NameSpace from "../../reducer/name-space.js";
 const Settings = {
   PLACES: 312,
@@ -246,6 +247,9 @@ describe(`snapshots test Main`, () => {
                 }
                 activeOffer = {
                   null
+                }
+                cityList = {
+                  CITYLIST
                 }
                 email = {
                   `goro5@mail.ru`

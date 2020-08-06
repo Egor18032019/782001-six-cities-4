@@ -15,7 +15,7 @@ class Main extends PureComponent {
     const {placesCount, town, places, onMainTitleClick, onCityNameClick, authorizationStatus,
       typeSorting, onSortingTypeClick, onCardMouseEnter, onCardMouseOut, activeOffer, email, onFavoriteButtonClick, cityList} = this.props;
     let emptyMain = ``;
-    if (places.length === 0) {
+    if (placesCount === 0) {
       emptyMain = `page__main--index-empty`;
 
     }

@@ -1,6 +1,7 @@
 import {createSelector} from "reselect";
 import NameSpace from "../name-space.js";
 import {getFilterOffersOnCity} from '../../utils';
+import {getCardId} from "../../reducer/offers/selectors.js";
 
 const getOffers = (state) => {
   return state[NameSpace.DATA].data;
@@ -18,6 +19,7 @@ const getOffersByActiveCity = createSelector(
     }
 );
 
+
 // вытаскиваем города из пришедшего массива
 const getList = createSelector(
     getOffers,
@@ -32,7 +34,7 @@ const getDataStatus = (state) => {
   return state[NameSpace.DATA].isDataLoaded;
 };
 const getPlaceCount = (state) => {
-  return state[NameSpace.DATA].placesCount;
+  return getOffersByActiveCity(state).length;
 };
 const getErrorMessage = (state) => {
   return state[NameSpace.DATA].errorMessage;
@@ -48,5 +50,5 @@ export {
   getPlaceCount,
   getErrorMessage,
   getFavoritesOffers,
-  getList
+  getList,
 };

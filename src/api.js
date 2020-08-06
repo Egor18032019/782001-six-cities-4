@@ -30,7 +30,7 @@ export const createAPI = (onUnauthorized, onBadRequest) => {
       onUnauthorized(err.response.status);
       throw err;
     } else if (err.response.status === Error.INVALID_LOGIN) {
-      onUnauthorized(err.response);
+      onUnauthorized(err.response.status);
       throw err;
     } else if (err.response.status === Error.BAD_REQUEST) {
       onBadRequest(err);

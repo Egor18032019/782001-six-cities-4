@@ -83,7 +83,7 @@ class Favorites extends PureComponent {
                                     </div>
                                   </div>
                                   <h2 className="place-card__name">
-                                    <a href="#">{cardOffer.title}</a>
+                                    <Link to={AppRoute.PROPERTY}>{cardOffer.title}</Link>
                                   </h2>
                                   <p className="place-card__type">{cardOffer.type}</p>
                                 </div>
@@ -133,7 +133,7 @@ const mapDispatchToProps = (dispatch) => ({
 Favorites.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  favoriteOffers: PropTypes.array,
+  favoriteOffers: PropTypes.any,
   cityList: PropTypes.array.isRequired,
   loadFavoriteOffers: PropTypes.func.isRequired,
   onFavoriteButtonClick: PropTypes.func.isRequired,

@@ -7,6 +7,7 @@ import {Router} from "react-router-dom";
 import configureStore from "redux-mock-store";
 import Adapter from "enzyme-adapter-react-16";
 import Main from "./main.jsx";
+import CITYLIST from "../../const.js";
 import NameSpace from "../../reducer/name-space.js";
 import {createBrowserHistory} from "history";
 const history = createBrowserHistory();
@@ -254,6 +255,9 @@ describe(`test Main e2e`, () => {
         <Provider store={store}>
           <Router history={history}>
             <Main
+              cityList = {
+                CITYLIST
+              }
               typeSorting = {
                 `Popular`
               }
@@ -336,10 +340,12 @@ describe(`test Main e2e`, () => {
     const mainScreen = mount(
         <Provider store={store}>
           <Router history={history}>
-
             <Main
               typeSorting = {
                 `Popular`
+              }
+              cityList = {
+                CITYLIST
               }
               activeOffer = {
                 null

@@ -1,4 +1,4 @@
-let getFilterOffersOnCity = (array, town) => {
+const getFilterOffersOnCity = (array, town) => {
   return array.filter((element) => element.city === town);
 };
 

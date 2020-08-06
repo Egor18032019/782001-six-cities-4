@@ -4,16 +4,20 @@ import PropTypes from "prop-types";
 import Map from "../map/map.jsx";
 import {AppRoute} from "../../const.js";
 import {Link} from "react-router-dom";
+import {AuthorizationStatus} from "../../reducer/user/user-reducer.js";
+import history from "../../history";
 
 class Property extends PureComponent {
   constructor(props) {
     super(props);
+    this.onFavoriteClick = this.onFavoriteClick.bind(this);
   }
 
   render() {
 
     const {place, email} = this.props;
-    const {description, price, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host, id} = place;
+    const {description, price, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host, id, isBookmark} = place;
+    console.log(isBookmark);
     return (
       <div className="page">
         <header className="header">
@@ -45,7 +49,7 @@ class Property extends PureComponent {
               <div className="property__gallery">
                 {images.map((image, index) => {
                   return (
-                    <div className="property__image-wrapper" key={index + Date.now()}>
+                    <div className="property__image-wrapper" key={id + index}>
                       <img className="property__image" src={image} alt="Photo studio" />
                     </div>
                   );
@@ -59,7 +63,10 @@ class Property extends PureComponent {
                   <h1 className="property__name">
                     {description}
                   </h1>
-                  <button className="property__bookmark-button button" type="button">
+                  <button className={`property__bookmark-button button ${isBookmark ? `property__bookmark-button--active` : ``}`} type="button"
+                    onClick={()=>{
+                      this.onFavoriteClick(place);
+                    }}>
                     <svg className="property__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
                     </svg>
@@ -94,7 +101,7 @@ class Property extends PureComponent {
                     {
                       options.map((option, index) => {
                         return (
-                          <li className="property__inside-item" key={Date.now() + index}>
+                          <li className="property__inside-item" key={id + index}>
                             {option}
                           </li>
                         );
@@ -227,7 +234,10 @@ class Property extends PureComponent {
                         <b className="place-card__price-value">&euro;80</b>
                         <span className="place-card__price-text">&#47;&nbsp;night</span>
                       </div>
-                      <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+                      <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button"
+                        onClick={()=>{
+                          this.onFavoriteClick(place);
+                        }}>
                         <svg className="place-card__bookmark-icon" width="18" height="19">
                           <use xlinkHref="#icon-bookmark"></use>
                         </svg>
@@ -247,70 +257,6 @@ class Property extends PureComponent {
                   </div>
                 </article>
 
-                <article className="near-places__card place-card">
-                  <div className="near-places__image-wrapper place-card__image-wrapper">
-                    <a href="#">
-                      <img className="place-card__image" src="img/apartment-02.jpg" width="260" height="200" alt="Place image" />
-                    </a>
-                  </div>
-                  <div className="place-card__info">
-                    <div className="place-card__price-wrapper">
-                      <div className="place-card__price">
-                        <b className="place-card__price-value">&euro;132</b>
-                        <span className="place-card__price-text">&#47;&nbsp;night</span>
-                      </div>
-                      <button className="place-card__bookmark-button button" type="button">
-                        <svg className="place-card__bookmark-icon" width="18" height="19">
-                          <use xlinkHref="#icon-bookmark"></use>
-                        </svg>
-                        <span className="visually-hidden">To bookmarks</span>
-                      </button>
-                    </div>
-                    <div className="place-card__rating rating">
-                      <div className="place-card__stars rating__stars">
-                        <span style={{width: `80%`}}></span>
-                        <span className="visually-hidden">Rating</span>
-                      </div>
-                    </div>
-                    <h2 className="place-card__name">
-                      <a href="#">Canal View Prinsengracht</a>
-                    </h2>
-                    <p className="place-card__type">Apartment</p>
-                  </div>
-                </article>
-
-                <article className="near-places__card place-card">
-                  <div className="near-places__image-wrapper place-card__image-wrapper">
-                    <a href="#">
-                      <img className="place-card__image" src="img/apartment-03.jpg" width="260" height="200" alt="Place image" />
-                    </a>
-                  </div>
-                  <div className="place-card__info">
-                    <div className="place-card__price-wrapper">
-                      <div className="place-card__price">
-                        <b className="place-card__price-value">&euro;180</b>
-                        <span className="place-card__price-text">&#47;&nbsp;night</span>
-                      </div>
-                      <button className="place-card__bookmark-button button" type="button">
-                        <svg className="place-card__bookmark-icon" width="18" height="19">
-                          <use xlinkHref="#icon-bookmark"></use>
-                        </svg>
-                        <span className="visually-hidden">To bookmarks</span>
-                      </button>
-                    </div>
-                    <div className="place-card__rating rating">
-                      <div className="place-card__stars rating__stars">
-                        <span style={{width: `100%`}}></span>
-                        <span className="visually-hidden">Rating</span>
-                      </div>
-                    </div>
-                    <h2 className="place-card__name">
-                      <a href="#">Nice, cozy, warm big bed apartment</a>
-                    </h2>
-                    <p className="place-card__type">Apartment</p>
-                  </div>
-                </article>
-
               </div>
             </section>
           </div>
@@ -320,10 +266,21 @@ class Property extends PureComponent {
 
     );
   }
+  onFavoriteClick(place) {
+    console.log(`нажал в проперти`, place.id);
+    const {onFavoriteButtonClick, authorizationStatus} = this.props;
+    if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+      return history.push(AppRoute.LOGIN);
+    }
+    onFavoriteButtonClick(place);
+    return false;
+  }
 }
 
 
 Property.propTypes = {
+  authorizationStatus: PropTypes.string.isRequired,
+  onFavoriteButtonClick: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
   place: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -337,7 +294,6 @@ Property.propTypes = {
     maxAdults: PropTypes.number.isRequired,
     options: PropTypes.array.isRequired,
     images: PropTypes.array.isRequired,
-    // stories: PropTypes.array.isRequired,
     stories: PropTypes.string.isRequired,
     host: PropTypes.shape({
       avatarUrl: PropTypes.string.isRequired,

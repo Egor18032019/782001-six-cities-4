@@ -1,4 +1,3 @@
-import {getOffers} from "./reducer/data/data-reducer.js";
 const CITYLIST = [
   `Paris`,
   `Cologne`,
@@ -8,10 +7,6 @@ const CITYLIST = [
   `Dusseldorf`,
 ];
 
-// const offers = getOffers();
-// const CityCurrentList = [...new Set(offers.map((offer) => offer.city))];
-// console.log(offers);
-// console.log(CityCurrentList);
 const SORTING = [
   `Popular`,
   `Price: low to high`,
@@ -32,5 +27,4 @@ export {
   CITYLIST,
   SORTING,
   AppRoute,
-  // CityCurrentList
 };

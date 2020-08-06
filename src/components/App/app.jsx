@@ -5,8 +5,11 @@ import {connect} from "react-redux";
 import Notifications, {notify} from 'react-notify-toast';
 import Main from "../Main/main.jsx";
 import withMain from "../hocs/with-main/with-main.js";
-import {getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount, getErrorMessage, getFavoritesOffers, getList} from "../../reducer/data/selectors.js";
-import {getOffersActive, getCardId} from "../../reducer/offers/selectors.js";
+import {
+  getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount, getErrorMessage,
+  getFavoritesOffers, getList
+} from "../../reducer/data/selectors.js";
+import {getCardId} from "../../reducer/offers/selectors.js";
 import {getAuthStatus, getEmail, getUsersErrorMessage} from "../../reducer/user/selectors.js";
 import {AuthorizationStatus, Operation as UserOperation} from "../../reducer/user/user-reducer.js";
 import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
@@ -19,16 +22,16 @@ import SignIn from "../sign-in/sign-in.jsx";
 import {ActionActive} from "../../reducer/offers/offers-reducer.js";
 import {ActionTown} from "../../reducer/data/data-reducer.js";
 import {AppRoute} from "../../const.js";
+import withPrivateRoute from "../hocs/with-private-route/with-private-route.js";
 
 class App extends PureComponent {
   constructor(props) {
     super(props);
   }
-
   _renderApp() {
-    const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers, cardId,
-      active, authorizationStatus, email, usersErrorMessage, onFavoriteButtonClick, cityList, isDataLoaded} = this.props;
-    if (active === `mainPages` && isDataLoaded) {
+    const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers, cardId, authorizationStatus, email, usersErrorMessage, onFavoriteButtonClick, cityList, isDataLoaded} = this.props;
+    const isAuthorizationStatus = (authorizationStatus === AuthorizationStatus.NO_AUTH);
+    if (isDataLoaded) {
       return (
         <MainWrapped
           cityList={cityList}
@@ -42,7 +45,7 @@ class App extends PureComponent {
           onFavoriteButtonClick={onFavoriteButtonClick}
         />
       );
-    } else if (active === `property`) {
+    } else if (cardId) {
       return (
         <Property
           place={activeOffers.find((offer) => {
@@ -53,8 +56,8 @@ class App extends PureComponent {
           authorizationStatus={authorizationStatus}
         />
       );
-    } else if (usersErrorMessage && authorizationStatus === AuthorizationStatus.NO_AUTH) {
-      let myColor = {background: `#0E1717`, text: `orange`};
+    } else if (usersErrorMessage && !isAuthorizationStatus) {
+      const myColor = {background: `#0E1717`, text: `orange`};
       notify.show(`Проверьте введеные данные  ${usersErrorMessage}`, `custom`, 2500, myColor);
     }
     return `что то пошло не так`;
@@ -63,9 +66,12 @@ class App extends PureComponent {
   render() {
     const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers,
       authorizationStatus, email, onLoginUsers, cardId, errorMessage, usersErrorMessage, onFavoriteButtonClick, cityList} = this.props;
-    let status = (errorMessage ? notify.show(`${errorMessage}`, `error`) : ``);
-    let myColor = {background: `#0E1717`, text: `orange`};
-    let statusUser = (usersErrorMessage ? notify.show(`Проверьте введеные данные  ${usersErrorMessage}`, `custom`, 2500, myColor) : ``);
+    const status = (errorMessage ? notify.show(`${errorMessage}`, `error`) : ``);
+    const myColor = {background: `#0E1717`, text: `orange`};
+    const statusUser = (usersErrorMessage ? notify.show(`Проверьте введеные данные  ${usersErrorMessage}`, `custom`, 2500, myColor) : ``);
+    const isAuthorizationStatus = (authorizationStatus === AuthorizationStatus.AUTH);
+    const FavoritesPagePrivate = withPrivateRoute(Favorites, isAuthorizationStatus, AppRoute.LOGIN);
+
     return (
       <Router
         history={history}>
@@ -90,11 +96,9 @@ class App extends PureComponent {
             />
           </Route>
           <Route exact path={AppRoute.PROPERTY}>
-            {authorizationStatus === AuthorizationStatus.NO_AUTH ? <Redirect to={AppRoute.LOGIN}/> :
+            {!cardId ? <Redirect to={AppRoute.MAIN} /> :
               <Property
-                place={activeOffers.find((offer) => {
-                  return offer.id === cardId;
-                })}
+                place={cardId}
                 email={email}
                 authorizationStatus={authorizationStatus}
                 onFavoriteButtonClick={onFavoriteButtonClick}
@@ -103,18 +107,20 @@ class App extends PureComponent {
           </Route>
           <Route exact path={AppRoute.LOGIN}>
             {status}
-            <SignIn
-              onLoginUsers={onLoginUsers}
-              activeTown={activeTown}
-              email={email}
-              authorizationStatus={authorizationStatus}
-            />
+            {isAuthorizationStatus ? <Redirect to={AppRoute.MAIN} /> :
+              <SignIn
+                onLoginUsers={onLoginUsers}
+                activeTown={activeTown}
+                email={email}
+                authorizationStatus={authorizationStatus}
+              />}
           </Route>
           <Route exact path={AppRoute.FAVORITES}>
-            <Favorites
+            <FavoritesPagePrivate
               email={email}
               authorizationStatus={authorizationStatus}
               cityList={cityList}
+              isAuthorizationStatus={isAuthorizationStatus}
             />
           </Route>
 
@@ -146,7 +152,6 @@ const mapStateToProps = (store) => {
     activeTown: getActiveTown(store),
     placesCount: getPlaceCount(store),
     cardId: getCardId(store),
-    active: getOffersActive(store),
     authorizationStatus: getAuthStatus(store),
     email: getEmail(store),
     errorMessage: getErrorMessage(store),
@@ -164,8 +169,7 @@ App.propTypes = {
   activeTown: PropTypes.string.isRequired,
   placesCount: PropTypes.number.isRequired,
   activeOffers: PropTypes.array.isRequired,
-  active: PropTypes.string.isRequired,
-  cardId: PropTypes.number,
+  cardId: PropTypes.object, // или ноль или обьект
   authorizationStatus: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   usersErrorMessage: PropTypes.string,

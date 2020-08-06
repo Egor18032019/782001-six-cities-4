@@ -6,7 +6,6 @@ const ActionType = {
 
 // Объект начального состояния(state):
 const initialState = {
-  active: `mainPages`,
   cardId: null,
 };
 
@@ -15,7 +14,6 @@ const offersReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.GET_OFFERS:
       return Object.assign({}, state, {
-        active: `property`,
         cardId: action.cardId,
       });
     default:
@@ -27,7 +25,7 @@ const offersReducer = (state = initialState, action) => {
 const ActionActive = {
   activeState: (place) => ({
     type: ActionType.GET_OFFERS, // обязательно поле type так как по нему пробегамся swit-чом
-    cardId: place.id,
+    cardId: place,
   }),
 };
 

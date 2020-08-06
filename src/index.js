@@ -16,13 +16,13 @@ import {
   Operation
 } from "./reducer/data/data-reducer.js";
 import {
-  setAuthStatus
+  ActionCreator
 } from "./reducer/user/user-reducer.js";
 import {AppRoute} from "./const.js";
 import history from "./history.js";
 
 const onUnauthorized = (status) => {
-  store.dispatch(setAuthStatus(status));
+  store.dispatch(ActionCreator.setAuthStatus(status));
   history.push(AppRoute.LOGIN);
   // Воспользуйтесь механизмом перехватчиков (interceptors) пакета axios
   //  и реализуйте с их помощью следующее поведение: при получении ответа от сервера с кодом 401,
