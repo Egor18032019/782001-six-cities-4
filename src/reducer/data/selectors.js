@@ -5,6 +5,12 @@ import {getFilterOffersOnCity} from '../../utils';
 const getOffers = (state) => {
   return state[NameSpace.DATA].data;
 };
+const getNearbyOffers = (state) => {
+  return state[NameSpace.DATA].nearbyOffers;
+};
+const getNearbyOffersStatus = (state) => {
+  return state[NameSpace.DATA].isNearbyOffersLoading;
+};
 
 const getActiveTown = (state) => {
   return state[NameSpace.DATA].town;
@@ -50,4 +56,6 @@ export {
   getErrorMessage,
   getFavoritesOffers,
   getList,
+  getNearbyOffers,
+  getNearbyOffersStatus,
 };

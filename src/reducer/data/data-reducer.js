@@ -12,6 +12,7 @@ const ActionType = {
   CHANGE_TOWN: `CHANGE_TOWN`,
   LOAD_FAVORITE_OFFERS: `LOAD_FAVORITE_OFFERS`,
   ADD_FAVORITE_OFFERS: `ADD_FAVORITE_OFFERS`,
+  LOAD_NEARBY_OFFERS: `LOAD_NEARBY_OFFERS`,
 };
 
 // Объект начального состояния(state):
@@ -20,7 +21,9 @@ const initialState = {
   isDataLoaded: false,
   town: `Amsterdam`,
   errorMessage: ``,
-  favoriteOffers: ``
+  favoriteOffers: ``,
+  nearbyOffers: [],
+  isNearbyOffersLoading: false,
 };
 
 // запрос на сервер
@@ -38,7 +41,6 @@ const Operation = {
     const status = offer.isBookmark ? 0 : 1;
     return api.post(`/favorite/${offer.id}/${status}`, {})
       .then((response) => {
-        console.log(offer);
         if (response.status === 200) {
           dispatch(Operation.loadFavoriteOffers());
           // getFavoriteOffers перерисовка кнопки
@@ -54,6 +56,15 @@ const Operation = {
         const favoriteDataOffers = adapter(response.data); // адаптер для пересборки данных
         dispatch(setFavoriteOffers(favoriteDataOffers));
       });
+  },
+  loadNearbyOffers: (id)=>(dispatch, getState, api)=>{
+    console.log(id);
+    return api.get(`/hotels/${id}/nearby`)
+      .then((response) => {
+        const serverDataOffers = adapter(response.data); // адаптер для пересборки данных
+        dispatch(loadNearbyOffers(serverDataOffers));
+      });
+
   },
 };
 
@@ -86,6 +97,11 @@ const dataReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         favoriteOffers: action.payload,
       });
+    case ActionType.LOAD_NEARBY_OFFERS:
+      return Object.assign({}, state, {
+        nearbyOffers: action.payload,
+        isNearbyOffersLoading: true
+      });
     default:
       return state;
   }
@@ -104,7 +120,12 @@ const setFavoriteOffers = (favoriteOffers) => {
     payload: favoriteOffers
   };
 };
-
+const loadNearbyOffers = (nearbyOffers) => {
+  return {
+    type: ActionType.LOAD_NEARBY_OFFERS,
+    payload: nearbyOffers
+  };
+};
 /**
  * @param {status} status bool-ево значение.
  * @param {err} err ошибка.

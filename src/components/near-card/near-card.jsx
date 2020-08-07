@@ -4,10 +4,8 @@ import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
 import {AppRoute} from "../../const.js";
-import {AuthorizationStatus} from "../../reducer/user/user-reducer.js";
-import history from "../../history.js";
 
-class PlaceCard extends PureComponent {
+class NearCard extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -17,23 +15,22 @@ class PlaceCard extends PureComponent {
 
   render() {
     const {place,
+      // onCardMouseEnter,
+      // onCardMouseOut,
       onMainTitleClick,
-      onCardMouseEnter,
-      onCardMouseOut} = this.props;
+    } = this.props;
     const {type, isPremium, mainPhoto, price, isBookmark, rating, title} = place;
     const ratingStars = `${rating * 20}%`;
-
     if (place) {
       return (
         <article
-          onMouseEnter={() => {
-            onCardMouseEnter(place.id);
-          }}
-          onMouseLeave={onCardMouseOut}
-          className="cities__place-card place-card">
-
+          // onMouseEnter={() => {
+          //   onCardMouseEnter(place.id);
+          // }}
+          // onMouseLeave={onCardMouseOut}
+          className="near-places__card place-card">
           {isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ``}
-          <div className="cities__image-wrapper place-card__image-wrapper">
+          <div className="near-places__image-wrapper place-card__image-wrapper">
             <a href="#">
               <img className="place-card__image" src={mainPhoto} width="260" height="200" alt="Place image" />
             </a>
@@ -49,46 +46,43 @@ class PlaceCard extends PureComponent {
                 <svg className="place-card__bookmark-icon" width="18" height="19">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
-                <span className="visually-hidden">To bookmarks</span>
+                <span className="visually-hidden">In bookmarks</span>
               </button>
             </div>
             <div className="place-card__rating rating">
               <div className="place-card__stars rating__stars">
-                {/* свойства записыватьтак style={{marginRight: spacing + 'em'}}
-          */}
                 <span style={{width: ratingStars}}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
             </div>
-            <h2 onClick={() => {
-              onMainTitleClick(place);
-            }} className="place-card__name">
+            <h2
+              onClick={() => {
+                onMainTitleClick(place);
+              }}
+              className="place-card__name">
               <Link to={AppRoute.PROPERTY}>{title}</Link>
             </h2>
             <p className="place-card__type">{type}</p>
           </div>
         </article>
+
       );
     } else {
       return ``;
     }
   }
-
-  handleFavoriteClick() {
-    const {authorizationStatus, onFavoriteButtonClick, place} = this.props;
-    if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
-      return history.push(AppRoute.LOGIN);
-    }
+  handleFavoriteClick(place) {
+    console.log(`нажал в near-card`, place.id);
+    const {onFavoriteButtonClick} = this.props;
     onFavoriteButtonClick(place);
-    return false;
   }
 }
 
-PlaceCard.propTypes = {
+
+NearCard.propTypes = {
   onMainTitleClick: PropTypes.func.isRequired,
-  onCardMouseEnter: PropTypes.func.isRequired,
-  onCardMouseOut: PropTypes.func.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
+  // onCardMouseEnter: PropTypes.func.isRequired,
+  // onCardMouseOut: PropTypes.func.isRequired,
   onFavoriteButtonClick: PropTypes.func.isRequired,
   place: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -106,4 +100,4 @@ PlaceCard.propTypes = {
 };
 
 
-export default PlaceCard;
+export default NearCard;

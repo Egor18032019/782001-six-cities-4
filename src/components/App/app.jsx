@@ -64,6 +64,7 @@ class App extends PureComponent {
                 email={email}
                 authorizationStatus={authorizationStatus}
                 onFavoriteButtonClick={onFavoriteButtonClick}
+                onMainTitleClick={onMainTitleClick}
               />}
           </Route>
           <Route exact path={AppRoute.LOGIN}>
@@ -83,6 +84,9 @@ class App extends PureComponent {
               authorizationStatus={authorizationStatus}
               cityList={cityList}
               isAuthorizationStatus={isAuthorizationStatus}
+              onMainTitleClick={onMainTitleClick}
+              onFavoriteButtonClick={onFavoriteButtonClick}
+
             />
           </Route>
         </Switch>

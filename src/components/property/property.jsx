@@ -1,23 +1,27 @@
 // компонент  «Детальная информация о предложении»
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import Map from "../map/map.jsx";
 import {AppRoute} from "../../const.js";
 import {Link} from "react-router-dom";
-import {AuthorizationStatus} from "../../reducer/user/user-reducer.js";
-import history from "../../history";
-
+import Map from "../map/map.jsx";
+import NearCard from "../near-card/near-card.jsx";
+import {connect} from "react-redux";
+import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
+import {getNearbyOffers, getNearbyOffersStatus} from "../../reducer/data/selectors.js";
 class Property extends PureComponent {
   constructor(props) {
     super(props);
-    this.onFavoriteClick = this.onFavoriteClick.bind(this);
+    this.handleFavoriteClick = this.handleFavoriteClick.bind(this);
   }
 
   render() {
 
-    const {place, email} = this.props;
-    const {description, price, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host, id, isBookmark} = place;
+    const {place, email, onMainTitleClick, onFavoriteButtonClick, nearbyOffers} = this.props;
+    const {price, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host, id,
+      isBookmark, title} = place;
     console.log(isBookmark);
+    const ratingStars = `${rating * 20}%`;
+
     return (
       <div className="page">
         <header className="header">
@@ -61,11 +65,11 @@ class Property extends PureComponent {
                 {isPremium ? <div className="property__mark"><span>Premium</span></div> : ``}
                 <div className="property__name-wrapper">
                   <h1 className="property__name">
-                    {description}
+                    {title}
                   </h1>
                   <button className={`property__bookmark-button button ${isBookmark ? `property__bookmark-button--active` : ``}`} type="button"
-                    onClick={()=>{
-                      this.onFavoriteClick(place);
+                    onClick={() => {
+                      this.handleFavoriteClick(place);
                     }}>
                     <svg className="property__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
@@ -75,7 +79,7 @@ class Property extends PureComponent {
                 </div>
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
-                    <span style={{width: (rating * 20) + `%`}}></span>
+                    <span style={{width: ratingStars}}></span>
                     <span className="visually-hidden">Rating</span>
                   </div>
                   <span className="property__rating-value rating__value">{rating}</span>
@@ -120,20 +124,9 @@ class Property extends PureComponent {
                     </span>
                   </div>
                   <div className="property__description">
-                    {
-                      // stories.map((store, index)=>{
-                      //   return (
-                      //     <p className="property__text" key={index + stories.length}>
-                      //       {store}
-                      //     </p>
-                      //   );
-                      // })
-                      // );
-                      <p className="property__text">
-                        {stories}
-                      </p>
-                    }
-
+                    <p className="property__text">
+                      {stories}
+                    </p>
                   </div>
                 </div>
                 <section className="property__reviews reviews">
@@ -221,42 +214,19 @@ class Property extends PureComponent {
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
               <div className="near-places__list places__list">
-
-                <article className="near-places__card place-card">
-                  <div className="near-places__image-wrapper place-card__image-wrapper">
-                    <a href="#">
-                      <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="Place image" />
-                    </a>
-                  </div>
-                  <div className="place-card__info">
-                    <div className="place-card__price-wrapper">
-                      <div className="place-card__price">
-                        <b className="place-card__price-value">&euro;80</b>
-                        <span className="place-card__price-text">&#47;&nbsp;night</span>
-                      </div>
-                      <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button"
-                        onClick={()=>{
-                          this.onFavoriteClick(place);
-                        }}>
-                        <svg className="place-card__bookmark-icon" width="18" height="19">
-                          <use xlinkHref="#icon-bookmark"></use>
-                        </svg>
-                        <span className="visually-hidden">In bookmarks</span>
-                      </button>
-                    </div>
-                    <div className="place-card__rating rating">
-                      <div className="place-card__stars rating__stars">
-                        <span style={{width: `80%`}}></span>
-                        <span className="visually-hidden">Rating</span>
-                      </div>
-                    </div>
-                    <h2 className="place-card__name">
-                      <a href="#">Wood and stone place</a>
-                    </h2>
-                    <p className="place-card__type">Private room</p>
-                  </div>
-                </article>
-
+                {
+                  nearbyOffers.map(
+                      (nearPlace) => {
+                        return <NearCard
+                          place={nearPlace}
+                          key={nearPlace.id} // кей должен быть стабильный и уникальный
+                          onMainTitleClick={onMainTitleClick}
+                          // onCardMouseEnter={onCardMouseEnter}
+                          // onCardMouseOut={onCardMouseOut}
+                          onFavoriteButtonClick={onFavoriteButtonClick}
+                        />;
+                      })
+                }
               </div>
             </section>
           </div>
@@ -266,26 +236,53 @@ class Property extends PureComponent {
 
     );
   }
-  onFavoriteClick(place) {
+  handleFavoriteClick(place) {
     console.log(`нажал в проперти`, place.id);
-    const {onFavoriteButtonClick, authorizationStatus} = this.props;
-    if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
-      return history.push(AppRoute.LOGIN);
-    }
+    const {onFavoriteButtonClick} = this.props;
     onFavoriteButtonClick(place);
     return false;
   }
+  componentDidMount() {
+    const {place, loadOfferData} = this.props;
+    loadOfferData(place.id);
+  }
+
+  componentDidUpdate(prevProps) {
+    const {place, loadOfferData} = this.props;
+
+    if (this.props.place.id !== prevProps.place.id) {
+      loadOfferData(place.id);
+    }
+  }
 }
 
+const mapStateToProps = (store) => ({
+  nearbyOffers: getNearbyOffers(store),
+  isNearbyOffersLoading: getNearbyOffersStatus(store),
+  // reviews: getReviews(store),
+  // isReviewsLoading: getReviewsStatus(store),
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+  loadOfferData(id) {
+    dispatch(DataOperation.loadNearbyOffers(id));
+  }
+});
 
 Property.propTypes = {
+  nearbyOffers: PropTypes.array.isRequired,
+  loadOfferData: PropTypes.func.isRequired,
+  isNearbyOffersLoading: PropTypes.bool.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
+  onMainTitleClick: PropTypes.func.isRequired,
   onFavoriteButtonClick: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
   place: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     isBookmark: PropTypes.bool.isRequired,
     isPremium: PropTypes.bool.isRequired,
@@ -303,4 +300,5 @@ Property.propTypes = {
   })
 };
 
-export default Property;
+export {Property};
+export default connect(mapStateToProps, mapDispatchToProps)(Property);

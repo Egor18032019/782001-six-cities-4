@@ -5,15 +5,6 @@ import {connect} from "react-redux";
 import {getOffersByActiveCity, getActiveTown} from "../../reducer/data/selectors.js";
 
 
-const townList = {
-  Amsterdam: [52.38333, 4.9],
-  Paris: [48.8333, 2.34],
-  Cologne: [50.9333, 6.95],
-  Brussels: [50.8504, 4.34878],
-  Hamburg: [53.550341, 10.000654],
-  Dusseldorf: [51.2217, 6.7761]
-};
-
 // инициализируем переменую и позже переопределяем
 let city;
 
@@ -43,7 +34,7 @@ class Map extends PureComponent {
     // прописываем city два раза = при монтаже и обновлении
     city = {
       name: this.props.activeTown,
-      center: townList[this.props.activeTown],
+      center: this.props.activeOffers[0].coordinate,
       zoom: 13
     };
     // инциализируем контейнер для карты и установим фокус на определённую область(город)
@@ -56,6 +47,7 @@ class Map extends PureComponent {
     });
     this.addMap();
     this._addPoints();
+    // console.log(`componentDidMount`);
   }
 
   componentWillUnmount() {
@@ -66,7 +58,7 @@ class Map extends PureComponent {
     // прописываем city два раза = при монтаже и обновлении
     city = {
       name: this.props.activeTown,
-      center: townList[this.props.activeTown],
+      center: this.props.activeOffers[0].coordinate,
       zoom: 13
     };
     if (city.name === !this.props.activeTown) {
@@ -74,11 +66,13 @@ class Map extends PureComponent {
     }
     this.addMap();
     this._addPoints();
+    // console.log(`componentDidUpdate`);
   }
 
   _addPoints() {
     const {activeOffer, activeOffers} = this.props;
     const places = activeOffers;
+    console.log(activeOffer);
     // форычом проходим по пропсам и о leaferom отрисовываем по place.coordinate-ам
     places.forEach((place) => {
       const activeIcon = (place.id === activeOffer) ? `img/pin-active.svg` : `img/pin.svg`;
@@ -94,6 +88,7 @@ class Map extends PureComponent {
   }
 
   render() {
+    // console.log(this.props);
     return (
       <div id="map" style={{height: `100%`, width: `100%`}} ref={this.mapCity}>
         {/* {this.initMap()} */}
@@ -104,18 +99,18 @@ class Map extends PureComponent {
 }
 
 const mapStateToProps = (store) => {
-  // console.log(`state:`, state);
   return {
     activeOffers: getOffersByActiveCity(store),
     activeTown: getActiveTown(store),
   };
 };
 
-export {Map};
-export default connect(mapStateToProps)(Map); // первым стате а вторым фдиспатчеры
-
 Map.propTypes = {
   activeTown: PropTypes.string.isRequired,
   activeOffers: PropTypes.array.isRequired,
   activeOffer: PropTypes.number,
 };
+
+export {Map};
+export default connect(mapStateToProps)(Map); // первым стате а вторым фдиспатчеры
+
