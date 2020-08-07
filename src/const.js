@@ -18,7 +18,7 @@ const AppRoute = {
   ROOT: `/`,
   LOGIN: `/login`,
   MAIN: `/main`,
-  PROPERTY: `/property`,
+  PROPERTY: `/offer/:id`,
   FAVORITES: `/favorites`,
   // AMSTERDAM: `/Amsterdam`,
 };

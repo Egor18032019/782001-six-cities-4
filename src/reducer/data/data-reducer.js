@@ -58,7 +58,6 @@ const Operation = {
       });
   },
   loadNearbyOffers: (id)=>(dispatch, getState, api)=>{
-    console.log(id);
     return api.get(`/hotels/${id}/nearby`)
       .then((response) => {
         const serverDataOffers = adapter(response.data); // адаптер для пересборки данных

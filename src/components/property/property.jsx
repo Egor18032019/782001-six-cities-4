@@ -1,13 +1,14 @@
 // компонент  «Детальная информация о предложении»
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import {AppRoute} from "../../const.js";
-import {Link} from "react-router-dom";
 import Map from "../map/map.jsx";
 import NearCard from "../near-card/near-card.jsx";
 import {connect} from "react-redux";
 import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
 import {getNearbyOffers, getNearbyOffersStatus} from "../../reducer/data/selectors.js";
+import Header from "../header/header.jsx";
+import {AuthorizationStatus} from "../../reducer/user/user-reducer.js";
+
 class Property extends PureComponent {
   constructor(props) {
     super(props);
@@ -16,37 +17,18 @@ class Property extends PureComponent {
 
   render() {
 
-    const {place, email, onMainTitleClick, onFavoriteButtonClick, nearbyOffers} = this.props;
+    const {email, onMainTitleClick, onFavoriteButtonClick, nearbyOffers, offer} = this.props;
     const {price, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host, id,
-      isBookmark, title} = place;
+      isBookmark, title} = offer;
     console.log(isBookmark);
     const ratingStars = `${rating * 20}%`;
 
     return (
       <div className="page">
-        <header className="header">
-          <div className="container">
-            <div className="header__wrapper">
-              <div className="header__left">
-                <Link className="header__logo-link" to={AppRoute.ROOT}>
-                  <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-                </Link>
-              </div>
-              <nav className="header__nav">
-                <ul className="header__nav-list">
-                  <li className="header__nav-item user">
-                    <Link className="header__nav-link header__nav-link--profile" to={AppRoute.FAVORITES}>
-                      <div className="header__avatar-wrapper user__avatar-wrapper">
-                      </div>
-                      <span className="header__user-name user__name">{email}</span>
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </header>
-
+        <Header
+          email={email}
+          authorizationStatus={AuthorizationStatus.AUTH}
+        />
         <main className="page__main page__main--property">
           <section className="property">
             <div className="property__gallery-container container">
@@ -69,7 +51,7 @@ class Property extends PureComponent {
                   </h1>
                   <button className={`property__bookmark-button button ${isBookmark ? `property__bookmark-button--active` : ``}`} type="button"
                     onClick={() => {
-                      this.handleFavoriteClick(place);
+                      this.handleFavoriteClick(offer);
                     }}>
                     <svg className="property__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
@@ -236,27 +218,28 @@ class Property extends PureComponent {
 
     );
   }
-  handleFavoriteClick(place) {
-    console.log(`нажал в проперти`, place.id);
+  handleFavoriteClick(offer) {
+    console.log(`нажал в проперти`, offer.id);
     const {onFavoriteButtonClick} = this.props;
-    onFavoriteButtonClick(place);
+    onFavoriteButtonClick(offer);
     return false;
   }
   componentDidMount() {
-    const {place, loadOfferData} = this.props;
-    loadOfferData(place.id);
+    const {offer, loadOfferData} = this.props;
+    loadOfferData(offer.id);
   }
 
   componentDidUpdate(prevProps) {
-    const {place, loadOfferData} = this.props;
+    const {offer, loadOfferData} = this.props;
 
-    if (this.props.place.id !== prevProps.place.id) {
-      loadOfferData(place.id);
+    if (this.props.offer.id !== prevProps.offer.id) {
+      loadOfferData(offer.id);
     }
   }
 }
 
-const mapStateToProps = (store) => ({
+const mapStateToProps = (store, ownProps) => ({
+  offer: ownProps.place,
   nearbyOffers: getNearbyOffers(store),
   isNearbyOffersLoading: getNearbyOffersStatus(store),
   // reviews: getReviews(store),
@@ -278,7 +261,7 @@ Property.propTypes = {
   onMainTitleClick: PropTypes.func.isRequired,
   onFavoriteButtonClick: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
-  place: PropTypes.shape({
+  offer: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
