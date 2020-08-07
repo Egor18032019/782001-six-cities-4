@@ -72,7 +72,7 @@ const ActionCreator = {
   setAuthStatus: (err) => {
     return {
       type: ActionType.REQUIRED_AUTHORIZATION,
-      usersErrorMessage: err.statusText,
+      usersErrorMessage: `Ошибка ${err}`,
     };
   },
   //  этот срабатывает когда всё хорошо

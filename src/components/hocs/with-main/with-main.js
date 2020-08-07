@@ -34,6 +34,7 @@ const withMain = (Component) => {
       );
     }
   }
+
   WithMain.propTypes = {
     placesCount: PropTypes.number.isRequired,
     onCityNameClick: PropTypes.func.isRequired,

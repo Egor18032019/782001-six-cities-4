@@ -28,40 +28,6 @@ class App extends PureComponent {
   constructor(props) {
     super(props);
   }
-  _renderApp() {
-    const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers, cardId, authorizationStatus, email, usersErrorMessage, onFavoriteButtonClick, cityList, isDataLoaded} = this.props;
-    const isAuthorizationStatus = (authorizationStatus === AuthorizationStatus.NO_AUTH);
-    if (isDataLoaded) {
-      return (
-        <MainWrapped
-          cityList={cityList}
-          placesCount={placesCount}
-          town={activeTown}
-          places={activeOffers}
-          onMainTitleClick={onMainTitleClick}
-          onCityNameClick={onCityNameClick}
-          email={email}
-          authorizationStatus={authorizationStatus}
-          onFavoriteButtonClick={onFavoriteButtonClick}
-        />
-      );
-    } else if (cardId) {
-      return (
-        <Property
-          place={activeOffers.find((offer) => {
-            return offer.id === cardId;
-          })}
-          email={email}
-          onFavoriteButtonClick={onFavoriteButtonClick}
-          authorizationStatus={authorizationStatus}
-        />
-      );
-    } else if (usersErrorMessage && !isAuthorizationStatus) {
-      const myColor = {background: `#0E1717`, text: `orange`};
-      notify.show(`Проверьте введеные данные  ${usersErrorMessage}`, `custom`, 2500, myColor);
-    }
-    return `что то пошло не так`;
-  }
 
   render() {
     const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers,
@@ -79,10 +45,6 @@ class App extends PureComponent {
         <Switch>
           <Route exact path={AppRoute.ROOT}>
             {status}
-            {this._renderApp()}
-          </Route>
-          <Route exact path={AppRoute.MAIN}>
-            {status}
             <MainWrapped
               placesCount={placesCount}
               town={activeTown}
@@ -96,24 +58,24 @@ class App extends PureComponent {
             />
           </Route>
           <Route exact path={AppRoute.PROPERTY}>
-            {!cardId ? <Redirect to={AppRoute.MAIN} /> :
+            {!cardId ? <Redirect to={AppRoute.ROOT} /> :
               <Property
                 place={cardId}
                 email={email}
                 authorizationStatus={authorizationStatus}
                 onFavoriteButtonClick={onFavoriteButtonClick}
               />}
-            {statusUser}
           </Route>
           <Route exact path={AppRoute.LOGIN}>
-            {status}
-            {isAuthorizationStatus ? <Redirect to={AppRoute.MAIN} /> :
+            {isAuthorizationStatus ? <Redirect to={AppRoute.ROOT} /> :
               <SignIn
                 onLoginUsers={onLoginUsers}
                 activeTown={activeTown}
                 email={email}
                 authorizationStatus={authorizationStatus}
               />}
+            {statusUser}
+            {status}
           </Route>
           <Route exact path={AppRoute.FAVORITES}>
             <FavoritesPagePrivate
@@ -123,7 +85,6 @@ class App extends PureComponent {
               isAuthorizationStatus={isAuthorizationStatus}
             />
           </Route>
-
         </Switch>
       </Router >
     );
@@ -172,7 +133,7 @@ App.propTypes = {
   cardId: PropTypes.object, // или ноль или обьект
   authorizationStatus: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  usersErrorMessage: PropTypes.string,
+  usersErrorMessage: PropTypes.any,
   errorMessage: PropTypes.string,
   onLoginUsers: PropTypes.func.isRequired,
   cityList: PropTypes.array.isRequired,

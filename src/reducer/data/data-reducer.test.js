@@ -6,7 +6,7 @@ import {
   getFilterOffersOnCity
 } from '../../utils';
 
-const mockSettings = [{
+const mockData = [{
   id: 0,
   city: `Amsterdam`,
   type: `Apartament`,
@@ -208,7 +208,7 @@ const mockSettings = [{
   }
 }
 ];
-const mockBookmark = [
+const mockElement =
   {
     id: 0,
     city: `Amsterdam`,
@@ -232,9 +232,8 @@ const mockBookmark = [
       isPro: true,
       name: `Angelina`
     }
-  }
-];
-const rewriteMockSettings = [{
+  };
+const rewriteMockData = [{
   id: 0,
   city: `Amsterdam`,
   type: `Apartament`,
@@ -449,53 +448,53 @@ describe(`state work correctly`, () => {
 
   it(`The reducer should change the city to the value that came in`, () => {
     expect(dataReducer({
-      data: mockSettings,
+      data: mockData,
       isDataLoaded: true,
       town: `Amsterdam`,
     }, {
       type: ActionType.CHANGE_TOWN,
       payload: `Paris`,
     })).toEqual({
-      data: mockSettings,
+      data: mockData,
       isDataLoaded: true,
       town: `Paris`,
     });
 
     expect(dataReducer({
-      data: mockSettings,
+      data: mockData,
       isDataLoaded: true,
       town: `Amsterdam`,
     }, {
       type: ActionType.CHANGE_TOWN,
       payload: `Amsterdam`,
     })).toEqual({
-      data: mockSettings,
+      data: mockData,
       isDataLoaded: true,
       town: `Amsterdam`,
     });
   });
   it(`The reducer should change the  place to the favorites that came in`, () => {
     expect(dataReducer({
-      data: mockSettings,
+      data: mockData,
       isDataLoaded: true,
     }, {
       type: ActionType.ADD_FAVORITE_OFFERS,
-      payload: mockBookmark
+      payload: mockElement
     })).toEqual({
-      data: rewriteMockSettings,
+      data: rewriteMockData,
       isDataLoaded: true,
     });
   });
   it(`The reducer should change the favoriteOffers to the value that came in`, () => {
     expect(dataReducer({
-      data: mockSettings,
+      data: mockData,
       favoriteOffers: ``
     }, {
       type: ActionType.LOAD_FAVORITE_OFFERS,
-      payload: mockBookmark
+      payload: mockElement
     })).toEqual({
-      data: mockSettings,
-      favoriteOffers: mockBookmark
+      data: mockData,
+      favoriteOffers: mockElement
     });
   });
 });
@@ -508,9 +507,9 @@ describe(`loading work correctly`, () => {
       town: `Amsterdam`,
     }, {
       type: ActionType.GET_SERVER_DATA,
-      data: mockSettings,
+      data: mockData,
     })).toEqual({
-      data: mockSettings,
+      data: mockData,
       town: `Amsterdam`,
     });
   });
@@ -523,7 +522,7 @@ describe(`loading work correctly`, () => {
     }, {
       type: ActionType.GET_SERVER_DATA,
       data: [],
-      placesCount: getFilterOffersOnCity(mockSettings, `Amsterdam`),
+      placesCount: getFilterOffersOnCity(mockData, `Amsterdam`),
     })).toEqual({
       data: [],
       isDataLoaded: false,
@@ -572,6 +571,6 @@ describe(`loading work correctly`, () => {
 // незабыать тестировать утилитарные функции
 describe(`utils functiorn work correctly`, () => {
   it(`failed to load data`, () => {
-    expect(getFilterOffersOnCity(mockSettings, `Amsterdam`).length).toBe(3);
+    expect(getFilterOffersOnCity(mockData, `Amsterdam`).length).toBe(3);
   });
 });

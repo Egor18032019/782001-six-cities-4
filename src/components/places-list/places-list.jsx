@@ -31,11 +31,10 @@ class PlacesList extends PureComponent {
             <div className="cities__places-list places__list tabs__content">
               {
                 places.map(
-                    (place, index) => {
+                    (place) => {
                       return <PlaceCard
                         place={place}
                         onMainTitleClick={onMainTitleClick}
-                        forKey={place.id + place.city + index}
                         onCardMouseEnter={onCardMouseEnter}
                         onCardMouseOut={onCardMouseOut}
                         key={place.id} // кей должен быть стабильный и уникальный

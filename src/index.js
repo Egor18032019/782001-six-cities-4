@@ -13,8 +13,11 @@ import {
   createAPI
 } from "./api.js";
 import {
-  Operation
+  Operation as DataOperation
 } from "./reducer/data/data-reducer.js";
+import {
+  Operation as UserOperation
+} from "./reducer/user/user-reducer.js";
 import {
   ActionCreator
 } from "./reducer/user/user-reducer.js";
@@ -44,8 +47,8 @@ const store = createStore(
     ));
 
 // диспатчим и вызываем функцию которая нам подгрузит данные
-store.dispatch(Operation.loadDataAsync());
-
+store.dispatch(DataOperation.loadDataAsync());
+store.dispatch(UserOperation.checkStatusAuth());
 ReactDOM.render(
     <Provider store={store}>
       <App />

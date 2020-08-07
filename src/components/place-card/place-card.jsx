@@ -21,7 +21,7 @@ class PlaceCard extends PureComponent {
       onCardMouseEnter,
       onCardMouseOut} = this.props;
     const {
-      description, type, isPremium, mainPhoto, price, isBookmark, rating
+      description, type, isPremium, mainPhoto, price, isBookmark, rating, title
     } = place;
 
     if (place) {
@@ -64,7 +64,7 @@ class PlaceCard extends PureComponent {
             <h2 onClick={() => {
               onMainTitleClick(place);
             }} className="place-card__name">
-              <Link to={AppRoute.PROPERTY}>{description}</Link>
+              <Link to={AppRoute.PROPERTY}>{title}</Link>
             </h2>
             <p className="place-card__type">{type}</p>
           </div>

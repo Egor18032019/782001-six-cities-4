@@ -38,6 +38,7 @@ const Operation = {
     const status = offer.isBookmark ? 0 : 1;
     return api.post(`/favorite/${offer.id}/${status}`, {})
       .then((response) => {
+        console.log(offer);
         if (response.status === 200) {
           dispatch(Operation.loadFavoriteOffers());
           // getFavoriteOffers перерисовка кнопки

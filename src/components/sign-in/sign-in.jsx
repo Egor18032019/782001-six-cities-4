@@ -48,7 +48,7 @@ class SignIn extends PureComponent {
             </section>
             <section className="locations locations--login locations--current">
               <div className="locations__item">
-                <Link className="locations__item-link" to={AppRoute.MAIN}>
+                <Link className="locations__item-link" to={AppRoute.ROOT}>
                   <span>{activeTown}</span>
                 </Link>
               </div>
@@ -56,7 +56,7 @@ class SignIn extends PureComponent {
           </div>
         </main>
         <footer className="footer container">
-          <Link className="footer__logo-link" to={AppRoute.MAIN}>
+          <Link className="footer__logo-link" to={AppRoute.ROOT}>
             <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" style={{width: `64`, height: `33`}}/>
           </Link>
         </footer>
