@@ -12,7 +12,7 @@ class Main extends PureComponent {
   }
 
   render() {
-    const {placesCount, town, places, onMainTitleClick, onCityNameClick, authorizationStatus,
+    const {placesCount, town, places, onCityNameClick, authorizationStatus,
       typeSorting, onSortingTypeClick, onCardMouseEnter, onCardMouseOut, activeOffer, email, onFavoriteButtonClick, cityList} = this.props;
     let emptyMain = ``;
     if (placesCount === 0) {
@@ -43,7 +43,6 @@ class Main extends PureComponent {
                 places={sortingPlaces}
                 placesCount={placesCount}
                 town={town}
-                onMainTitleClick={onMainTitleClick}
                 onCardMouseEnter={onCardMouseEnter}
                 onCardMouseOut={onCardMouseOut}
                 typeSorting={typeSorting}
@@ -83,7 +82,6 @@ Main.propTypes = {
   town: PropTypes.string.isRequired,
   places: PropTypes.array.isRequired,
   cityList: PropTypes.array.isRequired,
-  onMainTitleClick: PropTypes.func.isRequired,
   onCardMouseEnter: PropTypes.func.isRequired,
   onSortingTypeClick: PropTypes.func.isRequired,
   onCardMouseOut: PropTypes.func.isRequired,

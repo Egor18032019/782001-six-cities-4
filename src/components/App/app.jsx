@@ -1,4 +1,4 @@
-import React, {PureComponent} from "react";
+import React from "react";
 import PropTypes, {bool} from "prop-types";
 import {Switch, Route, Router, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
@@ -7,98 +7,91 @@ import Main from "../Main/main.jsx";
 import withMain from "../hocs/with-main/with-main.js";
 import {
   getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount, getErrorMessage,
-  getFavoritesOffers, getList
-} from "../../reducer/data/selectors.js";
-import {getCardId} from "../../reducer/offers/selectors.js";
+  getFavoritesOffers, getList} from "../../reducer/data/selectors.js";
 import {getAuthStatus, getEmail, getUsersErrorMessage} from "../../reducer/user/selectors.js";
 import {AuthorizationStatus, Operation as UserOperation} from "../../reducer/user/user-reducer.js";
 import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
+import {ActionTown} from "../../reducer/data/data-reducer.js";
 import history from "../../history";
 const MainWrapped = withMain(Main);
 
 import Favorites from "../favorites/favorites.jsx";
 import Property from "../property/property.jsx";
 import SignIn from "../sign-in/sign-in.jsx";
-import {ActionActive} from "../../reducer/offers/offers-reducer.js";
-import {ActionTown} from "../../reducer/data/data-reducer.js";
 import {AppRoute} from "../../const.js";
 import withPrivateRoute from "../hocs/with-private-route/with-private-route.js";
+const FavoritesPagePrivate = withPrivateRoute(Favorites, AppRoute.LOGIN);
 
-class App extends PureComponent {
-  constructor(props) {
-    super(props);
-  }
+const App = (props)=> {
 
-  render() {
-    const {onMainTitleClick, onCityNameClick, activeTown, placesCount, activeOffers,
-      authorizationStatus, email, onLoginUsers, cardId, errorMessage, usersErrorMessage, onFavoriteButtonClick, cityList} = this.props;
-    const status = (errorMessage ? notify.show(`${errorMessage}`, `error`) : ``);
-    const myColor = {background: `#0E1717`, text: `orange`};
-    const statusUser = (usersErrorMessage ? notify.show(`Проверьте введеные данные  ${usersErrorMessage}`, `custom`, 2500, myColor) : ``);
-    const isAuthorizationStatus = (authorizationStatus === AuthorizationStatus.AUTH);
-    const FavoritesPagePrivate = withPrivateRoute(Favorites, isAuthorizationStatus, AppRoute.LOGIN);
+  const {onCityNameClick, activeTown, placesCount, activeOffers,
+    authorizationStatus, email, onLoginUsers, cardId, errorMessage, usersErrorMessage,
+    onFavoriteButtonClick, cityList, isDataLoaded} = props;
+  const status = (errorMessage ? notify.show(`${errorMessage}`, `error`) : ``);
+  const myColor = {background: `#0E1717`, text: `orange`};
+  const statusUser = (usersErrorMessage ? notify.show(`Проверьте введеные данные  ${usersErrorMessage}`, `custom`, 2500, myColor) : ``);
+  const isAuthorizationStatus = (authorizationStatus === AuthorizationStatus.AUTH);
 
-    return (
-      <Router
-        history={history}>
-        <Notifications />
-        <Switch>
-          <Route exact path={AppRoute.ROOT}>
-            {status}
-            <MainWrapped
-              placesCount={placesCount}
-              town={activeTown}
-              cityList={cityList}
-              places={activeOffers}
-              onMainTitleClick={onMainTitleClick}
-              onCityNameClick={onCityNameClick}
+  return (
+    <Router
+      history={history}>
+      <Notifications />
+      <Switch>
+        <Route exact path={AppRoute.ROOT}>
+          {status}
+          <MainWrapped
+            placesCount={placesCount}
+            town={activeTown}
+            cityList={cityList}
+            places={activeOffers}
+            onCityNameClick={onCityNameClick}
+            email={email}
+            authorizationStatus={authorizationStatus}
+            onFavoriteButtonClick={onFavoriteButtonClick}
+          />
+        </Route>
+        <Route exact path={AppRoute.PROPERTY}
+          render={(routeProps) => {
+            if (isDataLoaded) {
+              return (
+                <Property
+                  place={cardId}
+                  choiseId={routeProps.match.params.id}
+                  email={email}
+                  authorizationStatus={authorizationStatus}
+                  onFavoriteButtonClick={onFavoriteButtonClick}
+                />);
+            }
+            return (`Подождите. Идет загрузка`);
+          }}>
+        </Route>
+        <Route exact path={AppRoute.LOGIN}>
+          {isAuthorizationStatus ? <Redirect to={AppRoute.ROOT} /> :
+            <SignIn
+              onLoginUsers={onLoginUsers}
+              activeTown={activeTown}
               email={email}
               authorizationStatus={authorizationStatus}
-              onFavoriteButtonClick={onFavoriteButtonClick}
-            />
-          </Route>
-          <Route exact path={AppRoute.PROPERTY}>
-            {!cardId ? <Redirect to={AppRoute.ROOT} /> :
-              <Property
-                place={cardId}
-                email={email}
-                authorizationStatus={authorizationStatus}
-                onFavoriteButtonClick={onFavoriteButtonClick}
-                onMainTitleClick={onMainTitleClick}
-              />}
-          </Route>
-          <Route exact path={AppRoute.LOGIN}>
-            {isAuthorizationStatus ? <Redirect to={AppRoute.ROOT} /> :
-              <SignIn
-                onLoginUsers={onLoginUsers}
-                activeTown={activeTown}
-                email={email}
-                authorizationStatus={authorizationStatus}
-              />}
-            {statusUser}
-            {status}
-          </Route>
-          <Route exact path={AppRoute.FAVORITES}>
-            <FavoritesPagePrivate
-              email={email}
-              authorizationStatus={authorizationStatus}
-              cityList={cityList}
-              isAuthorizationStatus={isAuthorizationStatus}
-              onMainTitleClick={onMainTitleClick}
-              onFavoriteButtonClick={onFavoriteButtonClick}
+            />}
+          {statusUser}
+          {status}
+        </Route>
+        <Route exact path={AppRoute.FAVORITES}>
+          <FavoritesPagePrivate
+            email={email}
+            authorizationStatus={authorizationStatus}
+            cityList={cityList}
+            isAuthorizationStatus={isAuthorizationStatus}
+            onFavoriteButtonClick={onFavoriteButtonClick}
+          />
+        </Route>
+      </Switch>
+    </Router >
+  );
+};
 
-            />
-          </Route>
-        </Switch>
-      </Router >
-    );
-  }
-}
 
 const mapDispatchToProps = (dispatch) => ({
-  onMainTitleClick(place) {
-    dispatch(ActionActive.activeState(place));
-  },
   onCityNameClick(city) {
     dispatch(ActionTown.changeCity(city));
   },
@@ -116,7 +109,6 @@ const mapStateToProps = (store) => {
     activeOffers: getOffersByActiveCity(store),
     activeTown: getActiveTown(store),
     placesCount: getPlaceCount(store),
-    cardId: getCardId(store),
     authorizationStatus: getAuthStatus(store),
     email: getEmail(store),
     errorMessage: getErrorMessage(store),
@@ -128,7 +120,6 @@ const mapStateToProps = (store) => {
 
 App.propTypes = {
   onCityNameClick: PropTypes.func.isRequired,
-  onMainTitleClick: PropTypes.func.isRequired,
   onFavoriteButtonClick: PropTypes.func.isRequired,
   isDataLoaded: bool.isRequired,
   activeTown: PropTypes.string.isRequired,

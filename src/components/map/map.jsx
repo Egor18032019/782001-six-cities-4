@@ -54,14 +54,14 @@ class Map extends PureComponent {
     this.map = null;
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     // прописываем city два раза = при монтаже и обновлении
     city = {
       name: this.props.activeTown,
       center: this.props.activeOffers[0].coordinate,
       zoom: 13
     };
-    if (city.name === !this.props.activeTown) {
+    if (this.props.activeTown !== prevProps.activeTown) {
       this.removeMap();
     }
     this.addMap();
@@ -72,7 +72,6 @@ class Map extends PureComponent {
   _addPoints() {
     const {activeOffer, activeOffers} = this.props;
     const places = activeOffers;
-    console.log(activeOffer);
     // форычом проходим по пропсам и о leaferom отрисовываем по place.coordinate-ам
     places.forEach((place) => {
       const activeIcon = (place.id === activeOffer) ? `img/pin-active.svg` : `img/pin.svg`;

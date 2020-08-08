@@ -49,7 +49,6 @@ const Operation = {
         dispatch(ActionCreator.setAuthData(response.data.email));
       })
       .catch((err) => {
-        // dispatch(setAuthStatus(AuthorizationStatus.NO_AUTH, err)); // ,?? Максим тут надо так делать?
         throw err;
       });
   },

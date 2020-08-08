@@ -17,7 +17,6 @@ class PlaceCard extends PureComponent {
 
   render() {
     const {place,
-      onMainTitleClick,
       onCardMouseEnter,
       onCardMouseOut} = this.props;
     const {type, isPremium, mainPhoto, price, isBookmark, rating, title} = place;
@@ -60,10 +59,8 @@ class PlaceCard extends PureComponent {
                 <span className="visually-hidden">Rating</span>
               </div>
             </div>
-            <h2 onClick={() => {
-              onMainTitleClick(place);
-            }} className="place-card__name">
-              <Link to={AppRoute.PROPERTY}>{title}</Link>
+            <h2 className="place-card__name">
+              <Link to={`offer/${place.id}`}>{title}</Link>
             </h2>
             <p className="place-card__type">{type}</p>
           </div>
@@ -85,7 +82,6 @@ class PlaceCard extends PureComponent {
 }
 
 PlaceCard.propTypes = {
-  onMainTitleClick: PropTypes.func.isRequired,
   onCardMouseEnter: PropTypes.func.isRequired,
   onCardMouseOut: PropTypes.func.isRequired,
   authorizationStatus: PropTypes.string.isRequired,

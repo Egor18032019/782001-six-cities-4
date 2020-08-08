@@ -1,13 +1,16 @@
 // компонент  «Детальная информация о предложении»
-import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import Map from "../map/map.jsx";
-import NearCard from "../near-card/near-card.jsx";
 import {connect} from "react-redux";
-import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
-import {getNearbyOffers, getNearbyOffersStatus} from "../../reducer/data/selectors.js";
-import Header from "../header/header.jsx";
+import React, {PureComponent} from "react";
+import {getFilterOffersOnID} from "../../utils.js";
 import {AuthorizationStatus} from "../../reducer/user/user-reducer.js";
+import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
+import {getNearbyOffers, getNearbyOffersStatus, getOffers, getReviews, getReviewsStatus} from "../../reducer/data/selectors.js";
+import Map from "../map/map.jsx";
+import Header from "../header/header.jsx";
+import NearCard from "../near-card/near-card.jsx";
+import Reviews from "../reviews/reviews.jsx";
+
 
 class Property extends PureComponent {
   constructor(props) {
@@ -16,13 +19,19 @@ class Property extends PureComponent {
   }
 
   render() {
-
-    const {email, onMainTitleClick, onFavoriteButtonClick, nearbyOffers, offer} = this.props;
+    const {email, onFavoriteButtonClick, nearbyOffers, choiseId, places, reviews, isReviewsLoading} = this.props;
+    // переводим строку в число
+    const matchId = +choiseId;
+    const offerArray = getFilterOffersOnID(places, matchId);
+    // не придумал как разобрать - разобрал так
+    const offer = offerArray[0];
     const {price, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host, id,
       isBookmark, title} = offer;
-    console.log(isBookmark);
-    const ratingStars = `${rating * 20}%`;
-
+    console.log(host.avatarUrl);
+    const ratingStars = `${Math.floor(rating * 20)}%`;
+    if (!isReviewsLoading) {
+      return (`Пишем коментарии`);
+    }
     return (
       <div className="page">
         <Header
@@ -99,7 +108,7 @@ class Property extends PureComponent {
                   <h2 className="property__host-title">Meet the host</h2>
                   <div className="property__host-user user">
                     <div className={`property__avatar-wrapper ${host.isPro ? `property__avatar-wrapper--pro` : ``}  user__avatar-wrapper`}>
-                      <img className="property__avatar user__avatar" src={host.avatarUrl} width="74" height="74" alt="Host avatar" />
+                      <img className="property__avatar user__avatar" src={`/` + host.avatarUrl} width="74" height="74" alt="Host avatar" />
                     </div>
                     <span className="property__user-name">
                       {host.name}
@@ -112,30 +121,16 @@ class Property extends PureComponent {
                   </div>
                 </div>
                 <section className="property__reviews reviews">
-                  <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
+                  <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                   <ul className="reviews__list">
-                    <li className="reviews__item">
-                      <div className="reviews__user user">
-                        <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                          <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar" />
-                        </div>
-                        <span className="reviews__user-name">
-                          Max
-                        </span>
-                      </div>
-                      <div className="reviews__info">
-                        <div className="reviews__rating rating">
-                          <div className="reviews__stars rating__stars">
-                            <span style={{width: `80%`}}></span>
-                            <span className="visually-hidden">Rating</span>
-                          </div>
-                        </div>
-                        <p className="reviews__text">
-                          A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                        </p>
-                        <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                      </div>
-                    </li>
+                    {/* коментарии */}
+                    {reviews.map((review) =>
+                      <Reviews
+                        review={review}
+                        key={review.id + review.rating}
+                      />)}
+                    {/* коментарии */}
+
                   </ul>
                   <form className="reviews__form form" action="#" method="post">
                     <label className="reviews__label form__label" htmlFor="review">Your review</label>
@@ -202,9 +197,6 @@ class Property extends PureComponent {
                         return <NearCard
                           place={nearPlace}
                           key={nearPlace.id} // кей должен быть стабильный и уникальный
-                          onMainTitleClick={onMainTitleClick}
-                          // onCardMouseEnter={onCardMouseEnter}
-                          // onCardMouseOut={onCardMouseOut}
                           onFavoriteButtonClick={onFavoriteButtonClick}
                         />;
                       })
@@ -219,49 +211,59 @@ class Property extends PureComponent {
     );
   }
   handleFavoriteClick(offer) {
-    console.log(`нажал в проперти`, offer.id);
+    console.log(`нажал в проперти`, offer);
     const {onFavoriteButtonClick} = this.props;
     onFavoriteButtonClick(offer);
-    return false;
   }
   componentDidMount() {
-    const {offer, loadOfferData} = this.props;
-    loadOfferData(offer.id);
+    console.log(`componentDidMount`);
+    const {loadOfferData, loadReviewsData, choiseId} = this.props;
+    const matchId = +choiseId;
+    loadOfferData(matchId);
+    loadReviewsData(matchId);
   }
-
   componentDidUpdate(prevProps) {
-    const {offer, loadOfferData} = this.props;
-
-    if (this.props.offer.id !== prevProps.offer.id) {
-      loadOfferData(offer.id);
+    const {loadOfferData, loadReviewsData, choiseId} = this.props;
+    const matchId = +choiseId;
+    if (this.props.choiseId !== prevProps.choiseId) {
+      console.log(this.props.choiseId !== prevProps.choiseId);
+      loadOfferData(matchId);
+      loadReviewsData(matchId);
     }
   }
 }
 
-const mapStateToProps = (store, ownProps) => ({
-  offer: ownProps.place,
+const mapStateToProps = (store) => ({
+  places: getOffers(store),
   nearbyOffers: getNearbyOffers(store),
   isNearbyOffersLoading: getNearbyOffersStatus(store),
-  // reviews: getReviews(store),
-  // isReviewsLoading: getReviewsStatus(store),
+  reviews: getReviews(store),
+  isReviewsLoading: getReviewsStatus(store),
 });
 
 
 const mapDispatchToProps = (dispatch) => ({
   loadOfferData(id) {
     dispatch(DataOperation.loadNearbyOffers(id));
+  },
+  loadReviewsData(id) {
+    dispatch(DataOperation.loadReviews(id));
   }
 });
 
 Property.propTypes = {
+  isReviewsLoading: PropTypes.bool.isRequired,
   nearbyOffers: PropTypes.array.isRequired,
   loadOfferData: PropTypes.func.isRequired,
+  loadReviewsData: PropTypes.func.isRequired,
   isNearbyOffersLoading: PropTypes.bool.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
-  onMainTitleClick: PropTypes.func.isRequired,
   onFavoriteButtonClick: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
-  offer: PropTypes.shape({
+  choiseId: PropTypes.string.isRequired,
+  reviews: PropTypes.array,
+  places: PropTypes.array.isRequired,
+  place: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,

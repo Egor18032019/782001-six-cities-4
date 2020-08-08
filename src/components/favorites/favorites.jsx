@@ -2,14 +2,14 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 
 import {AppRoute} from "../../const.js";
 
 import Header from "../header/header.jsx";
 import FavoritesEmpty from "./favorites-empty.jsx";
-import {connect} from "react-redux";
-import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
 import {getFavoritesOffers} from "../../reducer/data/selectors.js";
+import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
 
 class Favorites extends PureComponent {
   constructor(props) {
@@ -47,7 +47,8 @@ class Favorites extends PureComponent {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {/* прохожу по массиву с городами и фильтрую пришедший массив фаворитами по городу */}
+                {/* прохожу по массиву с городами и фильтрую пришедший массив фаворитами по городу
+                поправить - пойти от пришедшего спика избраного favoriteOffers.reduce */}
                 {cityList.map((city)=>{
                   return (
                     favoriteOffers.filter((offer)=> offer.city === city).length !== 0 ?

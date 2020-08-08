@@ -13,6 +13,7 @@ const ActionType = {
   LOAD_FAVORITE_OFFERS: `LOAD_FAVORITE_OFFERS`,
   ADD_FAVORITE_OFFERS: `ADD_FAVORITE_OFFERS`,
   LOAD_NEARBY_OFFERS: `LOAD_NEARBY_OFFERS`,
+  LOAD_REVIEWS: `LOAD_REVIEWS`,
 };
 
 // Объект начального состояния(state):
@@ -24,6 +25,8 @@ const initialState = {
   favoriteOffers: ``,
   nearbyOffers: [],
   isNearbyOffersLoading: false,
+  reviews: [],
+  isReviewsLoading: false
 };
 
 // запрос на сервер
@@ -65,6 +68,13 @@ const Operation = {
       });
 
   },
+  loadReviews: (id)=>(dispatch, getState, api)=>{
+    return api.get(`/comments/${id}`)
+    .then((response) => {
+      dispatch(loadReviews(response.data));
+    });
+
+  },
 };
 
 const dataReducer = (state = initialState, action) => {
@@ -101,12 +111,24 @@ const dataReducer = (state = initialState, action) => {
         nearbyOffers: action.payload,
         isNearbyOffersLoading: true
       });
+    case ActionType.LOAD_REVIEWS:
+      return Object.assign({}, state, {
+        reviews: action.payload,
+        isReviewsLoading: true
+      });
     default:
       return state;
   }
   // return state;
 };
 
+
+const loadReviews = (coments) =>{
+  return {
+    type: ActionType.LOAD_REVIEWS,
+    payload: coments
+  };
+};
 const getFavoriteOffers = (offer) => {
   return {
     type: ActionType.ADD_FAVORITE_OFFERS,

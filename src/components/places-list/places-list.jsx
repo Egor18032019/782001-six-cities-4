@@ -13,7 +13,7 @@ class PlacesList extends PureComponent {
   }
 
   render() {
-    const {places, onMainTitleClick, onCardMouseEnter, onCardMouseOut, activeOffer, onSortingTypeClick,
+    const {places, onCardMouseEnter, onCardMouseOut, activeOffer, onSortingTypeClick,
       typeSorting, placesCount, town, onFavoriteButtonClick, authorizationStatus} = this.props;
     if (places.length > 0) {
       return (
@@ -34,7 +34,6 @@ class PlacesList extends PureComponent {
                     (place) => {
                       return <PlaceCard
                         place={place}
-                        onMainTitleClick={onMainTitleClick}
                         onCardMouseEnter={onCardMouseEnter}
                         onCardMouseOut={onCardMouseOut}
                         key={place.id} // кей должен быть стабильный и уникальный
@@ -72,7 +71,6 @@ PlacesList.propTypes = {
   activeOffer: PropTypes.number,
   onSortingTypeClick: PropTypes.func.isRequired,
   onFavoriteButtonClick: PropTypes.func.isRequired,
-  onMainTitleClick: PropTypes.func.isRequired,
   onCardMouseEnter: PropTypes.func.isRequired,
   typeSorting: PropTypes.string.isRequired,
   authorizationStatus: PropTypes.string.isRequired,

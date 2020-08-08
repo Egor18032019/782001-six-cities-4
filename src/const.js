@@ -23,8 +23,11 @@ const AppRoute = {
   // AMSTERDAM: `/Amsterdam`,
 };
 
+const Months = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
+
 export {
   CITYLIST,
   SORTING,
   AppRoute,
+  Months
 };

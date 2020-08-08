@@ -3,8 +3,6 @@ import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
-import {AppRoute} from "../../const.js";
-
 class NearCard extends PureComponent {
   constructor(props) {
     super(props);
@@ -14,20 +12,12 @@ class NearCard extends PureComponent {
   }
 
   render() {
-    const {place,
-      // onCardMouseEnter,
-      // onCardMouseOut,
-      onMainTitleClick,
-    } = this.props;
+    const {place} = this.props;
     const {type, isPremium, mainPhoto, price, isBookmark, rating, title} = place;
     const ratingStars = `${rating * 20}%`;
     if (place) {
       return (
         <article
-          // onMouseEnter={() => {
-          //   onCardMouseEnter(place.id);
-          // }}
-          // onMouseLeave={onCardMouseOut}
           className="near-places__card place-card">
           {isPremium ? <div className="place-card__mark"><span>Premium</span></div> : ``}
           <div className="near-places__image-wrapper place-card__image-wrapper">
@@ -55,12 +45,8 @@ class NearCard extends PureComponent {
                 <span className="visually-hidden">Rating</span>
               </div>
             </div>
-            <h2
-              onClick={() => {
-                onMainTitleClick(place);
-              }}
-              className="place-card__name">
-              <Link to={AppRoute.PROPERTY}>{title}</Link>
+            <h2 className="place-card__name">
+              <Link to={`offer/${place.id}`}>{title}</Link>
             </h2>
             <p className="place-card__type">{type}</p>
           </div>
@@ -80,9 +66,6 @@ class NearCard extends PureComponent {
 
 
 NearCard.propTypes = {
-  onMainTitleClick: PropTypes.func.isRequired,
-  // onCardMouseEnter: PropTypes.func.isRequired,
-  // onCardMouseOut: PropTypes.func.isRequired,
   onFavoriteButtonClick: PropTypes.func.isRequired,
   place: PropTypes.shape({
     id: PropTypes.number.isRequired,

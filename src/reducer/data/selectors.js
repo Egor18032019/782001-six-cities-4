@@ -11,7 +11,6 @@ const getNearbyOffers = (state) => {
 const getNearbyOffersStatus = (state) => {
   return state[NameSpace.DATA].isNearbyOffersLoading;
 };
-
 const getActiveTown = (state) => {
   return state[NameSpace.DATA].town;
 };
@@ -38,6 +37,13 @@ const getList = createSelector(
 const getDataStatus = (state) => {
   return state[NameSpace.DATA].isDataLoaded;
 };
+const getReviewsStatus = (state) => {
+  return state[NameSpace.DATA].isReviewsLoading;
+};
+const getReviews = (state) => {
+  console.log(`coments`);
+  return state[NameSpace.DATA].reviews;
+};
 const getPlaceCount = (state) => {
   return getOffersByActiveCity(state).length;
 };
@@ -58,4 +64,7 @@ export {
   getList,
   getNearbyOffers,
   getNearbyOffersStatus,
+  getOffers,
+  getReviews,
+  getReviewsStatus,
 };

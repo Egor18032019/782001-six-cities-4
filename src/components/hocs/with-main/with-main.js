@@ -35,9 +35,6 @@ const withMain = (Component) => {
     }
   }
 
-  WithMain.propTypes = {
-    onMainTitleClick: PropTypes.func.isRequired,
-  };
   return WithMain;
 };
 
