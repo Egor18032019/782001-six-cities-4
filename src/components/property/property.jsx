@@ -27,7 +27,8 @@ class Property extends PureComponent {
     const offer = offerArray[0];
     const {price, rating, isPremium, type, bedrooms, maxAdults, options, images, stories, host, id,
       isBookmark, title} = offer;
-    console.log(host.avatarUrl);
+    const limiteImages = images.slice(0, 6);
+    const limiteReviews = reviews.slice(0, 10);
     const ratingStars = `${Math.floor(rating * 20)}%`;
     if (!isReviewsLoading) {
       return (`Пишем коментарии`);
@@ -42,7 +43,7 @@ class Property extends PureComponent {
           <section className="property">
             <div className="property__gallery-container container">
               <div className="property__gallery">
-                {images.map((image, index) => {
+                {limiteImages.map((image, index) => {
                   return (
                     <div className="property__image-wrapper" key={id + index}>
                       <img className="property__image" src={image} alt="Photo studio" />
@@ -124,10 +125,10 @@ class Property extends PureComponent {
                   <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                   <ul className="reviews__list">
                     {/* коментарии */}
-                    {reviews.map((review) =>
+                    {limiteReviews.map((review) =>
                       <Reviews
                         review={review}
-                        key={review.id + review.rating}
+                        key={review.id}
                       />)}
                     {/* коментарии */}
 
@@ -184,6 +185,9 @@ class Property extends PureComponent {
             <section className="property__map map">
               <Map
                 activeOffer={id}
+                nearbyOffers={nearbyOffers}
+                offer={offer}
+                matchId={matchId}
               />
             </section>
           </section>

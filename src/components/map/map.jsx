@@ -70,11 +70,17 @@ class Map extends PureComponent {
   }
 
   _addPoints() {
-    const {activeOffer, activeOffers} = this.props;
-    const places = activeOffers;
+    const {activeOffer, activeOffers, nearbyOffers, matchId, offer} = this.props;
+    let places = activeOffers;
+    let marker = activeOffer;
+    // .если пришел массив ближайших оферов то переопределяем
+    if (nearbyOffers) {
+      places = nearbyOffers.concat(offer);
+      marker = matchId;
+    }
     // форычом проходим по пропсам и о leaferom отрисовываем по place.coordinate-ам
     places.forEach((place) => {
-      const activeIcon = (place.id === activeOffer) ? `img/pin-active.svg` : `img/pin.svg`;
+      const activeIcon = (place.id === marker) ? `../img/pin-active.svg` : `../img/pin.svg`;
       const icon = leaflet.icon({
         iconUrl: activeIcon,
         iconSize: [30, 30]
@@ -87,7 +93,6 @@ class Map extends PureComponent {
   }
 
   render() {
-    // console.log(this.props);
     return (
       <div id="map" style={{height: `100%`, width: `100%`}} ref={this.mapCity}>
         {/* {this.initMap()} */}
@@ -107,7 +112,10 @@ const mapStateToProps = (store) => {
 Map.propTypes = {
   activeTown: PropTypes.string.isRequired,
   activeOffers: PropTypes.array.isRequired,
+  offer: PropTypes.object,
   activeOffer: PropTypes.number,
+  matchId: PropTypes.number,
+  nearbyOffers: PropTypes.array,
 };
 
 export {Map};

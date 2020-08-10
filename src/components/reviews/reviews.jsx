@@ -5,12 +5,12 @@ import {Months} from "../../const.js";
 const Reviews = ({review}) => {
 
   const {user, rating, comment, date} = review;
-  const ratingStars = `${rating * 20}%`;
+  const ratingStars = `${Math.floor(rating * 20)}%`;
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
-          <img className="reviews__avatar user__avatar" src={user.avatar_url} width="54" height="54" alt="Reviews avatar"/>
+          <img className="reviews__avatar user__avatar" src={user.avatar} width="54" height="54" alt="Reviews avatar"/>
         </div>
         <span className="reviews__user-name">
           {user.name}

@@ -22,7 +22,10 @@ const getOffersByActiveCity = createSelector(
       return getFilterOffersOnCity(offers, activeTown);
     }
 );
-
+const getReviews = (state) => {
+  console.log(`coments`);
+  return state[NameSpace.DATA].reviews;
+};
 
 // вытаскиваем города из пришедшего массива
 const getList = createSelector(
@@ -40,10 +43,7 @@ const getDataStatus = (state) => {
 const getReviewsStatus = (state) => {
   return state[NameSpace.DATA].isReviewsLoading;
 };
-const getReviews = (state) => {
-  console.log(`coments`);
-  return state[NameSpace.DATA].reviews;
-};
+
 const getPlaceCount = (state) => {
   return getOffersByActiveCity(state).length;
 };

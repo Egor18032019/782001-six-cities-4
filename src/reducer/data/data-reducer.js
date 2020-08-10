@@ -4,6 +4,7 @@ import {
 } from "../adapter/data.js";
 
 import {notify} from 'react-notify-toast';
+import {getFiletReviews} from '../../utils.js';
 
 // Определяем действия(actions)
 const ActionType = {
@@ -112,8 +113,9 @@ const dataReducer = (state = initialState, action) => {
         isNearbyOffersLoading: true
       });
     case ActionType.LOAD_REVIEWS:
+      let reviewsParseData = action.payload.map((review) => getFiletReviews(review));
       return Object.assign({}, state, {
-        reviews: action.payload,
+        reviews: reviewsParseData,
         isReviewsLoading: true
       });
     default:

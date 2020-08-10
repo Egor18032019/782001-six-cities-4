@@ -25,20 +25,18 @@ const FavoritesPagePrivate = withPrivateRoute(Favorites, AppRoute.LOGIN);
 const App = (props)=> {
 
   const {onCityNameClick, activeTown, placesCount, activeOffers,
-    authorizationStatus, email, onLoginUsers, cardId, errorMessage, usersErrorMessage,
+    authorizationStatus, email, onLoginUsers, cardId, usersErrorMessage,
     onFavoriteButtonClick, cityList, isDataLoaded} = props;
-  const status = (errorMessage ? notify.show(`${errorMessage}`, `error`) : ``);
   const myColor = {background: `#0E1717`, text: `orange`};
   const statusUser = (usersErrorMessage ? notify.show(`Проверьте введеные данные  ${usersErrorMessage}`, `custom`, 2500, myColor) : ``);
   const isAuthorizationStatus = (authorizationStatus === AuthorizationStatus.AUTH);
-
+  const NotificationsComponent = <Notifications />;
   return (
     <Router
       history={history}>
-      <Notifications />
+      {NotificationsComponent}
       <Switch>
         <Route exact path={AppRoute.ROOT}>
-          {status}
           <MainWrapped
             placesCount={placesCount}
             town={activeTown}
@@ -74,7 +72,6 @@ const App = (props)=> {
               authorizationStatus={authorizationStatus}
             />}
           {statusUser}
-          {status}
         </Route>
         <Route exact path={AppRoute.FAVORITES}>
           <FavoritesPagePrivate

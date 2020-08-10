@@ -1,6 +1,7 @@
 import axios from "axios";
 import {AppRoute} from "./const.js";
 import history from "./history.js";
+
 const Error = {
   INVALID_LOGIN: 400,
   UNAUTHORIZED: 401,
@@ -23,16 +24,13 @@ export const createAPI = (onUnauthorized, onBadRequest) => {
   };
 
   const onFail = (err) => {
-    if (err.message === Error.NO_INTERNET || Error.BAD_TIMEOUT) {
+    if (err.message === Error.NO_INTERNET || err.message === Error.BAD_TIMEOUT) {
       onBadRequest(err.message);
       throw err;
       // Бросаем ошибку, потому что нам важно прервать цепочку промисов после запроса авторизации.
     } else if (err.response.status === Error.UNAUTHORIZED) {
       // Запрос авторизации - это особый случай и важно дать понять приложению, что запрос был неудачным.
       history.push(AppRoute.LOGIN);
-      throw err;
-    } else if (err.response.status === Error.INVALID_LOGIN) {
-      onUnauthorized(err.response.status);
       throw err;
     } else if (err.response.status === Error.BAD_REQUEST) {
       onBadRequest(err);
