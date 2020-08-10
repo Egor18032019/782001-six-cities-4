@@ -63,14 +63,18 @@ const App = (props)=> {
             return (`Подождите. Идет загрузка`);
           }}>
         </Route>
-        <Route exact path={AppRoute.LOGIN}>
-          {isAuthorizationStatus ? <Redirect to={AppRoute.ROOT} /> :
-            <SignIn
+        <Route exact path={AppRoute.LOGIN}
+          render = {()=>{
+            if (isAuthorizationStatus) {
+              return <Redirect to={AppRoute.ROOT} />;
+            }
+            return (<SignIn
               onLoginUsers={onLoginUsers}
               activeTown={activeTown}
               email={email}
               authorizationStatus={authorizationStatus}
-            />}
+            />);
+          }}>
           {statusUser}
         </Route>
         <Route exact path={AppRoute.FAVORITES}>

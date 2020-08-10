@@ -1,5 +1,4 @@
 import React, {PureComponent} from "react";
-import PropTypes from "prop-types";
 
 const withMain = (Component) => {
   class WithMain extends PureComponent {

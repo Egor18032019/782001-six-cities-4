@@ -76,6 +76,20 @@ const Operation = {
     });
 
   },
+  uploadReviews: (rating, review, offerId) => (dispatch, getState, api) => {
+    return api.post(`/comments/${offerId}`,
+        {
+          comment: review,
+          rating
+        }
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch(Operation.loadReviews(offerId));
+        }
+      });
+  }
+
 };
 
 const dataReducer = (state = initialState, action) => {

@@ -5,6 +5,7 @@ import {Months} from "../../const.js";
 const Reviews = ({review}) => {
 
   const {user, rating, comment, date} = review;
+
   const ratingStars = `${Math.floor(rating * 20)}%`;
   return (
     <li className="reviews__item">
