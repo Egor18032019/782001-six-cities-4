@@ -94,7 +94,7 @@ class Favorites extends PureComponent {
                                     </div>
                                   </div>
                                   <h2 className="place-card__name">
-                                    <Link to={AppRoute.PROPERTY}>{cardOffer.title}</Link>
+                                    <Link to={`/offer/${cardOffer.id}`}>{cardOffer.title}</Link>
                                   </h2>
                                   <p className="place-card__type">{cardOffer.type}</p>
                                 </div>

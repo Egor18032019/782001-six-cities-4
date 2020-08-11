@@ -23,7 +23,6 @@ const getOffersByActiveCity = createSelector(
     }
 );
 const getReviews = (state) => {
-  console.log(`coments`);
   return state[NameSpace.DATA].reviews;
 };
 

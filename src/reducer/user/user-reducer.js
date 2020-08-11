@@ -17,7 +17,7 @@ const AuthorizationStatus = {
 
 // Объект начального состояния(state):
 const initialState = {
-  authorizationStatus: AuthorizationStatus.NO_AUTH,
+  authorizationStatus: AuthorizationStatus.LOAD,
   users: ``,
 };
 
@@ -26,7 +26,7 @@ const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.REQUIRED_AUTHORIZATION:
       return Object.assign({}, state, {
-        authorizationStatus: AuthorizationStatus.LOAD,
+        authorizationStatus: action.payload,
       });
     case ActionType.AUTHORIZATION:
       return Object.assign({}, state, {
@@ -41,11 +41,12 @@ const usersReducer = (state = initialState, action) => {
 // запрос на сервер
 const Operation = {
   checkStatusAuth: () => (dispatch, getState, api) => {
-    dispatch(ActionCreator.setAuthStatus());
     return api.get(`/login`)
       .then((response) => {
-        if (response.status === 400) {
+        if (response.status === 200) {
           dispatch(ActionCreator.setAuthData(response.data.email));
+        } else if (response.status === 400) {
+          dispatch(ActionCreator.setAuthStatus(AuthorizationStatus.NO_AUTH));
         }
       })
       .catch((err) => {
@@ -68,10 +69,10 @@ const Operation = {
 };
 const ActionCreator = {
   // этот сработал когда пришла ошибка
-  setAuthStatus: () => {
+  setAuthStatus: (status) => {
     return {
       type: ActionType.REQUIRED_AUTHORIZATION,
-      users: ``
+      payload: status
     };
   },
   //  этот срабатывает когда всё хорошо

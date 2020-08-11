@@ -30,7 +30,6 @@ export const createAPI = (onUnauthorized, onBadRequest) => {
       // Запрос авторизации - это особый случай и важно дать понять приложению, что запрос был неудачным.
       throw err;
     } else if (err.response.status === Error.BAD_REQUEST) {
-      // console.log(err.response);
       onBadRequest(err);
       throw err;
     }

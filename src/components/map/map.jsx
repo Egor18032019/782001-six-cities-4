@@ -27,6 +27,7 @@ class Map extends PureComponent {
   removeMap() {
     this.map.eachLayer((layer) => {
       layer.remove();
+      // layer.clearLayers();
     });
   }
 
@@ -47,7 +48,6 @@ class Map extends PureComponent {
     });
     this.addMap();
     this._addPoints();
-    // console.log(`componentDidMount`);
   }
 
   componentWillUnmount() {
@@ -56,12 +56,16 @@ class Map extends PureComponent {
 
   componentDidUpdate(prevProps) {
     // прописываем city два раза = при монтаже и обновлении
+    let centerCoordinate = this.props.activeOffers[0].coordinate;
+    if (this.props.offer) {
+      centerCoordinate = this.props.offer.coordinate;
+    }
     city = {
       name: this.props.activeTown,
-      center: this.props.activeOffers[0].coordinate,
+      center: centerCoordinate,
       zoom: 13
     };
-    if (this.props.activeTown !== prevProps.activeTown) {
+    if (this.props.activeTown !== prevProps.activeTown || this.props.matchId !== prevProps.matchId) {
       this.removeMap();
     }
     this.addMap();

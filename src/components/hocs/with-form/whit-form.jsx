@@ -28,14 +28,14 @@ const withForm = (Component) => {
     onChange(evt, value) {
       const target = evt.target.name;
       this.setState({[target]: value});
-      this.activeForm();
+      this.activateForm();
     }
 
-    activeForm() {
-      if (this.state.review && this.state.rating) {
-        this.setState({isActiveSubmit: true});
+    activateForm() {
+      if (this.state.review.length > 49) {
+        this.setState((state) =>({isActiveSubmit: !!(state.review && state.rating)}));
       } else {
-        this.setState({isActiveSubmit: false});
+        this.setState(() =>({isActiveSubmit: false}));
       }
     }
 
