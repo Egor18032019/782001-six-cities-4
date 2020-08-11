@@ -64,7 +64,7 @@ describe(`test SignIn e2e`, () => {
     }); // незабывать передавать заглушку
     expect(onLoginUsers).toHaveBeenCalledTimes(1);
   });
-  it(`SignIn should submit and change state`, () => {
+  it(`SignIn should submit and change ref`, () => {
 
 
     const onLoginUsers = jest.fn();
@@ -81,15 +81,15 @@ describe(`test SignIn e2e`, () => {
     );
     const authForm = signForm.find(`form`).at(0);
     authForm.simulate(`submit`, {preventDefault: () => {}}); // незабывать передавать заглушку
-    const inputLogin = signForm.find(`.login__input`).at(0); // Логин
-    inputLogin.value = `qwe@gmail.ru`;
-    const inputPassword = signForm.find(`.login__input`).at(1); // пароль
-    inputPassword.value = 11;
+    const loginRef = signForm.find(`.login__input`).at(0); // Логин
+    loginRef.value = `qwe@gmail.ru`;
+    const passwordRef = signForm.find(`.login__input`).at(1); // пароль
+    passwordRef.value = 11;
     const ref = {
-      login: inputLogin.value,
-      password: inputPassword.value,
+      login: loginRef.value,
+      password: passwordRef.value,
     };
-    expect(onLoginUsers).toHaveBeenCalledWith(ref); // ождидаем что он вернет значения -но нет.
+    expect(onLoginUsers).toHaveBeenCalledWith(1, ref); // ождидаем что он вернет значения -но нет.
 
   });
 });

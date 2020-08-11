@@ -9,7 +9,6 @@ describe(`state work correctly`, () => {
     expect(usersReducer(void 0, {})).toEqual({
       authorizationStatus: AuthorizationStatus.NO_AUTH,
       users: ``,
-      usersErrorMessage: ``
     });
   });
 
@@ -30,7 +29,6 @@ describe(`state work correctly`, () => {
     expect(usersReducer({
       authorizationStatus: AuthorizationStatus.NO_AUTH,
       users: ``,
-      usersErrorMessage: ``
     }, {
       type: ActionType.AUTHORIZATION,
       authorizationStatus: AuthorizationStatus.AUTH,
@@ -38,7 +36,6 @@ describe(`state work correctly`, () => {
     })).toEqual({
       authorizationStatus: AuthorizationStatus.AUTH,
       users: `qwe@gmail.ru`,
-      usersErrorMessage: ``
     });
   });
 });
