@@ -180,7 +180,6 @@ class Property extends PureComponent {
     );
   }
   handleFavoriteClick(offer) {
-    console.log(`нажал в проперти`, offer);
     const {onFavoriteButtonClick} = this.props;
     onFavoriteButtonClick(offer);
   }

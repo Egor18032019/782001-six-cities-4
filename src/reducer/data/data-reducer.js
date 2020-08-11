@@ -3,7 +3,6 @@ import {
   adapter
 } from "../adapter/data.js";
 
-import {notify} from 'react-notify-toast';
 import {getFiletReviews} from '../../utils.js';
 
 // Определяем действия(actions)
@@ -49,8 +48,6 @@ const Operation = {
           dispatch(Operation.loadFavoriteOffers());
           // getFavoriteOffers перерисовка кнопки
           dispatch(getFavoriteOffers(offer));
-        } else {
-          notify.show(`Плохое соединение`, `warning`, `orange`);
         }
       });
   },
