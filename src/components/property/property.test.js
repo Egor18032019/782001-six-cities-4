@@ -20,6 +20,7 @@ const mockData = [{
   city: `Amsterdam`,
   type: `Apartament`,
   description: `Beautiful & luxurious apartment at great location`,
+  title: `Beautiful & luxurious apartment at great location`,
   price: 120,
   isBookmark: false,
   isPremium: true,
@@ -44,6 +45,7 @@ const mockData = [{
   city: `Amsterdam`,
   type: `Private room`,
   description: `Wood and Stone`,
+  title: `Wood and Stone`,
   price: 80,
   isBookmark: true,
   isPremium: false,
@@ -67,6 +69,7 @@ const mockData = [{
   city: `Cologne`,
   type: `House`,
   description: `big + warm + good`,
+  title: `big + warm + good`,
   price: 66,
   isBookmark: false,
   isPremium: true,
@@ -89,6 +92,7 @@ const mockData = [{
   city: `Amsterdam`,
   type: `House`,
   description: `big + warm + good`,
+  title: `big + warm + good`,
   price: 66,
   isBookmark: false,
   isPremium: true,
@@ -269,7 +273,31 @@ const PLACES = [
       avatarUrl: `img/avatar-angelina.jpg`,
       isPro: true,
       name: `Emanuel`
-    }}];
+    }}
+];
+const CARD = {
+  id: 7,
+  city: `Dusseldorf`,
+  type: `House`,
+  title: `Premium`,
+  description: `big + warm + good`,
+  price: 120,
+  isBookmark: false,
+  isPremium: true,
+  rating: 4.8,
+  coordinate: [51.2809553943508, 6.739309666406198],
+  mainPhoto: `img/apartment-02.jpg`,
+  bedrooms: 3,
+  maxAdults: 4,
+  options: [`Wi-Fi`, `Washing machine`, `Towels`, `Heating`, `Coffee machine`, `Baby seat`, `Kitchen`, `Dishwasher`, `Cabel TV`, `Fridge`],
+  images: [`img/room.jpg`, `img/apartment-01.jpg`, `img/apartment-02.jpg`, `img/apartment-03.jpg`, `img/studio-01.jpg`, `img/apartment-01.jpg`],
+  stories: [`У нас всегда свежие булочки`, `А из окна площадь Эйфиля видна`, `Лувр где то рядом`],
+  host: {
+    avatarUrl: `img/avatar-angelina.jpg`,
+    isPro: true,
+    name: `Emanuel`
+  }
+};
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
@@ -286,15 +314,21 @@ describe(`Property snepshot test`, () => {
         isNearbyOffersLoading: true,
         reviews: MOCKREVIEWS,
         isReviewsLoading: true
-      }
+      },
+      [NameSpace.USERS]: {
+        authorizationStatus: `AUTH`,
+        users: `test@mail.ru`
+      },
     });
     const tree = renderer
         .create(<Provider store = {store}>
           <Router history = {history} >
             <Property
-              place = {mockData}
+              place = {CARD}
               email = {``}
-              choiseId = {1}
+              choiseId = {`1`}
+              onFavoriteButtonClick = {()=>{}}
+
             />
           </Router >
         </Provider>,

@@ -18,7 +18,7 @@ describe(`state work correctly`, () => {
       users: ``,
     }, {
       type: ActionType.REQUIRED_AUTHORIZATION,
-      authorizationStatus: AuthorizationStatus.LOAD,
+      payload: AuthorizationStatus.LOAD,
     })).toEqual({
       authorizationStatus: AuthorizationStatus.LOAD,
       users: ``,
