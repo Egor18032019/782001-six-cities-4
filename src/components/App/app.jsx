@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes, {bool} from "prop-types";
 import {Switch, Route, Router, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
-import Notifications, {notify} from 'react-notify-toast';
 import Main from "../Main/main.jsx";
 import withMain from "../hocs/with-main/with-main.js";
 import {
@@ -25,16 +24,12 @@ const FavoritesPagePrivate = withPrivateRoute(Favorites, AppRoute.LOGIN);
 const App = (props)=> {
 
   const {onCityNameClick, activeTown, placesCount, activeOffers,
-    authorizationStatus, email, onLoginUsers, cardId, usersErrorMessage,
+    authorizationStatus, email, onLoginUsers, cardId,
     onFavoriteButtonClick, cityList, isDataLoaded} = props;
-  const myColor = {background: `#0E1717`, text: `orange`};
-  const statusUser = (usersErrorMessage ? notify.show(`Проверьте введеные данные  ${usersErrorMessage}`, `custom`, 2500, myColor) : ``);
   const isAuthorizationStatus = (authorizationStatus === AuthorizationStatus.AUTH);
-  const NotificationsComponent = <Notifications />;
   return (
     <Router
       history={history}>
-      {NotificationsComponent}
       <Switch>
         <Route exact path={AppRoute.ROOT}>
           <MainWrapped
@@ -42,9 +37,9 @@ const App = (props)=> {
             town={activeTown}
             cityList={cityList}
             places={activeOffers}
-            onCityNameClick={onCityNameClick}
             email={email}
             authorizationStatus={authorizationStatus}
+            onCityNameClick={onCityNameClick}
             onFavoriteButtonClick={onFavoriteButtonClick}
           />
         </Route>
@@ -75,14 +70,12 @@ const App = (props)=> {
               authorizationStatus={authorizationStatus}
             />);
           }}>
-          {statusUser}
         </Route>
         <Route exact path={AppRoute.FAVORITES}>
           <FavoritesPagePrivate
             email={email}
-            authorizationStatus={authorizationStatus}
             cityList={cityList}
-            isAuthorizationStatus={isAuthorizationStatus}
+            authorizationStatus={authorizationStatus}
             onFavoriteButtonClick={onFavoriteButtonClick}
           />
         </Route>

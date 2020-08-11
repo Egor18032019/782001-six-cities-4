@@ -18,14 +18,14 @@ exports[`SignIn snepshot test Should SignIn render correctly 1`] = `
         >
           <a
             className="header__logo-link header__logo-link--active"
-            href="/main"
+            href="/"
             onClick={[Function]}
           >
             <img
               alt="6 cities logo"
               className="header__logo"
               height="41"
-              src="img/logo.svg"
+              src="/img/logo.svg"
               width="81"
             />
           </a>
@@ -91,7 +91,7 @@ exports[`SignIn snepshot test Should SignIn render correctly 1`] = `
               className="login__input form__input"
               name="email"
               placeholder="Email"
-              required=""
+              required={true}
               type="email"
             />
           </div>
@@ -107,7 +107,7 @@ exports[`SignIn snepshot test Should SignIn render correctly 1`] = `
               className="login__input form__input"
               name="password"
               placeholder="Password"
-              required=""
+              required={true}
               type="password"
             />
           </div>
@@ -127,7 +127,7 @@ exports[`SignIn snepshot test Should SignIn render correctly 1`] = `
         >
           <a
             className="locations__item-link"
-            href="/main"
+            href="/"
             onClick={[Function]}
           >
             <span>
@@ -143,7 +143,7 @@ exports[`SignIn snepshot test Should SignIn render correctly 1`] = `
   >
     <a
       className="footer__logo-link"
-      href="/main"
+      href="/"
       onClick={[Function]}
     >
       <img

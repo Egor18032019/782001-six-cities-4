@@ -57,10 +57,9 @@ class NearCard extends PureComponent {
       return ``;
     }
   }
-  handleFavoriteClick(place) {
-    console.log(`нажал в near-card`, place.id);
+  handleFavoriteClick() {
     const {onFavoriteButtonClick} = this.props;
-    onFavoriteButtonClick(place);
+    onFavoriteButtonClick(this.props.place);
   }
 }
 

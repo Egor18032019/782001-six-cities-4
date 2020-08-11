@@ -27,13 +27,14 @@ const store = mockStore({
     cardId: null,
   },
   [NameSpace.USERS]: {
-    authorizationStatus: `NO_AUTH`,
-    users: ``,
+    authorizationStatus: `AUTH`,
+    users: `qwe@gmail.ru`,
   },
 });
 
 const place = {
   id: 1,
+  title: `aaAAA`,
   city: `Amsterdam`,
   type: `Private room`,
   description: `Wood and Stone`,
@@ -123,7 +124,7 @@ describe(`test PlaceCard e2e`, () => {
             onFavoriteButtonClick = {
               onFavoriteButtonClick
             }
-            authorizationStatus = {`NO_AUTH`}
+            authorizationStatus = {`AUTH`}
             />
           </Router>
         </Provider>
@@ -159,7 +160,7 @@ describe(`test PlaceCard e2e`, () => {
             onFavoriteButtonClick = {
               onFavoriteButtonClick
             }
-            authorizationStatus = {`NO_AUTH`}
+            authorizationStatus = {`AUTH`}
             />
           </Router>
         </Provider>

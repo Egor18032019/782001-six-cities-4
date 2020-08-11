@@ -17,15 +17,12 @@ describe(`state work correctly`, () => {
     expect(usersReducer({
       authorizationStatus: AuthorizationStatus.NO_AUTH,
       users: ``,
-      usersErrorMessage: ``
     }, {
       type: ActionType.REQUIRED_AUTHORIZATION,
-      authorizationStatus: AuthorizationStatus.NO_AUTH,
-      usersErrorMessage: 400
+      authorizationStatus: AuthorizationStatus.LOAD,
     })).toEqual({
-      authorizationStatus: AuthorizationStatus.NO_AUTH,
+      authorizationStatus: AuthorizationStatus.LOAD,
       users: ``,
-      usersErrorMessage: 400
     });
   });
 

@@ -87,6 +87,9 @@ const Operation = {
         if (response.status === 200) {
           dispatch(Operation.loadReviews(offerId));
         }
+      })
+      .catch((error) => {
+        throw error;
       });
   }
 
@@ -116,7 +119,6 @@ const dataReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         data: stateDataRewriteArray,
       });
-      // Плохо: тормозит при отрисовки.
     case ActionType.LOAD_FAVORITE_OFFERS:
       return Object.assign({}, state, {
         favoriteOffers: action.payload,

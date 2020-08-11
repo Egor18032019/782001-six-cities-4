@@ -439,10 +439,14 @@ describe(`state work correctly`, () => {
   it(`Reducer without additional parameters should return initial state`, () => {
     expect(dataReducer(void 0, {})).toEqual({
       data: [],
-      errorMessage: ``,
       isDataLoaded: false,
       town: `Amsterdam`,
-      favoriteOffers: ``
+      errorMessage: ``,
+      favoriteOffers: ``,
+      nearbyOffers: [],
+      isNearbyOffersLoading: false,
+      reviews: [],
+      isReviewsLoading: false
     });
   });
 
@@ -451,6 +455,7 @@ describe(`state work correctly`, () => {
       data: mockData,
       isDataLoaded: true,
       town: `Amsterdam`,
+
     }, {
       type: ActionType.CHANGE_TOWN,
       payload: `Paris`,
@@ -503,7 +508,6 @@ describe(`loading work correctly`, () => {
   it(`successfull dowland of data returns correct data`, () => {
     expect(dataReducer({
       data: [],
-      placesCount: 0,
       town: `Amsterdam`,
     }, {
       type: ActionType.GET_SERVER_DATA,
@@ -517,17 +521,14 @@ describe(`loading work correctly`, () => {
     expect(dataReducer({
       data: [],
       isDataLoaded: false,
-      placesCount: 0,
       town: `Amsterdam`,
     }, {
       type: ActionType.GET_SERVER_DATA,
       data: [],
-      placesCount: getFilterOffersOnCity(mockData, `Amsterdam`),
     })).toEqual({
       data: [],
       isDataLoaded: false,
       town: `Amsterdam`,
-      placesCount: 0,
     });
   });
   it(`error to load data`, () => {
@@ -551,7 +552,6 @@ describe(`loading work correctly`, () => {
     expect(dataReducer({
       data: [],
       isDataLoaded: false,
-      placesCount: 0,
       town: `Amsterdam`,
       errorMessage: ``,
     }, {
@@ -561,7 +561,6 @@ describe(`loading work correctly`, () => {
     })).toEqual({
       data: [],
       isDataLoaded: true,
-      placesCount: 0,
       town: `Amsterdam`,
       errorMessage: ``,
     });

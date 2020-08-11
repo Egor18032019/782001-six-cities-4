@@ -18,14 +18,14 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
         >
           <a
             className="header__logo-link header__logo-link--active"
-            href="/main"
+            href="/"
             onClick={[Function]}
           >
             <img
               alt="6 cities logo"
               className="header__logo"
               height="41"
-              src="img/logo.svg"
+              src="/img/logo.svg"
               width="81"
             />
           </a>
@@ -332,14 +332,11 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
-                  onClick={[Function]}
                 >
                   <a
-                    href="/property"
+                    href="/offer/0"
                     onClick={[Function]}
-                  >
-                    Beautiful & luxurious apartment at great location
-                  </a>
+                  />
                 </h2>
                 <p
                   className="place-card__type"
@@ -433,14 +430,11 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
-                  onClick={[Function]}
                 >
                   <a
-                    href="/property"
+                    href="/offer/1"
                     onClick={[Function]}
-                  >
-                    Wood and Stone
-                  </a>
+                  />
                 </h2>
                 <p
                   className="place-card__type"
@@ -540,14 +534,11 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
-                  onClick={[Function]}
                 >
                   <a
-                    href="/property"
+                    href="/offer/2"
                     onClick={[Function]}
-                  >
-                    big + warm + good
-                  </a>
+                  />
                 </h2>
                 <p
                   className="place-card__type"
@@ -647,14 +638,11 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
-                  onClick={[Function]}
                 >
                   <a
-                    href="/property"
+                    href="/offer/3"
                     onClick={[Function]}
-                  >
-                    big + warm + good
-                  </a>
+                  />
                 </h2>
                 <p
                   className="place-card__type"
@@ -754,14 +742,11 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
-                  onClick={[Function]}
                 >
                   <a
-                    href="/property"
+                    href="/offer/4"
                     onClick={[Function]}
-                  >
-                    big + warm + good
-                  </a>
+                  />
                 </h2>
                 <p
                   className="place-card__type"
@@ -861,14 +846,11 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
-                  onClick={[Function]}
                 >
                   <a
-                    href="/property"
+                    href="/offer/5"
                     onClick={[Function]}
-                  >
-                    big + warm + good
-                  </a>
+                  />
                 </h2>
                 <p
                   className="place-card__type"
@@ -968,14 +950,11 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
-                  onClick={[Function]}
                 >
                   <a
-                    href="/property"
+                    href="/offer/6"
                     onClick={[Function]}
-                  >
-                    big + warm + good
-                  </a>
+                  />
                 </h2>
                 <p
                   className="place-card__type"
@@ -1075,14 +1054,11 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
-                  onClick={[Function]}
                 >
                   <a
-                    href="/property"
+                    href="/offer/7"
                     onClick={[Function]}
-                  >
-                    big + warm + good
-                  </a>
+                  />
                 </h2>
                 <p
                   className="place-card__type"
@@ -1182,14 +1158,11 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                 </div>
                 <h2
                   className="place-card__name"
-                  onClick={[Function]}
                 >
                   <a
-                    href="/property"
+                    href="/offer/7"
                     onClick={[Function]}
-                  >
-                    big + warm + good
-                  </a>
+                  />
                 </h2>
                 <p
                   className="place-card__type"

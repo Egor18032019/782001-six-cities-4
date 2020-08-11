@@ -21,7 +21,7 @@ class Property extends PureComponent {
   }
 
   render() {
-    const {email, onFavoriteButtonClick, nearbyOffers, choiseId, places, reviews, isReviewsLoading} = this.props;
+    const {email, onFavoriteButtonClick, nearbyOffers, choiseId, places, reviews, isReviewsLoading, authorizationStatus} = this.props;
     // переводим строку в число
     const matchId = +choiseId;
     const offerArray = getFilterOffersOnID(places, matchId);
@@ -31,6 +31,9 @@ class Property extends PureComponent {
       isBookmark, title} = offer;
     const limiteImages = images.slice(0, 6);
     const limiteReviews = reviews.slice(0, 10);
+    limiteReviews.sort(function (a, b) {
+      return a - b;
+    });
     const ratingStars = `${Math.floor(rating * 20)}%`;
     if (!isReviewsLoading) {
       return (`Пишем коментарии`);
@@ -39,7 +42,7 @@ class Property extends PureComponent {
       <div className="page">
         <Header
           email={email}
-          authorizationStatus={AuthorizationStatus.AUTH}
+          authorizationStatus={authorizationStatus}
         />
         <main className="page__main page__main--property">
           <section className="property">
@@ -133,12 +136,13 @@ class Property extends PureComponent {
                         key={review.id}
                       />)}
                     {/* коментарии */}
-
                   </ul>
                   {/* Форма отправки */}
-                  <ReviewsFormWrapper
-                    offerId={id}
-                  />
+                  {(authorizationStatus === AuthorizationStatus.AUTH) ?
+                    <ReviewsFormWrapper
+                      offerId={id}
+                    /> : ``}
+
                   {/* Форма отправки */}
                 </section>
               </div>
@@ -225,7 +229,8 @@ Property.propTypes = {
   email: PropTypes.string.isRequired,
   choiseId: PropTypes.string.isRequired,
   reviews: PropTypes.array,
-  places: PropTypes.array.isRequired,
+  // places: PropTypes.array.isRequired,
+  places: PropTypes.arrayOf(PropTypes.object).isRequired,
   place: PropTypes.shape({
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,

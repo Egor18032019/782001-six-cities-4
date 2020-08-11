@@ -8,28 +8,8 @@ import {createBrowserHistory} from "history";
 const history = createBrowserHistory();
 import NameSpace from "../../reducer/name-space.js";
 import PlacesList from "./places-list.jsx";
-// TODO сделать два теста . в 1 массив с данными
-// во стом случаи пустой массив
-// подумать как атк модно сделать в APP
 
-const mockStore = configureStore([]);
-const store = mockStore({
-  [NameSpace.DATA]: {
-    data: [],
-    isDataLoaded: false,
-    placesCount: 0,
-    town: `Amsterdam`,
-    errorMessage: ``
-  },
-  [NameSpace.OFFERS]: {
-    active: `mainPages`,
-    cardId: null,
-  },
-  [NameSpace.USERS]: {
-    authorizationStatus: `NO_AUTH`
-  },
-});
-
+// подумать как атк можно сделать в APP
 const PLACE = [{
   id: 1,
   city: `Amsterdam`,
@@ -39,7 +19,7 @@ const PLACE = [{
   isBookmark: true,
   isPremium: false,
   rating: 3,
-  coordinate: [52.369553943508, 4.85309666406198],
+  coordinate: [52.369553943508, 4.85309666406198, 16],
   mainPhoto: `img/room.jpg`,
   bedrooms: 0,
   maxAdults: 2,
@@ -54,6 +34,21 @@ const PLACE = [{
   }
 }];
 
+const mockStore = configureStore([]);
+const store = mockStore({
+  [NameSpace.DATA]: {
+    data: PLACE,
+    isDataLoaded: false,
+    placesCount: 0,
+    town: `Amsterdam`,
+    errorMessage: ``
+  },
+  [NameSpace.USERS]: {
+    authorizationStatus: `NO_AUTH`
+  },
+});
+
+
 describe(`PlacesList snepshot test`, () => {
   it(`Should PlacesList render correctly`, () => {
     const tree = renderer
@@ -61,15 +56,12 @@ describe(`PlacesList snepshot test`, () => {
           <Provider store={store}>
             <Router history={history}>
               <PlacesList
-                typeSorting = {`Popular`}
-                town = {`Amsterdam`}
+                places = {PLACE}
                 placesCount = {11}
-                places = {
-                  PLACE
-                }
-                onMainTitleClick = {
-                  () => {}
-                }
+                town = {`Amsterdam`}
+                typeSorting = {`Popular`}
+                activeOffer = {1}
+                onMainTitleClick = {() => {} }
                 authorizationStatus = {`NO_AUTH`}
                 onFavoriteButtonClick = {
                   () => {}

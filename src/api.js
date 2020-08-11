@@ -1,6 +1,4 @@
 import axios from "axios";
-import {AppRoute} from "./const.js";
-import history from "./history.js";
 
 const Error = {
   INVALID_LOGIN: 400,
@@ -30,9 +28,9 @@ export const createAPI = (onUnauthorized, onBadRequest) => {
       // Бросаем ошибку, потому что нам важно прервать цепочку промисов после запроса авторизации.
     } else if (err.response.status === Error.UNAUTHORIZED) {
       // Запрос авторизации - это особый случай и важно дать понять приложению, что запрос был неудачным.
-      history.push(AppRoute.LOGIN);
       throw err;
     } else if (err.response.status === Error.BAD_REQUEST) {
+      // console.log(err.response);
       onBadRequest(err);
       throw err;
     }

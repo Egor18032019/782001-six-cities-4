@@ -86,14 +86,11 @@ exports[`PlaceCard snepshot test Should PlaceCard render correctly 1`] = `
     </div>
     <h2
       className="place-card__name"
-      onClick={[Function]}
     >
       <a
-        href="/property"
+        href="/offer/1"
         onClick={[Function]}
-      >
-        Wood and Stone
-      </a>
+      />
     </h2>
     <p
       className="place-card__type"
