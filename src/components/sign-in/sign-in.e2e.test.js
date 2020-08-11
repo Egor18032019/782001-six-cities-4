@@ -89,7 +89,7 @@ describe(`test SignIn e2e`, () => {
       login: loginRef.value,
       password: passwordRef.value,
     };
-    expect(onLoginUsers).toHaveBeenCalledWith(1, ref); // ождидаем что он вернет значения -но нет.
+    expect(onLoginUsers).toHaveBeenCalledWith(ref); // ождидаем что он вернет значения -но нет.
 
   });
 });

@@ -2,6 +2,7 @@ import {
   AppRoute
 } from "../../const.js";
 import history from "../../history";
+import {notify} from 'react-notify-toast';
 
 // Определяем действия(actions)
 const ActionType = {
@@ -44,7 +45,11 @@ const Operation = {
     dispatch(ActionCreator.setAuthStatus());
     return api.get(`/login`)
       .then((response) => {
-        dispatch(ActionCreator.setAuthData(response.data.email));
+        if (response.status === 400) {
+          dispatch(ActionCreator.setAuthData(response.data.email));
+        } else {
+          notify.show(`Проверьте ведденые данные`, `warning`, `orange`);
+        }
       })
       .catch((err) => {
         throw err;

@@ -336,7 +336,9 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                   <a
                     href="/offer/0"
                     onClick={[Function]}
-                  />
+                  >
+                    Beautiful & luxurious apartment at great location
+                  </a>
                 </h2>
                 <p
                   className="place-card__type"
@@ -434,7 +436,9 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                   <a
                     href="/offer/1"
                     onClick={[Function]}
-                  />
+                  >
+                    Beautiful & luxurious apartment at great location
+                  </a>
                 </h2>
                 <p
                   className="place-card__type"
@@ -538,7 +542,9 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                   <a
                     href="/offer/2"
                     onClick={[Function]}
-                  />
+                  >
+                    Beautiful & luxurious apartment at great location
+                  </a>
                 </h2>
                 <p
                   className="place-card__type"
@@ -642,7 +648,9 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                   <a
                     href="/offer/3"
                     onClick={[Function]}
-                  />
+                  >
+                    Beautiful & luxurious apartment at great location
+                  </a>
                 </h2>
                 <p
                   className="place-card__type"
@@ -746,7 +754,9 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                   <a
                     href="/offer/4"
                     onClick={[Function]}
-                  />
+                  >
+                    Beautiful & luxurious apartment at great location
+                  </a>
                 </h2>
                 <p
                   className="place-card__type"
@@ -850,7 +860,9 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                   <a
                     href="/offer/5"
                     onClick={[Function]}
-                  />
+                  >
+                    Beautiful & luxurious apartment at great location
+                  </a>
                 </h2>
                 <p
                   className="place-card__type"
@@ -954,7 +966,9 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                   <a
                     href="/offer/6"
                     onClick={[Function]}
-                  />
+                  >
+                    Beautiful & luxurious apartment at great location
+                  </a>
                 </h2>
                 <p
                   className="place-card__type"
@@ -1058,7 +1072,9 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                   <a
                     href="/offer/7"
                     onClick={[Function]}
-                  />
+                  >
+                    Beautiful & luxurious apartment at great location
+                  </a>
                 </h2>
                 <p
                   className="place-card__type"
@@ -1162,7 +1178,9 @@ exports[`snapshots test Main Should Main render correctly 1`] = `
                   <a
                     href="/offer/7"
                     onClick={[Function]}
-                  />
+                  >
+                    Beautiful & luxurious apartment at great location
+                  </a>
                 </h2>
                 <p
                   className="place-card__type"
