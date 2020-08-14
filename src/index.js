@@ -13,14 +13,24 @@ import {
   createAPI
 } from "./api.js";
 import {
-  loadDataAsync
+  Operation as DataOperation
 } from "./reducer/data/data-reducer.js";
 import {
-  setAuthStatus
+  Operation as UserOperation
 } from "./reducer/user/user-reducer.js";
+import {
+  ActionCreator
+} from "./reducer/user/user-reducer.js";
+import {AppRoute} from "./const.js";
+import history from "./history.js";
 
 const onUnauthorized = (status) => {
-  store.dispatch(setAuthStatus(status));
+  store.dispatch(ActionCreator.setAuthStatus(status));
+  history.push(AppRoute.LOGIN);
+  // Воспользуйтесь механизмом перехватчиков (interceptors) пакета axios
+  //  и реализуйте с их помощью следующее поведение: при получении ответа от сервера с кодом 401,
+  //  выполните редирект на страницу аутентификации (/login). Это нам потребуется для того,
+  //  чтобы неавторизованный пользователь не мог добавить в избранное жилье по клику на иконку-закладки.
 };
 
 const onBadRequest = (err) => {
@@ -37,8 +47,8 @@ const store = createStore(
     ));
 
 // диспатчим и вызываем функцию которая нам подгрузит данные
-store.dispatch(loadDataAsync());
-
+store.dispatch(DataOperation.loadDataAsync());
+store.dispatch(UserOperation.checkStatusAuth());
 ReactDOM.render(
     <Provider store={store}>
       <App />

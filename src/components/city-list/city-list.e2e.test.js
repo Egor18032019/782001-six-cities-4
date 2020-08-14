@@ -50,6 +50,9 @@ describe(`test CityList e2e`, () => {
           onCityNameClick = {
             onCityNameClick
           }
+          cityList={
+            CITYLIST
+          }
         />
     );
     const titleOnMain = cityTitleList.find(`.locations__item-link`);
@@ -69,6 +72,9 @@ describe(`test CityList e2e`, () => {
       }
       onCityNameClick = {
         onCityNameClick
+      }
+      cityList = {
+        CITYLIST
       }
     />
     );

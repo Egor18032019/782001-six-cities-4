@@ -1,3 +1,7 @@
+import {
+  AppRoute
+} from "../../const.js";
+import history from "../../history";
 
 // Определяем действия(actions)
 const ActionType = {
@@ -8,33 +12,30 @@ const ActionType = {
 const AuthorizationStatus = {
   AUTH: `AUTH`,
   NO_AUTH: `NO_AUTH`,
+  LOAD: `LOAD`,
 };
 
 // Объект начального состояния(state):
 const initialState = {
-  authorizationStatus: AuthorizationStatus.NO_AUTH,
+  authorizationStatus: AuthorizationStatus.LOAD,
   users: ``,
-  errorMessage: ``
 };
 
 
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
-
     case ActionType.REQUIRED_AUTHORIZATION:
       return Object.assign({}, state, {
-        authorizationStatus: action.authorizationStatus,
-        usersErrorMessage: action.errorMessage
+        authorizationStatus: action.payload,
       });
     case ActionType.AUTHORIZATION:
       return Object.assign({}, state, {
-        authorizationStatus: action.authorizationStatus,
-        users: action.users
+        authorizationStatus: AuthorizationStatus.AUTH,
+        users: action.users,
       });
     default:
       return state;
   }
-  // return state;
 };
 
 // запрос на сервер
@@ -42,7 +43,11 @@ const Operation = {
   checkStatusAuth: () => (dispatch, getState, api) => {
     return api.get(`/login`)
       .then((response) => {
-        dispatch(setAuthData(AuthorizationStatus.AUTH, response.data.email));
+        if (response.status === 200) {
+          dispatch(ActionCreator.setAuthData(response.data.email));
+        } else if (response.status === 400) {
+          dispatch(ActionCreator.setAuthStatus(AuthorizationStatus.NO_AUTH));
+        }
       })
       .catch((err) => {
         throw err;
@@ -54,34 +59,34 @@ const Operation = {
       password: authData.password,
     })
     .then((response) => {
-      dispatch(setAuthData(AuthorizationStatus.AUTH, response.data.email));
+      dispatch(ActionCreator.setAuthData(response.data.email));
+      history.push(AppRoute.ROOT);
     })
     .catch((err) => {
       throw err;
     });
   }
 };
-
-const setAuthStatus = (err) => {
-  return {
-    type: ActionType.REQUIRED_AUTHORIZATION,
-    authorizationStatus: AuthorizationStatus.NO_AUTH,
-    errorMessage: err.statusText
-  };
+const ActionCreator = {
+  // этот сработал когда пришла ошибка
+  setAuthStatus: (status) => {
+    return {
+      type: ActionType.REQUIRED_AUTHORIZATION,
+      payload: status
+    };
+  },
+  //  этот срабатывает когда всё хорошо
+  setAuthData: (data) => {
+    return {
+      type: ActionType.AUTHORIZATION,
+      users: data
+    };
+  },
 };
-const setAuthData = (status, data) => {
-  return {
-    type: ActionType.AUTHORIZATION,
-    authorizationStatus: status,
-    users: data
-  };
-};
-
 export {
   usersReducer,
   ActionType,
   Operation,
   AuthorizationStatus,
-  setAuthStatus
-
+  ActionCreator
 };

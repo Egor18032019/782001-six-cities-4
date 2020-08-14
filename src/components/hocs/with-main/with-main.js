@@ -1,5 +1,4 @@
 import React, {PureComponent} from "react";
-import PropTypes from "prop-types";
 
 const withMain = (Component) => {
   class WithMain extends PureComponent {
@@ -15,7 +14,6 @@ const withMain = (Component) => {
     }
     render() {
       const {typeSorting, activeOffer} = this.state;
-
       return (
         <Component
           {...this.props}
@@ -35,13 +33,7 @@ const withMain = (Component) => {
       );
     }
   }
-  WithMain.propTypes = {
-    placesCount: PropTypes.number.isRequired,
-    onCityNameClick: PropTypes.func.isRequired,
-    town: PropTypes.string.isRequired,
-    places: PropTypes.array.isRequired,
-    onMainTitleClick: PropTypes.func.isRequired,
-  };
+
   return WithMain;
 };
 

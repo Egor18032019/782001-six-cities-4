@@ -7,13 +7,15 @@ import Header from "../header/header.jsx";
 
 
 class Main extends PureComponent {
+  constructor(props) {
+    super(props);
+  }
 
   render() {
-    const {placesCount, town, places, onMainTitleClick, onCityNameClick, authorizationStatus,
-      typeSorting, onSortingTypeClick, onCardMouseEnter, onCardMouseOut, activeOffer, email} = this.props;
-
+    const {placesCount, town, places, onCityNameClick, authorizationStatus,
+      typeSorting, onSortingTypeClick, onCardMouseEnter, onCardMouseOut, activeOffer, email, onFavoriteButtonClick, cityList} = this.props;
     let emptyMain = ``;
-    if (places.length === 0) {
+    if (placesCount === 0) {
       emptyMain = `page__main--index-empty`;
 
     }
@@ -30,6 +32,7 @@ class Main extends PureComponent {
             <section className="locations container">
               <CityList
                 town={town}
+                cityList={cityList}
                 onCityNameClick={onCityNameClick}
               />
             </section>
@@ -40,12 +43,13 @@ class Main extends PureComponent {
                 places={sortingPlaces}
                 placesCount={placesCount}
                 town={town}
-                onMainTitleClick={onMainTitleClick}
                 onCardMouseEnter={onCardMouseEnter}
                 onCardMouseOut={onCardMouseOut}
                 typeSorting={typeSorting}
                 onSortingTypeClick={onSortingTypeClick}
                 activeOffer={activeOffer}
+                onFavoriteButtonClick={onFavoriteButtonClick}
+                authorizationStatus={authorizationStatus}
               />
             }
           </div>
@@ -74,9 +78,10 @@ class Main extends PureComponent {
 Main.propTypes = {
   placesCount: PropTypes.number.isRequired,
   onCityNameClick: PropTypes.func.isRequired,
+  onFavoriteButtonClick: PropTypes.func.isRequired,
   town: PropTypes.string.isRequired,
   places: PropTypes.array.isRequired,
-  onMainTitleClick: PropTypes.func.isRequired,
+  cityList: PropTypes.array.isRequired,
   onCardMouseEnter: PropTypes.func.isRequired,
   onSortingTypeClick: PropTypes.func.isRequired,
   onCardMouseOut: PropTypes.func.isRequired,

@@ -252,13 +252,14 @@ MockComponent.propTypes = {
 
 const MockComponentWrapped = withMain(MockComponent);
 
-describe(`withMain`, () => {
+describe(`withMain test`, () => {
   it(`withMain is rendered correctly`, () => {
     const hocComponent = renderer.create((
       <Provider store={store}>
         <MockComponentWrapped
           placesCount={1}
           town={`Amsterdam`}
+          typeSorting={`Popular`}
           places={mockSettings}
           onMainTitleClick={()=>{}}
           onCityNameClick={()=>{}}

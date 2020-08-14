@@ -4,7 +4,8 @@ const Error = {
   INVALID_LOGIN: 400,
   UNAUTHORIZED: 401,
   BAD_REQUEST: 404,
-  NO_INTERNET: `Network Error`
+  NO_INTERNET: `Network Error`,
+  BAD_TIMEOUT: `timeout of 5000ms exceeded`,
 };
 
 // опишите функцию, принимающую dispatch-еры в качестве параметра и возвращающую сконфигурированный инстанс axios
@@ -21,16 +22,12 @@ export const createAPI = (onUnauthorized, onBadRequest) => {
   };
 
   const onFail = (err) => {
-    if (err.message === Error.NO_INTERNET) {
+    if (err.message === Error.NO_INTERNET || err.message === Error.BAD_TIMEOUT) {
       onBadRequest(err.message);
       throw err;
       // Бросаем ошибку, потому что нам важно прервать цепочку промисов после запроса авторизации.
-      // Запрос авторизации - это особый случай и важно дать понять приложению, что запрос был неудачным.
     } else if (err.response.status === Error.UNAUTHORIZED) {
-      onUnauthorized(err.response.status);
-      throw err;
-    } else if (err.response.status === Error.INVALID_LOGIN) {
-      onUnauthorized(err.response);
+      // Запрос авторизации - это особый случай и важно дать понять приложению, что запрос был неудачным.
       throw err;
     } else if (err.response.status === Error.BAD_REQUEST) {
       onBadRequest(err);

@@ -1,125 +1,99 @@
-import React, {PureComponent} from "react";
+import React from "react";
 import PropTypes, {bool} from "prop-types";
-import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {Switch, Route, Router, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../Main/main.jsx";
 import withMain from "../hocs/with-main/with-main.js";
-import {getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount, getErrorMessage} from "../../reducer/data/selectors.js";
-import {getOffersActive, getCardId} from "../../reducer/offers/selectors.js";
+import {
+  getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount, getErrorMessage,
+  getFavoritesOffers, getList} from "../../reducer/data/selectors.js";
 import {getAuthStatus, getEmail, getUsersErrorMessage} from "../../reducer/user/selectors.js";
-import {AuthorizationStatus, Operation} from "../../reducer/user/user-reducer.js";
-
+import {AuthorizationStatus, Operation as UserOperation} from "../../reducer/user/user-reducer.js";
+import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
+import {ActionTown} from "../../reducer/data/data-reducer.js";
+import history from "../../history";
 const MainWrapped = withMain(Main);
 
+import Favorites from "../favorites/favorites.jsx";
 import Property from "../property/property.jsx";
 import SignIn from "../sign-in/sign-in.jsx";
-import {
-  ActionActive,
-} from "../../reducer/offers/offers-reducer.js";
-import {
-  ActionTown
-} from "../../reducer/data/data-reducer.js";
+import {AppRoute} from "../../const.js";
+import withPrivateRoute from "../hocs/with-private-route/with-private-route.js";
+const FavoritesPagePrivate = withPrivateRoute(Favorites, AppRoute.LOGIN);
 
-class App extends PureComponent {
-  constructor(props) {
-    super(props);
-  }
+const App = (props)=> {
 
-  _renderApp() {
-    const {handlerClickOnTitle, onCityNameClick, isDataLoaded, activeTown, placesCount, activeOffers, cardId,
-      active, authorizationStatus, onLoginUsers, email, errorMessage, usersErrorMessage} = this.props;
-    if (isDataLoaded) {
-      if (authorizationStatus === AuthorizationStatus.AUTH) {
-        if (active === `mainPages` || active === false) {
-          return (
-            <MainWrapped
-              placesCount={placesCount}
-              town={activeTown}
-              places={activeOffers}
-              onMainTitleClick={handlerClickOnTitle}
-              onCityNameClick={onCityNameClick}
-              email={email}
-              authorizationStatus={authorizationStatus}
-            />
-          );
-        } else {
-          return (
-            <Property
-              place={activeOffers.find((offer) => {
-                return offer.id === cardId;
-              })}
-            />
-          );
-        }
-      } else {
-        if (usersErrorMessage) {
-          // eslint-disable-next-line no-alert
-          alert(`Проверьте логин и пароль`);
-        }
-        return (
-          <SignIn
-            onSubmit={onLoginUsers}
+  const {onCityNameClick, activeTown, placesCount, activeOffers,
+    authorizationStatus, email, onLoginUsers, cardId,
+    onFavoriteButtonClick, cityList, isDataLoaded} = props;
+  const isAuthorizationStatus = (authorizationStatus === AuthorizationStatus.AUTH);
+  return (
+    <Router
+      history={history}>
+      <Switch>
+        <Route exact path={AppRoute.ROOT}>
+          <MainWrapped
+            placesCount={placesCount}
+            town={activeTown}
+            cityList={cityList}
+            places={activeOffers}
+            email={email}
+            authorizationStatus={authorizationStatus}
+            onCityNameClick={onCityNameClick}
+            onFavoriteButtonClick={onFavoriteButtonClick}
           />
-        );
-      }
-    } else {
-      return (
-        <div className="error" style={{height: `100%`, width: `50%`, paddingTop: `300px`, margin: `auto`, color: `red
-        `}}>
-          <p className="error__message">Ошибка загрузки страницы {errorMessage}</p>
-          <button className="error__button" onClick={()=>{
-            window.location.reload(true);
-          }}>Попробовать снова</button>
-        </div>
-      );
-    }
-  }
-
-  render() {
-    const {handlerClickOnTitle, onCityNameClick, activeTown, placesCount, activeOffers,
-      authorizationStatus, email} = this.props;
-    return (
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/">
-            {this._renderApp()}
-          </Route>
-          <Route exact path="/main">
-            <MainWrapped
-              placesCount={placesCount}
-              town={activeTown}
-              places={activeOffers}
-              onMainTitleClick={handlerClickOnTitle}
-              onCityNameClick={onCityNameClick}
+        </Route>
+        <Route exact path={AppRoute.PROPERTY}
+          render={(routeProps) => {
+            if (isDataLoaded) {
+              return (
+                <Property
+                  place={cardId}
+                  choiseId={routeProps.match.params.id}
+                  email={email}
+                  authorizationStatus={authorizationStatus}
+                  onFavoriteButtonClick={onFavoriteButtonClick}
+                />);
+            }
+            return (`Подождите. Идет загрузка`);
+          }}>
+        </Route>
+        <Route exact path={AppRoute.LOGIN}
+          render = {()=>{
+            if (isAuthorizationStatus) {
+              return <Redirect to={AppRoute.ROOT} />;
+            }
+            return (<SignIn
+              onLoginUsers={onLoginUsers}
+              activeTown={activeTown}
               email={email}
               authorizationStatus={authorizationStatus}
-            />;
-          </Route>
-          <Route exact path="/property">
-            <Property
-              place={activeOffers[0]}
-            />
-          </Route>
-          <Route exact path="/login">
-            <SignIn
-              onSubmit={() => {}}
-            />
-          </Route>
-        </Switch>
-      </BrowserRouter >
-    );
-  }
-}
+            />);
+          }}>
+        </Route>
+        <Route exact path={AppRoute.FAVORITES}>
+          <FavoritesPagePrivate
+            email={email}
+            cityList={cityList}
+            authorizationStatus={authorizationStatus}
+            onFavoriteButtonClick={onFavoriteButtonClick}
+          />
+        </Route>
+      </Switch>
+    </Router >
+  );
+};
+
 
 const mapDispatchToProps = (dispatch) => ({
-  handlerClickOnTitle(place) {
-    dispatch(ActionActive.activeState(place));
-  },
   onCityNameClick(city) {
     dispatch(ActionTown.changeCity(city));
   },
   onLoginUsers(authData) {
-    dispatch(Operation.login(authData));
+    dispatch(UserOperation.login(authData));
+  },
+  onFavoriteButtonClick(place) {
+    dispatch(DataOperation.addToFavorite(place));
   }
 });
 
@@ -129,33 +103,35 @@ const mapStateToProps = (store) => {
     activeOffers: getOffersByActiveCity(store),
     activeTown: getActiveTown(store),
     placesCount: getPlaceCount(store),
-    cardId: getCardId(store),
-    active: getOffersActive(store),
     authorizationStatus: getAuthStatus(store),
     email: getEmail(store),
     errorMessage: getErrorMessage(store),
     usersErrorMessage: getUsersErrorMessage(store),
+    favoriteOffers: getFavoritesOffers(store),
+    cityList: getList(store),
   });
 };
 
 App.propTypes = {
   onCityNameClick: PropTypes.func.isRequired,
-  handlerClickOnTitle: PropTypes.func.isRequired,
+  onFavoriteButtonClick: PropTypes.func.isRequired,
   isDataLoaded: bool.isRequired,
   activeTown: PropTypes.string.isRequired,
   placesCount: PropTypes.number.isRequired,
   activeOffers: PropTypes.array.isRequired,
-  active: PropTypes.string.isRequired,
-  cardId: PropTypes.number,
+  cardId: PropTypes.object, // или ноль или обьект
   authorizationStatus: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  usersErrorMessage: PropTypes.string,
+  usersErrorMessage: PropTypes.any,
   errorMessage: PropTypes.string,
   onLoginUsers: PropTypes.func.isRequired,
+  cityList: PropTypes.array.isRequired,
 };
 
 export {App};
 export default connect(mapStateToProps, mapDispatchToProps)(App); // первым стате а вторым диспатчеры
 
 
-// ---???? Макс, а на этот applicationCache.jsx нужно писать тест e2e ? и как ? ничего вголову не приходит
+// TODO: Удалите логику рендера компонента «Главная страница»,
+// когда по значению аuthorizationStatus равному NO_AUTH рендерится компонент «Sign In».
+//  Теперь оба эти компонента должны рендериться только каждый по своему маршруту.

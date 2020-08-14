@@ -1,6 +1,6 @@
 
 // пишем фунцкию которая принимает на вход серверные данные и преобразовывает их в нормальные
-let adapter = (serverdata) => {
+const adapter = (serverdata) => {
   return serverdata.map((it) => {
     return {
       id: it.id,

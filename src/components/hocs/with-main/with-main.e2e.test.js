@@ -21,8 +21,8 @@ Enzyme.configure({
 //   typeSorting: `Popular`
 // });
 
-const place = {
-  id: 0,
+const place = [{
+  id: 111,
   city: `Amsterdam`,
   type: `Apartament`,
   description: `Beautiful & luxurious apartment at great location`,
@@ -44,29 +44,30 @@ const place = {
     isPro: true,
     name: `Angelina`
   }
-};
+}];
 
 const MockComponent = (props) => {
-  const {onSortingTypeClick, onCardMouseEnter, onCardMouseOut} = props;
+  const {onSortingTypeClick, typeSorting, onCardMouseEnter, onCardMouseOut} = props;
   const type = `price`;
   return (
-    <div>
-      <header onMouseEnter={() => {
-        onCardMouseEnter(place.id);
-      }}
-      onMouseLeave={onCardMouseOut}
-      > Coming or Out</header>
+    <div onMouseEnter={() => {
+      onCardMouseEnter(1);
+    }}
+    onMouseLeave={onCardMouseOut}>
+      <header> Coming or Out</header>
       <h2 onClick={() => {
         onSortingTypeClick(type);
-      }}>{type}</h2>
+      }}>{typeSorting}</h2>
     </div>
   );
 };
 
 MockComponent.propTypes = {
+  typeSorting: PropTypes.string.isRequired,
   onSortingTypeClick: PropTypes.func.isRequired,
-  onCardMouseEnter: PropTypes.func.isRequired,
   onCardMouseOut: PropTypes.func.isRequired,
+  onCardMouseEnter: PropTypes.func.isRequired,
+
 };
 const MockComponentWrapped = withMain(MockComponent);
 
@@ -80,6 +81,7 @@ describe(`test withMain e2e`, () => {
 
     const hocComponent = mount(
         <MockComponentWrapped
+          typeSorting ={`popuar`}
           town={`Amsterdam`}
           place = {
             place
@@ -110,13 +112,80 @@ describe(`test withMain e2e`, () => {
     titleOnMain.simulate(`click`);
 
     // ожидаем что измениться store
-    expect(hocComponent.props().typeSorting).toEqual(`price`);
-    // --??? но  неработает  Максим посмотри
+    expect(hocComponent.state().typeSorting).toEqual(`price`);
+    expect(hocComponent.state().activeOffer).toEqual(null);
+
   });
 
-  // test(`Should  change MockedHoc state when mouse comming  `, () => {
-  // });
+  test(`Should  change MockedHoc state when mouse comming  `, () => {
+    const onMainTitleClick = jest.fn();
+    const onCityNameClick = jest.fn();
+    const onSortingTypeClick = jest.fn();
+    const onCardMouseEnter = jest.fn();
 
-  // test(`Should  change MockedHoc state when mouse out`, () => {
-  // });
+    const hocComponent = mount(
+        <MockComponentWrapped
+          typeSorting ={`popuar`}
+          town={`Amsterdam`}
+          place = {
+            place
+          }
+          places = {
+            place
+          }
+          onMainTitleClick = {
+            onMainTitleClick
+          }
+          onCityNameClick = {
+            onCityNameClick
+          }
+          onCardMouseEnter = {
+            onCardMouseEnter
+          }
+          onSortingTypeClick = {
+            onSortingTypeClick
+          }
+          placesCount = {11}
+        />
+    );
+    hocComponent.simulate(`mouseenter`);
+
+    expect(hocComponent.state().activeOffer).toEqual(1);
+  });
+
+  test(`Should  change MockedHoc state when mouse out`, () => {
+    const onMainTitleClick = jest.fn();
+    const onCityNameClick = jest.fn();
+    const onSortingTypeClick = jest.fn();
+    const onCardMouseOut = jest.fn();
+
+    const hocComponent = mount(
+        <MockComponentWrapped
+          typeSorting ={`popuar`}
+          town={`Amsterdam`}
+          place = {
+            place
+          }
+          places = {
+            place
+          }
+          onMainTitleClick = {
+            onMainTitleClick
+          }
+          onCityNameClick = {
+            onCityNameClick
+          }
+          onCardMouseOut = {
+            onCardMouseOut
+          }
+          onSortingTypeClick = {
+            onSortingTypeClick
+          }
+          placesCount = {11}
+        />
+    );
+    hocComponent.simulate(`mouseout`);
+
+    expect(hocComponent.state().activeOffer).toEqual(null);
+  });
 });

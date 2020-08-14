@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`withMain withMain is rendered correctly 1`] = `
+exports[`withMain test withMain is rendered correctly 1`] = `
 <div>
   <header>
     Popular
