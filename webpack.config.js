@@ -2,7 +2,7 @@
 const path = require(`path`);
 //  экспортируем настройки
 module.exports = {
-  entry: `./src/index.js`, // - точка входа в приложение
+  entry: `./src/index.tsx`, // - точка входа в приложение
   output: {
     // файл сборки (бандл) назвали bundle.js;
     filename: `bundle.js`,
@@ -24,8 +24,15 @@ module.exports = {
         use: {
           loader: `babel-loader`,
         },
-      }
+      },
+      {
+        test: /\.(tsx|ts)?$/,
+        loader: `ts-loader`
+      },
     ],
+    resolve: {
+      extensions: [`.ts`, `.tsx`, `.js`, `json`]
+    },
   },
   devtool: `source-map`,
 };
