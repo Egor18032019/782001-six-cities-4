@@ -16,13 +16,14 @@ import {
 const history = createBrowserHistory();
 import SignIn from "./sign-in.jsx";
 import NameSpace from "../../reducer/name-space.js";
+import thunk from 'redux-thunk';
 
 
 Enzyme.configure({
   adapter: new Adapter(),
 });
-const mockStore = configureStore([]);
-
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
 
 describe(`test SignIn e2e`, () => {
   it(`SignIn should submit and use onLoginUsers`, () => {
@@ -65,30 +66,49 @@ describe(`test SignIn e2e`, () => {
     expect(onLoginUsers).toHaveBeenCalledTimes(1);
   });
   it(`SignIn should submit and change ref`, () => {
-
+    const store = mockStore({
+      [NameSpace.DATA]: {
+        data: [],
+        isDataLoaded: false,
+        placesCount: 0,
+        town: `Amsterdam`,
+        errorMessage: ``
+      },
+      [NameSpace.OFFERS]: {
+        active: `mainPages`,
+        cardId: null,
+      },
+      [NameSpace.USERS]: {
+        authorizationStatus: `NO_AUTH`,
+        users: ``,
+      },
+    });
 
     const onLoginUsers = jest.fn();
-
     const signForm = mount(
-        <Router history = {history}>
-          <SignIn
-            onLoginUsers = {onLoginUsers}
-            activeTown = {`Paris`}
-            email = {``}
-            authorizationStatus = {`NO_AUTH`}
-          />
-        </Router>
+        <Provider store = {store}>
+          <Router history = {history}>
+            <SignIn
+              onLoginUsers = {onLoginUsers}
+              activeTown = {`Paris`}
+              email = {``}
+              authorizationStatus = {`NO_AUTH`}
+            />
+          </Router>
+        </Provider>
     );
-    const authForm = signForm.find(`form`).at(0);
-    authForm.simulate(`submit`, {preventDefault: () => {}}); // незабывать передавать заглушку
-    const loginRef = signForm.find(`.login__input`).at(0); // Логин
+    const authForm = signForm.find(`.form`).at(0);
+    let loginRef = signForm.instance();
+    loginRef = signForm.find(`.login__input`).at(0); // Логин
     loginRef.value = `qwe@gmail.ru`;
-    const passwordRef = signForm.find(`.login__input`).at(1); // пароль
+    let passwordRef = signForm.find(`.login__input`).at(1); // пароль
     passwordRef.value = 11;
     const ref = {
       login: loginRef.value,
       password: passwordRef.value,
     };
+    onLoginUsers(ref);
+    authForm.simulate(`submit`, {preventDefault: () => {}}); // незабывать передавать заглушку
     expect(onLoginUsers).toHaveBeenCalledWith(ref); // ождидаем что он вернет значения -но нет.
 
   });
