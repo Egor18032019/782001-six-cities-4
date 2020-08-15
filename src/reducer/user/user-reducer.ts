@@ -1,6 +1,6 @@
 import {
   AppRoute
-} from "../../const.js";
+} from "../../const";
 import history from "../../history";
 
 // Определяем действия(actions)
@@ -37,9 +37,13 @@ const usersReducer = (state = initialState, action) => {
       return state;
   }
 };
+interface Props {
+  checkStatusAuth:any;
+  login:any;
+}
 
 // запрос на сервер
-const Operation = {
+const Operation : Props = {
   checkStatusAuth: () => (dispatch, getState, api) => {
     return api.get(`/login`)
       .then((response) => {
@@ -67,6 +71,7 @@ const Operation = {
     });
   }
 };
+
 const ActionCreator = {
   // этот сработал когда пришла ошибка
   setAuthStatus: (status) => {
@@ -83,6 +88,7 @@ const ActionCreator = {
     };
   },
 };
+
 export {
   usersReducer,
   ActionType,

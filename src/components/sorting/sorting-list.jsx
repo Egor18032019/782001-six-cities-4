@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import {
   SORTING
-} from "../../const.js";
+} from "../../const";
 
 class SortingList extends PureComponent {
   constructor(props) {

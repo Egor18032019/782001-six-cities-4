@@ -6,9 +6,11 @@
     "module": "commonjs",
     "target": "es2016",
     "jsx": "react",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": false, // true не верит ReactDOM
+    "lib": ["dom"]
   },
   "exclude": [
+    "demos",
     "node_modules",
     "dist"
   ]

@@ -1,28 +1,24 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 import {compose} from "recompose";
 import {createStore, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
 import {Provider} from "react-redux";
-import App from "./components/App/app.jsx";
-import {
-  setIdDataLoaded
-} from "./reducer/data/data-reducer.js";
+import history from "./history.js";
+import App from "./components/App/app";
+import {setIdDataLoaded} from "./reducer/data/data-reducer";
 import combineReducers from "./reducer/combineReducers.js";
-import {
-  createAPI
-} from "./api.js";
+import {createAPI} from "./api.js";
 import {
   Operation as DataOperation
-} from "./reducer/data/data-reducer.js";
+} from "./reducer/data/data-reducer";
 import {
   Operation as UserOperation
-} from "./reducer/user/user-reducer.js";
+} from "./reducer/user/user-reducer";
 import {
   ActionCreator
-} from "./reducer/user/user-reducer.js";
-import {AppRoute} from "./const.js";
-import history from "./history.js";
+} from "./reducer/user/user-reducer";
+import {AppRoute} from "./const";
 
 const onUnauthorized = (status) => {
   store.dispatch(ActionCreator.setAuthStatus(status));
@@ -33,25 +29,25 @@ const onUnauthorized = (status) => {
   //  чтобы неавторизованный пользователь не мог добавить в избранное жилье по клику на иконку-закладки.
 };
 
+
 const onBadRequest = (err) => {
   store.dispatch(setIdDataLoaded(false, err));
 };
 
 const api = createAPI(onUnauthorized, onBadRequest);
 
-const store = createStore(
-    combineReducers,
-    compose(
-        applyMiddleware(thunk.withExtraArgument(api)),
-        window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f
-    ));
+const store = createStore(combineReducers, compose(
+    applyMiddleware(thunk.withExtraArgument(api)),
+    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+  ));
 
 // диспатчим и вызываем функцию которая нам подгрузит данные
 store.dispatch(DataOperation.loadDataAsync());
 store.dispatch(UserOperation.checkStatusAuth());
+
 ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    document.querySelector(`#root`)
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.querySelector(`#root`)
 );

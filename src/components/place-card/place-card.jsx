@@ -3,8 +3,8 @@ import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 
-import {AppRoute} from "../../const.js";
-import {AuthorizationStatus} from "../../reducer/user/user-reducer.js";
+import {AppRoute} from "../../const";
+import {AuthorizationStatus} from "../../reducer/user/user-reducer";
 import history from "../../history.js";
 
 class PlaceCard extends PureComponent {

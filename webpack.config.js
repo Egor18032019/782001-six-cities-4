@@ -30,9 +30,9 @@ module.exports = {
         loader: `ts-loader`
       },
     ],
-    resolve: {
-      extensions: [`.ts`, `.tsx`, `.js`, `json`]
-    },
+  },
+  resolve: {
+    extensions: [`.ts`, `.tsx`, `.js`, `json`]
   },
   devtool: `source-map`,
 };

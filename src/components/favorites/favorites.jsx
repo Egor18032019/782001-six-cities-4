@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 
-import {AppRoute} from "../../const.js";
+import {AppRoute} from "../../const";
 
 import Header from "../header/header.jsx";
 import FavoritesEmpty from "./favorites-empty.jsx";
 import {getFavoritesOffers} from "../../reducer/data/selectors.js";
-import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
+import {Operation as DataOperation} from "../../reducer/data/data-reducer";
 
 class Favorites extends PureComponent {
   constructor(props) {

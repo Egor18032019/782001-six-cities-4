@@ -1,5 +1,4 @@
-import React from "react";
-import PropTypes, {bool} from "prop-types";
+import * as React from "react";
 import {Switch, Route, Router, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import Main from "../Main/main.jsx";
@@ -8,20 +7,21 @@ import {
   getOffersByActiveCity, getDataStatus, getActiveTown, getPlaceCount, getErrorMessage,
   getFavoritesOffers, getList} from "../../reducer/data/selectors.js";
 import {getAuthStatus, getEmail, getUsersErrorMessage} from "../../reducer/user/selectors.js";
-import {AuthorizationStatus, Operation as UserOperation} from "../../reducer/user/user-reducer.js";
-import {Operation as DataOperation} from "../../reducer/data/data-reducer.js";
-import {ActionTown} from "../../reducer/data/data-reducer.js";
+import {AuthorizationStatus, Operation as UserOperation} from "../../reducer/user/user-reducer";
+import {Operation as DataOperation} from "../../reducer/data/data-reducer";
+import {ActionTown} from "../../reducer/data/data-reducer";
 import history from "../../history";
 const MainWrapped = withMain(Main);
 
 import Favorites from "../favorites/favorites.jsx";
 import Property from "../property/property.jsx";
 import SignIn from "../sign-in/sign-in.jsx";
-import {AppRoute} from "../../const.js";
+import {AppRoute} from "../../const";
+import {AppProps} from "../../types";
 import withPrivateRoute from "../hocs/with-private-route/with-private-route.js";
 const FavoritesPagePrivate = withPrivateRoute(Favorites, AppRoute.LOGIN);
 
-const App = (props)=> {
+const App = (props:AppProps)=> {
 
   const {onCityNameClick, activeTown, placesCount, activeOffers,
     authorizationStatus, email, onLoginUsers, cardId,
@@ -112,21 +112,6 @@ const mapStateToProps = (store) => {
   });
 };
 
-App.propTypes = {
-  onCityNameClick: PropTypes.func.isRequired,
-  onFavoriteButtonClick: PropTypes.func.isRequired,
-  isDataLoaded: bool.isRequired,
-  activeTown: PropTypes.string.isRequired,
-  placesCount: PropTypes.number.isRequired,
-  activeOffers: PropTypes.array.isRequired,
-  cardId: PropTypes.object, // или ноль или обьект
-  authorizationStatus: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  usersErrorMessage: PropTypes.any,
-  errorMessage: PropTypes.string,
-  onLoginUsers: PropTypes.func.isRequired,
-  cityList: PropTypes.array.isRequired,
-};
 
 export {App};
 export default connect(mapStateToProps, mapDispatchToProps)(App); // первым стате а вторым диспатчеры

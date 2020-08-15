@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react";
 import {Redirect} from "react-router-dom";
-import {AuthorizationStatus} from "../../../reducer/user/user-reducer.js";
+import {AuthorizationStatus} from "../../../reducer/user/user-reducer";
 import PropTypes from "prop-types";
 
 const withPrivateRoute = (Component, URL) => {
