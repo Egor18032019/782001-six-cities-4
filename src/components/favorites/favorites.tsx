@@ -1,6 +1,5 @@
 // компонент "Страниц избранных предложений"
-import React, {PureComponent} from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 
@@ -11,7 +10,16 @@ import FavoritesEmpty from "./favorites-empty.jsx";
 import {getFavoritesOffers} from "../../reducer/data/selectors.js";
 import {Operation as DataOperation} from "../../reducer/data/data-reducer";
 
-class Favorites extends PureComponent {
+interface Props {
+  authorizationStatus:string,
+  email:string,
+  favoriteOffers:any,
+  cityList:[],
+  loadFavoriteOffers:()=>{},
+  onFavoriteButtonClick:(place:{})=>void,
+}
+
+class Favorites extends React.PureComponent <Props> {
   constructor(props) {
     super(props);
     this.onFavoriteClick = this.onFavoriteClick.bind(this);
@@ -131,14 +139,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(DataOperation.addToFavorite(place));
   }
 });
-Favorites.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  favoriteOffers: PropTypes.any,
-  cityList: PropTypes.array.isRequired,
-  loadFavoriteOffers: PropTypes.func.isRequired,
-  onFavoriteButtonClick: PropTypes.func.isRequired,
-};
+
 
 export {Favorites};
 export default connect(mapStateToProps, mapDispatchToProps)(Favorites); // первым стате а вторым диспатчеры

@@ -13,8 +13,8 @@ import {ActionTown} from "../../reducer/data/data-reducer";
 import history from "../../history";
 const MainWrapped = withMain(Main);
 
-import Favorites from "../favorites/favorites.jsx";
-import Property from "../property/property.jsx";
+import Favorites from "../favorites/favorites";
+import Property from "../property/property";
 import SignIn from "../sign-in/sign-in.jsx";
 import {AppRoute} from "../../const";
 import {AppProps} from "../../types";

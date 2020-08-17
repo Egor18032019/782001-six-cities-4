@@ -17,7 +17,8 @@ const SORTING:stringArray = [
   `Top rated first`,
 ];
 
-const AppRoute:any = {
+const AppRoute:{ROOT:string,LOGIN:string,MAIN:string,
+  PROPERTY:string,FAVORITES:string} = {
   ROOT: `/`,
   LOGIN: `/login`,
   MAIN: `/main`,

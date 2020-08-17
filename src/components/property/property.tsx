@@ -1,7 +1,6 @@
 // компонент  «Детальная информация о предложении»
-import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import React, {PureComponent} from "react";
+ import {connect} from "react-redux";
+import * as React from "react";
 import {getFilterOffersOnID} from "../../utils.js";
 import {AuthorizationStatus} from "../../reducer/user/user-reducer";
 import {Operation as DataOperation} from "../../reducer/data/data-reducer";
@@ -14,7 +13,59 @@ import ReviewsForm from "../reviews-form/reviews-form.jsx";
 import withForm from "../hocs/with-form/whit-form.jsx";
 const ReviewsFormWrapper = withForm(ReviewsForm);
 
-class Property extends PureComponent {
+interface Props {
+  isReviewsLoading: boolean,
+  nearbyOffers: [{id: number,
+    type: string,
+    description: string,
+    title: string,
+    price: number,
+    isBookmark: boolean,
+    isPremium: boolean,
+    rating: number,
+    bedrooms: number,
+    maxAdults: number,
+    options: [],
+    images: [],
+    stories: string,
+    host: {
+      avatarUrl: string,
+      isPro: boolean,
+      name: string,
+    }}],
+  loadOfferData: (matchId:number)=>{},
+  loadReviewsData: (matchId:number)=>{},
+  isNearbyOffersLoading: boolean,
+  authorizationStatus: string,
+  onFavoriteButtonClick: (offer:{})=> void,
+  email: string,
+  choiseId: string,
+  reviews: any,
+  places: [],
+  place:{
+    id: number,
+    type: string,
+    description: string,
+    title: string,
+    price: number,
+    isBookmark: boolean,
+    isPremium: boolean,
+    rating: number,
+    bedrooms: number,
+    maxAdults: number,
+    options: [],
+    images: [],
+    stories: string,
+    host: {
+      avatarUrl: string,
+      isPro: boolean,
+      name: string,
+    }
+  }
+
+}
+
+class Property extends React.PureComponent <Props> {
   constructor(props) {
     super(props);
     this.handleFavoriteClick = this.handleFavoriteClick.bind(this);
@@ -23,6 +74,7 @@ class Property extends PureComponent {
   render() {
     const {email, onFavoriteButtonClick, nearbyOffers, choiseId, places, reviews, isReviewsLoading, authorizationStatus} = this.props;
     // переводим строку в число
+    console.log(nearbyOffers)
     const matchId = +choiseId;
     const offerArray = getFilterOffersOnID(places, matchId);
     // не придумал как разобрать - разобрал так
@@ -207,7 +259,6 @@ const mapStateToProps = (store) => ({
   isReviewsLoading: getReviewsStatus(store),
 });
 
-
 const mapDispatchToProps = (dispatch) => ({
   loadOfferData(id) {
     dispatch(DataOperation.loadNearbyOffers(id));
@@ -216,41 +267,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(DataOperation.loadReviews(id));
   }
 });
-
-Property.propTypes = {
-  isReviewsLoading: PropTypes.bool.isRequired,
-  nearbyOffers: PropTypes.array.isRequired,
-  loadOfferData: PropTypes.func.isRequired,
-  loadReviewsData: PropTypes.func.isRequired,
-  isNearbyOffersLoading: PropTypes.bool.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
-  onFavoriteButtonClick: PropTypes.func.isRequired,
-  email: PropTypes.string.isRequired,
-  choiseId: PropTypes.string.isRequired,
-  reviews: PropTypes.array,
-  // places: PropTypes.array.isRequired,
-  places: PropTypes.arrayOf(PropTypes.object).isRequired,
-  place: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    type: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    isBookmark: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired,
-    rating: PropTypes.number.isRequired,
-    bedrooms: PropTypes.number.isRequired,
-    maxAdults: PropTypes.number.isRequired,
-    options: PropTypes.array.isRequired,
-    images: PropTypes.array.isRequired,
-    stories: PropTypes.string.isRequired,
-    host: PropTypes.shape({
-      avatarUrl: PropTypes.string.isRequired,
-      isPro: PropTypes.bool.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  })
-};
 
 export {Property};
 export default connect(mapStateToProps, mapDispatchToProps)(Property);
