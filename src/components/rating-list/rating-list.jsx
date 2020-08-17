@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import PropTypes from "prop-types";
-import {ratingList} from "../../const.js";
+import {ratingList} from "../../const";
 
 const RatingList = ({rating, onChange}) => {
   return (

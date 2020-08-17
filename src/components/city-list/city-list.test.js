@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import CityList from "./city-list.jsx";
 import {
   CITYLIST
-} from "../../const.js";
+} from "../../const";
 
 const PLACE = {
   id: 0,

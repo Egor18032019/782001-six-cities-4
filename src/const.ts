@@ -1,3 +1,6 @@
+type stringArray = string[];
+type objArray = {}[];
+
 const CITYLIST = [
   `Paris`,
   `Cologne`,
@@ -7,25 +10,25 @@ const CITYLIST = [
   `Dusseldorf`,
 ];
 
-const SORTING = [
+const SORTING:stringArray = [
   `Popular`,
   `Price: low to high`,
   `Price: high to low`,
   `Top rated first`,
 ];
 
-const AppRoute = {
+const AppRoute:{ROOT:string,LOGIN:string,MAIN:string,
+  PROPERTY:string,FAVORITES:string} = {
   ROOT: `/`,
   LOGIN: `/login`,
   MAIN: `/main`,
   PROPERTY: `/offer/:id`,
   FAVORITES: `/favorites`,
-  // AMSTERDAM: `/Amsterdam`,
 };
 
-const Months = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
+const Months:stringArray = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
 
-const ratingList = [
+const ratingList:objArray = [
   {
     value: 5,
     title: `perfect`

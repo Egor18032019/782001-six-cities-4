@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Months} from "../../const.js";
+import {Months} from "../../const";
 
 const Reviews = ({review}) => {
 

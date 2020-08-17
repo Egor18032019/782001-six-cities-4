@@ -36,7 +36,7 @@ const PLACE = {
 
 import {
   CITYLIST
-} from "../../const.js";
+} from "../../const";
 
 describe(`test CityList e2e`, () => {
   it(`click title or no click`, () => {

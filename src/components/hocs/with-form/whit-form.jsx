@@ -1,7 +1,7 @@
 import React, {PureComponent} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import {Operation as DataOperation} from "../../../reducer/data/data-reducer.js";
+import {Operation as DataOperation} from "../../../reducer/data/data-reducer";
 
 const withForm = (Component) => {
   class withFormReviews extends PureComponent {
