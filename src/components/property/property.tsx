@@ -10,7 +10,7 @@ import Header from "../header/header.jsx";
 import NearCard from "../near-card/near-card.jsx";
 import Reviews from "../reviews/reviews.jsx";
 import ReviewsForm from "../reviews-form/reviews-form.jsx";
-import withForm from "../hocs/with-form/whit-form.jsx";
+import withForm from "../hocs/with-form/whit-form";
 const ReviewsFormWrapper = withForm(ReviewsForm);
 
 interface Props {
@@ -74,7 +74,6 @@ class Property extends React.PureComponent <Props> {
   render() {
     const {email, onFavoriteButtonClick, nearbyOffers, choiseId, places, reviews, isReviewsLoading, authorizationStatus} = this.props;
     // переводим строку в число
-    console.log(nearbyOffers)
     const matchId = +choiseId;
     const offerArray = getFilterOffersOnID(places, matchId);
     // не придумал как разобрать - разобрал так
