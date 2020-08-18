@@ -1,15 +1,28 @@
 // закрывает список сортировки
-import React, {PureComponent} from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
+import {Subtract} from "utility-types";
+
+interface InjectingProps {
+  // typeSorting: string,
+  onSortingTypeClick: (type:string)=>{},
+}
+
+interface State {
+  isOpen:boolean
+}
 
 const withSorting = (Component) => {
-  class WithSorting extends PureComponent {
+  type P = React.ComponentProps<typeof Component>;
+  type T = Subtract<P, InjectingProps>;
+
+  class WithSorting extends React.PureComponent <T,State> {
     constructor(props) {
       super(props);
       this.state = {
         isOpen: false,
       };
       this.handleClickOutside = this.handleClickOutside.bind(this);
+      this.onSelectClick = this.onSelectClick.bind(this);
     }
     componentDidMount() {
       document.addEventListener(`click`, this.handleClickOutside, true);
@@ -25,11 +38,7 @@ const withSorting = (Component) => {
           {...this.props}
           isOpen={isOpen}
           handleClickOutside={this.handleClickOutside}
-          onSelectClick={()=>{
-            this.setState({
-              isOpen: true
-            });
-          }}
+          onSelectClick={this.onSelectClick}
           onSelectItemClick={(type)=>{
             this.setState({
               isOpen: false
@@ -42,6 +51,12 @@ const withSorting = (Component) => {
       );
     }
 
+    onSelectClick(){
+      this.setState({
+        isOpen: true
+      });
+    }
+
     handleClickOutside() {
       // добавил реф и вот тут делается проверкая что реф есть и реф содержит event.target
       this.setState({
@@ -49,10 +64,7 @@ const withSorting = (Component) => {
       });
     }
   }
-  WithSorting.propTypes = {
-    onSortingTypeClick: PropTypes.func.isRequired,
-    typeSorting: PropTypes.string.isRequired,
-  };
+
   return WithSorting;
 };
 

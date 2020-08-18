@@ -1,10 +1,24 @@
-import React, {PureComponent} from "react";
+import * as React from "react";
 import {connect} from "react-redux";
-import PropTypes from "prop-types";
+import {Subtract} from "utility-types";
+
 import {Operation as DataOperation} from "../../../reducer/data/data-reducer";
 
+ interface InjectingProps  {
+    uploadReviews: ()=>{},
+    offerId: number
+ }
+interface State {
+  rating: number | null,
+  review: string | null,
+  isActiveSubmit: boolean
+}
+
+
 const withForm = (Component) => {
-  class withFormReviews extends PureComponent {
+  type P = React.ComponentProps<typeof Component>;
+  type T = Subtract<P, InjectingProps>;
+  class withFormReviews extends React.PureComponent <T,State>{
     constructor(props) {
       super(props);
 
@@ -25,10 +39,18 @@ const withForm = (Component) => {
       this.clearState();
     }
 
-    onChange(evt, value) {
-      const target = evt.target.name;
-      this.setState({[target]: value});
+    onChange(evt, value:any) {
+      console.log(value);
+      let target = evt.target.name;
+      if(target=`review`){
+        this.setState({review: value});
+      }
+      else {
+        this.setState({rating: value});
+      }
+      console.log(target);
       this.activateForm();
+      console.log(this.state)
     }
 
     activateForm() {
@@ -71,11 +93,6 @@ const withForm = (Component) => {
         dispatch(DataOperation.uploadReviews(rating, review, offerId));
       }
     });
-
-  withFormReviews.propTypes = {
-    uploadReviews: PropTypes.func,
-    offerId: PropTypes.number
-  };
 
   return connect(mapStateToProps, mapDispatchToProps)(withFormReviews);
 };
