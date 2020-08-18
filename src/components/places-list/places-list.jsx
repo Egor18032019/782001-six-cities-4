@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import PlaceCard from "../place-card/place-card.jsx";
 import SortingList from "../sorting/sorting-list.jsx";
-import withSorting from "../hocs/with-sorting/with-sorting.js";
+import withSorting from "../hocs/with-sorting/with-sorting";
 const SortingListWrapped = withSorting(SortingList);
 import Map from "../map/map.jsx";
 import EmptyPlaces from "../empty-places/empty-places.jsx";
